@@ -1,0 +1,48 @@
+{
+    "title": "Homerow mods",
+    "rules": [
+        {
+            "description": "Homerow mods",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "fn",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to": {
+                        "sticky_modifier": {
+                            "left_control": "toggle"
+                        }
+                    },
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "left_control",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to": {
+                        "sticky_modifier": {
+                            "left_shift": "toggle"
+                        }
+                    },
+                    "type": "basic"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,615 @@
+; edn spec https://www.github.com/edn-format/edn
+; structure inspired by https://github.com/yqrashawn/GokuRakuJoudo/blob/master/resources/configurations/edn/example.edn
+
+;; this is a little bit weird, but it's convenient
+;; the rule [:!Ca :!T1]
+;; means from command a to control 1
+;; :!Ca is keycode :a and prefix a with !C
+
+;; here's the definition
+
+;; !  | means mandatory
+;; #  | means optional
+;; C  | left_command
+;; T  | left_control
+;; O  | left_option
+;; S  | left_shift
+;; F  | fn
+;; Q  | right_command
+;; W  | right_control
+;; E  | right_option
+;; R  | right_shift
+;; P  | caps_lock
+;; !! | mandatory command + control + optional + shift (hyper)
+;; ## | optional any
+
+;; examples
+
+;; !CTSequal_sign  | mandatory command control shift =
+;;                 | which is command control +
+;; !O#Sright_arrow | mandatory option optional any right_arrow
+
+;; karabiner definition of mandatory and optional
+;; https://karabiner-elements.pqrs.org/docs/json/complex-modifications-manipulator-definition/from/modifiers/
+
+;; rule [<from> <to>]
+;; if simplified modifier is used in <to>, optional(#) definition will be
+;; ignored.
+
+{
+; define devices
+:devices {
+    :kb-air    [{:vendor_id  1452 :product_id   641}]
+    :kb-pro    [{:vendor_id  1452 :product_id   832}]
+    :magic-kb-pro   [{:vendor_id  1452 :product_id   620}]
+    :magic-kb-air   [{:vendor_id    76 :product_id   620}]
+    :mark1     [{:vendor_id 12951 :product_id  6505}]
+    :mx-ergo   [{:vendor_id  1133 :product_id 45085}]
+}
+
+; define applications
+:applications {:chrome ["^com\\.google\\.Chrome$"]
+               :emacs  ["^org\\.gnu\\.Emacs$"]
+               :iterm  ["^com\\.googlecode\\.iterm2$"]
+               :vscode ["^com\\.microsoft\\.VSCode$"]
+               :xcode  ["^com\\.apple\\.Xcode$"]
+               :zoom   ["^us\\.zoom\\.xos$"]}
+:input-sources {
+    :qw {
+        :input_source_id "US"
+        :language "en"
+    }
+    :dv {
+        ;:input_mode_id ""
+        :input_source_id "Dvorak"
+        :language "en"
+    }
+}
+
+; define templates
+:templates {:launch "osascript -e 'tell applcation \"Alfred 5\" to run trigger \"launch%s\" in workflow \"yqrashawn.workflow.launcher\" with argument \"\"'"}
+
+; define alias for modifiers
+:modifiers {
+    ; left_command cannot be last !
+    :11 [:left_command :left_control]
+    :spacebar-modifier {:mandatory [:left_command :left_control] :optional [:left_shift]}
+}
+
+; define profiles
+:profiles {:Default {
+    :default true
+    :alone 500
+    :held 100
+    :delay 500
+    :sim 50
+}}
+
+; define manipulators
+:main [
+
+; previously simple_modifications
+; goku cannot write simple_modifications
+; https://github.com/yqrashawn/GokuRakuJoudo/issues/44
+
+;{:des "f1  ->  f11"
+;    :rules [
+;        ;{:from [{:key_code "f1"}]
+;        ; :to [{:key_code "f"} {:key_code "exclamation_mark"}]
+;        ; :type "basic"}]}
+;        [:f1 :f11]
+;    ]
+;}
+
+;{:des "modifiers -> sticky modifiers"}
+; no support for sticky modifiers :-(
+; https://github.com/yqrashawn/GokuRakuJoudo/issues/117
+
+; {:des "right_alt -> spacebar"
+;     :rules [
+;         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+;         [:##right_alt :spacebar]
+;     ]
+; }
+
+;; everrywhere
+{:des "f18, f19 <-> ctrl+left/right"
+    :rules [
+        ; [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+        [:!S#Cf1 :1]
+        [:!S#Cf2 :2]
+        [:!S#Cf3 :3]
+        [:!S#Cf4 :4]
+        [:!S#Cf5 :5]
+        [:!S#Cf6 :6]
+        [:!S#Cf7 :7]
+        [:!S#Cf8 :8]
+        [:!S#Cf9 :9]
+        [:!S#Cf10 :0]
+        ; [:!Cf1 :!C1]
+        ; [:!Cf2 :!C2]
+        ; [:!Cf3 :!C3]
+        ; [:!Cf4 :!C4]
+        ; [:!Cf5 :!C5]
+        ; [:!Cf6 :!C6]
+        ; [:!Cf7 :!C7]
+        ; [:!Cf8 :!C8]
+        ; [:!Cf9 :!C9]
+        ; [:!Cf10 :!C0]
+    ]
+}
+
+{:des "f18, f19 <-> ctrl+left/right"
+    :rules [
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+        [:escape :!Otab]
+        [:!Cescape [:!Otab :!Otab]]
+    ]
+}
+
+{:des "f18, f19 <-> ctrl+left/right"
+    :rules [
+        ; [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+        [:f13 :!Otab]
+        [:!Cf13 [:!Otab :!Otab]]
+        [:##f13 :escape]
+    ]
+}
+
+
+{:des "f18, f19 <-> ctrl+left/right"
+    :rules [
+        [:f18 :!Tleft_arrow]
+        [:f19 :!Tright_arrow]
+        ; [:!Tnon_us_backslash :f14]
+        [:!Tnon_us_backslash :!TStab]
+    ]
+}
+
+{:des "vim-everywhere"
+    :rules [
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1]
+        [:!O#CSj :down_arrow]
+        [:!O#CSk :up_arrow]
+        [:!O#CSm :left_arrow]
+        [:!O#CScomma :right_arrow]
+        [:!O#CSsemicolon :delete_or_backspace]
+        [:!O#CSp :delete_forward]
+        [:!O#CSi :return_or_enter]
+        [:!O#CSu :!Stab]
+        [:!O#CSo :tab]
+        ; [:!O#CSsemicolon :delete_forward]
+        [:!O#CSh   :end]
+        [:!O#CSl    :home]
+        [:!O#CSn    :!Oleft_arrow]
+        [:!O#CSperiod :!Oright_arrow]
+        ; ---
+        [:!O#CSd :left_arrow]
+        [:!O#CSf :right_arrow]
+        [:!O#CSa :delete_or_backspace]
+        [:!O#CSq :delete_forward]
+        [:!O#CSe :return_or_enter]
+        [:!O#CSw :!Stab]
+        [:!O#CSr :tab]
+        ; [:!O#CSsemicolon :delete_forward]
+        [:!O#CSs    :!Oleft_arrow]
+        [:!O#CSg :!Oright_arrow]
+        ; ---
+        ; [:!O#Sd  :!Sdown_arrow]
+        ; [:!O#CSt :down_arrow]
+        ; [:!O#CSh :up_arrow]
+        ; [:!O#CSw :right_arrow]
+        ; [:!O#CSg :delete_or_backspace]
+        ; [:!O#CSc :return_or_enter]
+        ; [:!O#CSn :delete_forward]
+        ;[:!O#Se  :!C#Sdown_arrow]
+        ; [:!Oe    :end]
+        ; [:!OSe   :home]
+    ]
+}
+
+{:des "vim-everywhere"
+    :rules [
+        [:condi :mark1]
+        [:!O#CSc :down_arrow]
+        [:!O#CSv :up_arrow]
+        [:!O#CSx   :end]
+        [:!O#CSb    :home]
+    ] 
+}
+
+{:des "vim-everywhere"
+    :rules [
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+        [:!O#CSx :down_arrow]
+        [:!O#CSc :up_arrow]
+        [:!O#CSz   :end]
+        [:!O#CSv    :home]
+    ] 
+}
+
+{:des "vim-everywhere dvorak everywhere"
+    :rules [
+    ]
+}
+
+; making an exception here
+{:des "vim-everywhere dvorak mac"
+    :rules [
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+        [:!O#CSx :down_arrow]
+        [:!O#CSc :up_arrow]
+    ]
+}
+
+{:des "vim-everywhere dvorak mark1"
+    :rules [
+        [:condi :mark1]
+        [:!O#CSc :down_arrow]
+        [:!O#CSv :up_arrow]
+    ]
+}
+
+{:des "numbers  <->  shift numbers" 
+    :rules [
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1]
+        [:1 :!S1]
+        [:!S1 :1]
+        [:2 :!S2]
+        [:!S2 :2]
+        [:3 :!S3]
+        [:!S3 :3]
+        [:4 :!S4]
+        [:!S4 :4]
+        [:5 :!S5]
+        [:!S5 :5]
+        [:6 :!S6]
+        [:!S6 :6]
+        [:7 :!S7]
+        [:!S7 :7]
+        [:8 :!S8]
+        [:!S8 :8]
+        [:9 :!S9]
+        [:!S9 :9]
+        [:0 :!S0]
+        [:!S0 :0]
+    ]
+}
+
+;; all apple keyboards
+; {:des "spacebar  ->  spacebar/left_shift"
+;     :rules [
+;         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+;         [:##spacebar nil nil {
+;             :alone [:spacebar]
+;             :held [:left_shift]
+;         }]
+;     ]
+; }
+
+
+{:des "spacebar  ->  spacebar/left_shift"
+    :rules [
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+        [:##fn nil nil {
+            :alone [:tab]
+            :held [:fn]
+        }]
+    ]
+}
+
+{:des "caps_lcock  ->  escape/left_option"
+    :rules [
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+        [:##caps_lock nil nil {
+            :alone [:escape]
+            :held [:left_option]
+        }]
+    ]
+}
+
+; {:des "shift  ->  tab"
+;     :rules [
+;         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+;         [:##left_shift :tab]
+;         [:##right_shift :tab]
+;     ]
+; }
+
+;; everywhere dvorak
+
+{:des "domos-dvorak (domak)"
+    :rules [
+        [:condi :dv]
+        [:#FOSQWERj :k]
+        [:#FOSQWERk :j]
+        [:#FOSQWERf :g]
+        [:#FOSQWERg :f]
+        [:##hyphen :quote]
+        [:##equal_sign :close_bracket]
+        [:##open_bracket :hyphen]
+        [:##close_bracket :equal_sign]
+        [:##quote :open_bracket] 
+    ]
+}
+
+{:des "dvorak modifiers cmd"
+    :rules [
+        [:condi :dv]
+        ; change: swap cmd+q <-> shift+cmd+q
+        ; [:!C#FTOSQWERq :!Cx]
+        [:!C#FTOQWERq :!CTx]
+        [:!CS#FTOQWERq :!Cx]
+        [:!C#FTOSQWERw :!Ccomma]
+        [:!C#FTOSQWERe :!Cd]
+        [:!C#FTOSQWERr :!Co]
+        [:!C#FTOSQWERt :!Ck]
+        [:!C#FTOSQWERy :!Ct]
+        [:!C#FTOSQWERu :!Cf]
+        [:!C#FTOSQWERi :!Cg]
+        [:!C#FTOSQWERo :!Cs]
+        [:!C#FTOSQWERp :!Cr]
+
+        [:!C#FTOSQWERa :!Ca]
+        [:!C#FTOSQWERs :!Csemicolon]
+        [:!C#FTOSQWERd :!Ch]
+        [:!C#FTOSQWERf :!Cy]
+        [:!C#FTOSQWERg :!Cu]
+        [:!C#FTOSQWERh :!Cj]
+        [:!C#FTOSQWERj :!Cc]
+        [:!C#FTOSQWERk :!Cv]
+        [:!C#FTOSQWERl :!Cp]
+        [:!C#FTOSQWERsemicolon :!Cz]
+
+        ; [:!C#FTOSQWERquote :!Cq]
+        ; [:!C#FTOSQWERc :!Ci]
+        ; [:!C#FTOSQWERb :!Cn]
+        ; [:!C#FTOSQWERv :!Cperiod]
+        ; [:!C#FTOSQWERz :!Cbackslash]
+
+        ; modifiers mark1
+        ; [:condi :mark1]
+        ; [:!C#FTOSQWERx :!Cb]
+
+        [:!C#FTOSQWERz :!Cslash]
+        [:!C#FTOSQWERx :!Cb]
+        [:!C#FTOSQWERc :!Ci]
+        [:!C#FTOSQWERv :!Cperiod]
+        [:!C#FTOSQWERb :!Cn]
+        [:!C#FTOSQWERn :!Cl]
+        [:!C#FTOSQWERm :!Cm]
+        [:!C#FTOSQWERcomma :!Cw]
+        [:!C#FTOSQWERperiod :!Ce]
+        [:!C#FTOSQWERslash :!Copen_bracket]
+
+    ]
+}
+
+{:des "dvorak modifiers ctrl"
+    :rules [
+        [:condi :dv]
+        [:!T#FOSQWERq :!Tx]
+        [:!T#FOSQWERw :!Tcomma]
+        [:!T#FOSQWERe :!Td]
+        [:!T#FOSQWERr :!To]
+        [:!T#FOSQWERt :!Tk]
+        [:!T#FOSQWERy :!Tt]
+        [:!T#FOSQWERu :!Tf]
+        [:!T#FOSQWERi :!Tg]
+        [:!T#FOSQWERo :!Ts]
+        [:!T#FOSQWERp :!Tr]
+
+        [:!T#FOSQWERa :!Ta]
+        [:!T#FOSQWERs :!Tsemicolon]
+        [:!T#FOSQWERd :!Th]
+        [:!T#FOSQWERf :!Ty]
+        [:!T#FOSQWERg :!Tu]
+        [:!T#FOSQWERh :!Tj]
+        [:!T#FOSQWERj :!Tc]
+        [:!T#FOSQWERk :!Tv]
+        [:!T#FOSQWERl :!Tp]
+        [:!T#FOSQWERsemicolon :!Tz]
+
+        ; [:!T#FOSQWERbackslash :!T]
+
+        ; [:!T#FOSQWERquote :!Tq]
+        ; [:!T#FOSQWERc :!Ti]
+        ; [:!T#FOSQWERb :!Tn]
+        ; [:!T#FOSQWERv :!Tperiod]
+        ; [:!T#FOSQWERz :!Tbackslash]
+
+        ; modifiers mark1
+        ; [:condi :mark1]
+        ; [:!T#FOSQWERx :!Tb]
+
+        [:!T#FOSQWERz :!Tslash]
+        [:!T#FOSQWERx :!Tb]
+        [:!T#FOSQWERc :!Ti]
+        [:!T#FOSQWERv :!Tperiod]
+        [:!T#FOSQWERb :!Tn]
+        [:!T#FOSQWERn :!Tl]
+        [:!T#FOSQWERm :!Tm]
+        [:!T#FOSQWERcomma :!Tw]
+        [:!T#FOSQWERperiod :!Te]
+    ]
+}
+
+
+;; everywhere qwerty
+
+{:des "qw ;  <->  :"
+    :rules [
+        [:condi :qw :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1]
+        [:semicolon :!Ssemicolon]
+        [:!Ssemicolon :semicolon]
+    ]
+}
+
+{:des "qw cmd+q <-> shift+cmd+q"
+    :rules [
+        [:condi :qw :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1]
+        [:!C#FOQWERq :!CSq]
+        [:!CS#FTOSQWERq :!Cq]
+    ]
+}
+
+;; all apple keyboards qwerty
+{:des "`/~  <->  §/±"
+    :rules [
+        [:condi :qw :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+        [:##grave_accent_and_tilde :non_us_backslash]
+        [:##non_us_backslash :grave_accent_and_tilde]
+    ]
+}
+
+;; pro dvorak
+{:des "dvorak bottom-left"
+    :rules [
+        [:condi :dv :kb-pro :magic-kb-pro]
+        [:##grave_accent_and_tilde :non_us_backslash]
+        ; [:#CTOSQWERy :non_us_backslash]
+        ; [:#CTOSQWERy :non_us_backslash]
+        ; [:#CFTOQWERnon_us_backslash :!Sz]
+        ; [:!S#CFTOQWERnon_us_backslash :z]
+        [:#CFTOQWERnon_us_backslash :!Sz]
+        [:!S#CFTOQWnon_us_backslash :z]
+        [:#OSQWERz :x]
+        [:#OSQWERx :c]
+        [:#OSQWERc :v]
+        [:#OSQWERv :b]
+        [:#OSQWERb :y]
+    ]
+}
+
+;; air dvorak
+{:des "dvorak botom-left"
+    :rules [
+        [:condi :dv :kb-air :magic-kb-air]
+        [:#CFTOQWERgrave_accent_and_tilde :!Sz]
+        [:!S#CFTOQWgrave_accent_and_tilde :z]
+        [:#OSQWERz :x]
+        [:#OSQWERx :c]
+        [:#OSQWERc :v]
+        [:#OSQWERv :b]
+        [:#OSQWERb :y]
+    ]
+}
+
+;; mark1
+
+{:des "`/~  <->  §/±"
+    :rules [
+        [:condi :mark1]
+        [:##grave_accent_and_tilde :non_us_backslash]
+        [:##non_us_backslash :grave_accent_and_tilde]
+    ]
+}
+
+{:des "dv mark1 ;  <->  :"
+    :rules [
+        [:condi :dv :mark1]
+        ; [:semicolon :!Ssemicolon]
+        ; [:!Ssemicolon :semicolon]
+        [:z :!Sz]
+        [:!Sz :z]
+    ]
+}
+
+;; unused
+
+; {:des "
+;     :rules [
+;         [:condi :mx-ergo]
+;         [
+
+; {:des "; <-> : dvorak"
+;     :rules [
+;         [:condi :dv]
+;         [:y :!O
+
+; {:des "'  <->  \""
+;     :rules [
+;         [:quote :!Squote]
+;         [:!Squote :quote]
+;     ]
+; }
+
+;doesn't work well with Logseq
+; {:des "[]  <->  {}"
+;     :rules [
+;         [:open_bracket :!Sopen_bracket]
+;         [:!Sopen_bracket :open_bracket]
+;         [:close_bracket :!Sclose_bracket]
+;         [:!Sclose_bracket :close_bracket]
+;     ]
+; }
+
+; {:des "dvorak modifiers"
+;     :rules [
+;         [:condi :dv]
+;         [:!Ct :Ct]
+;     ]
+; }
+
+;; {:des "qwerty fn+left hemisphere -> cmd+left hemisphere"
+;;     :rules [
+;;         [:condi :kb-air :kb-pro :qw]
+;;         [:!Fz :!Cz]
+;;         [:!Fx :!Cx]
+;;         [:!Fc :!Cc]
+;;         [:!Fv :!Cv]
+;;     ]
+;; }
+
+;; {:des "dvorak fn+left hemisphere -> cmd+left hemisphere"
+;;     :rules [
+;;         [:condi :kb-air :kb-pro :dv]
+;;         [:!Fz :!Cbackslash]
+;;         [:!Fx :!Cv]
+;;         [:!Fc :!Ci]
+;;         [:!Fv :!Cperiod]
+;;     ]
+;; }
+
+{:des "qwerty pro"
+    :rules [
+        [:condi :kb-pro :qw]
+        [:##grave_accent_and_tilde :non_us_backslash]
+        [:##non_us_backslash :grave_accent_and_tilde]
+    ]
+}
+
+; {:des "dvorak kb-air"
+;     :rules [
+;         [:condi :kb-air :dv]
+;         [:#CFTOQWERnon_us_backslash :!Sz]
+;         [:!S#CFTOQWERnon_us_backslash :z]
+;     ]
+; }
+
+; {:des "dvorak modifiers mark1"
+;     :rules [
+;     ]
+; }
+
+; {:des "dvorak modifiers mac kbs"
+;     :rules [
+;         [:condi :dv :kb-air :kb-pro]
+;         [:!C#FTOSQWERnon_us_backslash :!Cy]
+;         [:!C#FTOSQWERz :!Cy]
+;         [:!C#FTOSQWERx :!Cx]
+;         [:!C#FTOSQWERc :!Cc]
+;         [:!C#FTOSQWERv :!Cv]
+;     ]
+; }
+
+{:des "mx ergo"
+    :rules [
+        [:condi :mx-ergo]
+        [:button4 :!Copen_bracket]
+        [:button5 :!Cclose_bracket]
+    ]
+}
+
+] ; close main
+} ; close top level

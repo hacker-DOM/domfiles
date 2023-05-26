@@ -1,0 +1,73 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Dominik Teiml
+	email = 18601956+hacker-DOM@users.noreply.github.com
+	author = Dominik Teiml
+
+[init]
+	defaultBranch = main
+[pull]
+	ff = only
+	rebase = true
+[alias]
+    lg = lg1
+    lg1 = lg1-specific --all
+    lg2 = lg2-specific --all
+    lg3 = lg3-specific --all
+
+    lg1-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+    lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+    lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
+
+# region delta differ
+#[core]
+#    pager = delta
+#
+#[interactive]
+#    diffFilter = delta --color-only
+#[add.interactive]
+#    useBuiltin = false # required for git 2.37.0
+#
+#[delta]
+#    navigate = true    # use n and N to move between diff sections
+#    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+#
+#[merge]
+#    conflictstyle = diff3
+#
+#[diff]
+#    colorMoved = default
+# endregion delta differ
+
+# region difftastic differ
+[diff]
+        tool = difftastic
+	external = difft
+	guitool = difftastic.gui
+
+[difftool]
+        prompt = false
+
+[difftool "difftastic"]
+        cmd = difft "$LOCAL" "$REMOTE"
+[difftool "difftastic.gui"]
+        cmd = difft "$LOCAL" "$REMOTE"
+[pager]
+        difftool = true
+# endregion difftastic differ
+
+# region kitty differ
+; [diff]
+    ; tool = kitty
+    ; guitool = kitty.gui
+; [difftool]
+;     prompt = false
+;     trustExitCode = true
+[difftool "kitty"]
+    cmd = kitty +kitten diff $LOCAL $REMOTE
+[difftool "kitty.gui"]
+    cmd = kitty +kitten diff $LOCAL $REMOTE
+# endregion kitty differ
+
+[push]
+	autoSetupRemote = true

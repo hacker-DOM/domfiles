@@ -1,0 +1,72 @@
+{
+    "title": "Swap cmd+tab and ctrl+tab",
+    "rules": [{
+        "description": "Swap Cmd+tab and Control+tab",
+        "manipulators": [{
+                "type": "basic",
+                "from": {
+                    "key_code": "tab",
+                    "modifiers": {
+                        "mandatory": [
+                            "command"
+                        ]
+                    }
+                },
+                "to": [{
+                    "key_code": "tab",
+                    "modifiers": ["control"]
+                }]
+            },
+
+            {
+                "type": "basic",
+                "from": {
+                    "key_code": "tab",
+                    "modifiers": {
+                        "mandatory": [
+                            "shift",
+                            "command"
+                        ]
+                    }
+                },
+                "to": [{
+                    "key_code": "tab",
+                    "modifiers": ["shift", "control"]
+                }]
+            },
+
+            {
+                "type": "basic",
+                "from": {
+                    "key_code": "tab",
+                    "modifiers": {
+                        "mandatory": [
+                            "control"
+                        ]
+                    }
+                },
+                "to": [{
+                    "key_code": "tab",
+                    "modifiers": ["command"]
+                }]
+            },
+            {
+                "type": "basic",
+                "from": {
+                    "key_code": "tab",
+                    "modifiers": {
+                        "mandatory": [
+                            "shift",
+                            "control"
+                        ]
+                    }
+                },
+                "to": [{
+                    "key_code": "tab",
+                    "modifiers": ["shift", "command"]
+                }]
+            }
+
+        ]
+    }]
+}

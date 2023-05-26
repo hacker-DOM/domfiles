@@ -1,0 +1,25 @@
+{
+    "title": "Cmd+tab useless",
+    "rules": [
+        {
+            "description": "Make Cmd+tab useless",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "tab",
+                        "modifiers": {
+                            "mandatory": [
+                                "command"
+                            ],
+                            "optional": [
+                                "shift"
+                            ]
+                        }
+                    },
+                    "to": []
+                }
+            ]
+        }
+    ]
+}

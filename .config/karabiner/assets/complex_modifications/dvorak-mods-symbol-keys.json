@@ -1,0 +1,170 @@
+{
+    "title": "Dvorak mods - symbol keys.",
+    "rules": [
+        {
+            "description": "Dvorak mods - symbol keys",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "conditions": [
+                        {
+                            "type": "input_source_if",
+                            "input_sources": [
+                                {
+                                    "language": "en",
+                                    "input_source_id": "Dvorak"
+                                }
+                            ]
+                        }
+                    ],
+                    "from": {
+                        "key_code": "hyphen",
+                        "modifiers": {
+                            "optional": [
+                                "shift",
+                                "left_shift",
+                                "right_shift",
+                                "control",
+                                "left_control",
+                                "right_control"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "quote"
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "conditions": [
+                        {
+                            "type": "input_source_if",
+                            "input_sources": [
+                                {
+                                    "language": "en",
+                                    "input_source_id": "Dvorak"
+                                }
+                            ]
+                        }
+                    ],
+                    "from": {
+                        "key_code": "equal_sign",
+                        "modifiers": {
+                            "optional": [
+                                "shift",
+                                "left_shift",
+                                "right_shift",
+                                "control",
+                                "left_control",
+                                "right_control"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "close_bracket"
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "conditions": [
+                        {
+                            "type": "input_source_if",
+                            "input_sources": [
+                                {
+                                    "language": "en",
+                                    "input_source_id": "Dvorak"
+                                }
+                            ]
+                        }
+                    ],
+                    "from": {
+                        "key_code": "open_bracket",
+                        "modifiers": {
+                            "optional": [
+                                "shift",
+                                "left_shift",
+                                "right_shift",
+                                "control",
+                                "left_control",
+                                "right_control"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "hyphen"
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "conditions": [
+                        {
+                            "type": "input_source_if",
+                            "input_sources": [
+                                {
+                                    "language": "en",
+                                    "input_source_id": "Dvorak"
+                                }
+                            ]
+                        }
+                    ],
+                    "from": {
+                        "key_code": "close_bracket",
+                        "modifiers": {
+                            "optional": [
+                                "shift",
+                                "left_shift",
+                                "right_shift",
+                                "control",
+                                "left_control",
+                                "right_control"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "equal_sign"
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "conditions": [
+                        {
+                            "type": "input_source_if",
+                            "input_sources": [
+                                {
+                                    "language": "en",
+                                    "input_source_id": "Dvorak"
+                                }
+                            ]
+                        }
+                    ],
+                    "from": {
+                        "key_code": "quote",
+                        "modifiers": {
+                            "optional": [
+                                "shift",
+                                "left_shift",
+                                "right_shift",
+                                "control",
+                                "left_control",
+                                "right_control"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "open_bracket"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

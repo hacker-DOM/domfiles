@@ -1,0 +1,138 @@
+{
+    "title": "Dvorak mods.",
+    "rules": [
+        {
+            "description": "Dvorak mods",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "conditions": [
+                        {
+                            "type": "input_source_if",
+                            "input_sources": [
+                                {
+                                    "language": "en",
+                                    "input_source_id": "Dvorak"
+                                }
+                            ]
+                        }
+                    ],
+                    "from": {
+                        "key_code": "f",
+                        "modifiers": {
+                            "optional": [
+                                "shift",
+                                "left_shift",
+                                "right_shift",
+                                "control",
+                                "left_control",
+                                "right_control"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "g"
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "conditions": [
+                        {
+                            "type": "input_source_if",
+                            "input_sources": [
+                                {
+                                    "language": "en",
+                                    "input_source_id": "Dvorak"
+                                }
+                            ]
+                        }
+                    ],
+                    "from": {
+                        "key_code": "g",
+                        "modifiers": {
+                            "optional": [
+                                "shift",
+                                "left_shift",
+                                "right_shift",
+                                "control",
+                                "left_control",
+                                "right_control"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "f"
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "conditions": [
+                        {
+                            "type": "input_source_if",
+                            "input_sources": [
+                                {
+                                    "language": "en",
+                                    "input_source_id": "Dvorak"
+                                }
+                            ]
+                        }
+                    ],
+                    "from": {
+                        "key_code": "j",
+                        "modifiers": {
+                            "optional": [
+                                "shift",
+                                "left_shift",
+                                "right_shift",
+                                "control",
+                                "left_control",
+                                "right_control"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "k"
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "conditions": [
+                        {
+                            "type": "input_source_if",
+                            "input_sources": [
+                                {
+                                    "language": "en",
+                                    "input_source_id": "Dvorak"
+                                }
+                            ]
+                        }
+                    ],
+                    "from": {
+                        "key_code": "k",
+                        "modifiers": {
+                            "optional": [
+                                "shift",
+                                "left_shift",
+                                "right_shift",
+                                "control",
+                                "left_control",
+                                "right_control"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "j"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

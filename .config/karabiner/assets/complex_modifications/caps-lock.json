@@ -1,0 +1,34 @@
+{
+    "title": "Caps Lock",
+    "rules": [
+        {
+            "description": "Change caps_lock to control when used as modifier, escape when used alone",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "caps_lock",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "escape"
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "left_control"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        }
+    ]
+}

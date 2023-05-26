@@ -1,0 +1,278 @@
+{
+    "title": "-Homerow mods",
+    "rules": [
+        {
+            "description": "-Homerow mods",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "a",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "key_code": "a"
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "left_control",
+                            "halt": true
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "s",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "key_code": "s"
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "left_shift",
+                            "halt": true
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "d",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "key_code": "d"
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "left_option",
+                            "halt": true
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "f",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "key_code": "f"
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "left_command",
+                            "halt": true
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "semicolon",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "key_code": "semicolon"
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "left_control",
+                            "halt": true
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "l",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "key_code": "l"
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "left_shift",
+                            "halt": true
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "k",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "key_code": "k"
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "left_option",
+                            "halt": true
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "j",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "key_code": "j"
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "left_command",
+                            "halt": true
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "left_shift",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to": {
+                        "key_code": "tab"
+                    },
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "right_shift",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to": {
+                        "key_code": "tab"
+                    },
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "fn",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to": {
+                        "sticky_modifier": "actrl"
+                    },
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "left_control",
+                        "modifiers": {
+                            "optional": [
+                                "control",
+                                "shift",
+                                "option",
+                                "command"
+                            ]
+                        }
+                    },
+                    "to": {
+                        "sticky_modifier": "left_shift"
+                    },
+                    "type": "basic"
+                }
+            ]
+        }
+    ]
+}

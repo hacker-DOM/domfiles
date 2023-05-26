@@ -1,0 +1,12 @@
+#command
+t forw-scroll
+j forw-scroll
+h back-scroll
+k back-scroll
+H help
+#\kx back-screen
+# \b back-screen
+
+#command
+/ forw-search ^W
+? back-search ^W
