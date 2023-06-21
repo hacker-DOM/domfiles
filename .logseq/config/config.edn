@@ -1,4 +1,4 @@
-;; This global config file is used by all graphs.
+  ;; This global config file is used by all graphs.
 ;; Your graph's logseq/config.edn overrides config keys in this file
 ;; except for maps which are merged.
 ;; As an example of merging, the following global and local configs:
@@ -14,6 +14,9 @@
   :shortcuts {
     :editor/move-block-up       "ctrl+mod+up"
     :editor/move-block-down     "ctrl+mod+down"
+    :command-palette/toggle     "mod+e"
+    :editor/expand-block-children "mod+alt+]"
+    :editor/collapse-block-children "mod+alt+["
     ; :editor/new-block           "enter"
     ; :editor/new-block           "cmd+enter"
     ; :editor/new-line            "shift+enter"

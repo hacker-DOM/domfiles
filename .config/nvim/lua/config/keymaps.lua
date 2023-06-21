@@ -25,6 +25,8 @@ vim.keymap.set("n", "<c-;>", function()
   ui.nav_file(4)
 end)
 
+-- vim.cmd[[iunmap <tab>]]
+
 -- cinnamon custom
 -- vim.cmd([[
 -- nunmap h

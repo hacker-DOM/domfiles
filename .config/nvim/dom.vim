@@ -41,14 +41,14 @@ set ignorecase smartcase
 " set iskeyword-=_
 "
 
-map <silent> w <Plug>CamelCaseMotion_w
-map <silent> b <Plug>CamelCaseMotion_b
-map <silent> e <Plug>CamelCaseMotion_e
-map <silent> ge <Plug>CamelCaseMotion_ge
-sunmap w
-sunmap b
-sunmap e
-sunmap ge
+" map <silent> w <Plug>CamelCaseMotion_w
+" map <silent> b <Plug>CamelCaseMotion_b
+" map <silent> e <Plug>CamelCaseMotion_e
+" map <silent> ge <Plug>CamelCaseMotion_ge
+" sunmap w
+" sunmap b
+" sunmap e
+" sunmap ge
 
 " set foldmethod=marker foldcolumn=1
 set clipboard=unnamed
@@ -616,3 +616,13 @@ endfun
 
 nmap M [m
 nmap W ]m
+
+" imap <Tab> 
+nmap <Tab> >>
+nmap <S-Tab> <<
+
+let g:vim_markdown_auto_insert_bullets = 1
+
+nnoremap v V
+nnoremap V v
+nnoremap # ^

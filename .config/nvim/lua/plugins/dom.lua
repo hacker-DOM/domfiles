@@ -1,5 +1,6 @@
 return {
-  { "bkad/CamelCaseMotion" },
+  -- { "bkad/CamelCaseMotion" },
+  {"chaoren/vim-wordmotion"},
   -- { "folke/twilight.nvim", cond = false },
   "vim-scripts/argtextobj.vim",
   "michaeljsmith/vim-indent-object",
@@ -15,6 +16,8 @@ return {
     -- end,
     opts = {
       default_keymaps = false,
+      default_delay = 5,
+      hide_cursor = true,
     },
   },
   {
@@ -137,32 +140,32 @@ return {
   { "kevinhwang91/promise-async" },
   -- { "kevinhwang91/nvim-ufo", dependencies = { "kevinhwang91/promise-async" }, opts = {} },
   { "projekt0n/github-nvim-theme" },
-  {
-    "mickael-menu/zk-nvim",
-    config = function()
-      require("zk").setup({
-        -- can be "telescope", "fzf" or "select" (`vim.ui.select`)
-        -- it's recommended to use "telescope" or "fzf"
-        picker = "telescope",
-
-        lsp = {
-          -- `config` is passed to `vim.lsp.start_client(config)`
-          config = {
-            cmd = { "zk", "lsp" },
-            name = "zk",
-            -- on_attach = ...
-            -- etc, see `:h vim.lsp.start_client()`
-          },
-
-          -- automatically attach buffers in a zk notebook that match the given filetypes
-          auto_attach = {
-            enabled = true,
-            filetypes = { "markdown" },
-          },
-        },
-      })
-    end,
-  },
+  -- {
+  --   "mickael-menu/zk-nvim",
+  --   config = function()
+  --     require("zk").setup({
+  --       -- can be "telescope", "fzf" or "select" (`vim.ui.select`)
+  --       -- it's recommended to use "telescope" or "fzf"
+  --       picker = "telescope",
+  --
+  --       lsp = {
+  --         -- `config` is passed to `vim.lsp.start_client(config)`
+  --         config = {
+  --           cmd = { "zk", "lsp" },
+  --           name = "zk",
+  --           -- on_attach = ...
+  --           -- etc, see `:h vim.lsp.start_client()`
+  --         },
+  --
+  --         -- automatically attach buffers in a zk notebook that match the given filetypes
+  --         auto_attach = {
+  --           enabled = true,
+  --           filetypes = { "markdown" },
+  --         },
+  --       },
+  --     })
+  --   end,
+  -- },
   -- Lua
   -- {
   --   "folke/zen-mode.nvim",
@@ -372,7 +375,8 @@ return {
   },
   {
     "L3MON4D3/LuaSnip",
-    keys = {
+    keys = function()
+      -- keys = {
       -- {
       --   "<tab>",
       --   function()
@@ -382,21 +386,23 @@ return {
       --   silent = true,
       --   mode = "i",
       -- },
-      {
-        "<tab>",
-        function()
-          require("luasnip").jump(1)
-        end,
-        mode = "s",
-      },
-      {
-        "<s-tab>",
-        function()
-          require("luasnip").jump(-1)
-        end,
-        mode = { "i", "s" },
-      },
-    },
+      return {
+        {
+          "<tab>",
+          function()
+            require("luasnip").jump(1)
+          end,
+          mode = "s",
+        },
+        {
+          "<s-tab>",
+          function()
+            require("luasnip").jump(-1)
+          end,
+          mode = { "i", "s" },
+        },
+      }
+    end,
   },
   { "github/copilot.vim" },
   -- This plugin is a replacement for the included filetype.vim that is sourced on startup. The purpose of that file is to create a series of autocommands that set the filetype variable depending on the filename. The issue is that creating autocommands have significant overhead, and creating 800+ of them as filetype.vim does is a very inefficient way to get the job done.
@@ -410,4 +416,37 @@ return {
   --     } },
   --   },
   -- },
+  {
+    "godlygeek/tabular",
+  },
+  {
+    "preservim/vim-markdown"
+  },
+  {
+    "NoahTheDuke/vim-just"
+  },
+  {
+    "ruifm/gitlinker.nvim",
+    opts = {}
+  },
+  {
+    "nvim-lspconfig",
+    opts = {
+      servers = {
+        tsserver = {},
+        lua_ls = {
+          settings = {
+            Lua = {
+              format = {
+                defaultConfig = {
+                  indent_style = "space",
+                  indent_size = 4,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 }

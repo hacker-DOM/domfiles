@@ -83,7 +83,6 @@ then
 fi
 
 # echo $PC
-
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
@@ -268,28 +267,28 @@ function dom_gh_clone {
     shift
     # echo $first_arg
     # echo $@
-    gh repo clone "$first_arg" "$@"
+    gh repo clone "$first_arg" "$@" -- --recursive
     dom_gh_cd "$first_arg" "$@"
 }
 
 alias gc="dom_gh_clone"
 
 function dom_gh_clone_branch {
-    gh repo clone "$@" -- --single-branch
+    gh repo clone "$@" -- --single-branch --recursive
     dom_gh_cd "$@"
 }
 
 alias gcb="dom_gh_clone_branch"
 
 function dom_gh_clone_depth {
-    gh repo clone "$@" -- --depth 1
+    gh repo clone "$@" -- --depth 1 --recursive
     dom_gh_cd "$@"
 }
 
 alias gcd="dom_gh_clone_depth"
 
 function dom_gh_clone_branch_depth {
-    gh repo clone "$@" -- --single-branch --depth 1
+    gh repo clone "$@" -- --single-branch --depth 1 --recursive
     dom_gh_cd "$@"
 }
 
@@ -359,8 +358,9 @@ lt()
 		local DEPTH=2
 	else
 		local DEPTH=$1
+		shift
 	fi
-	lsd --tree --depth $DEPTH
+	lsd --tree --depth "$DEPTH" "$@"
 }
 lts() 
 {
@@ -369,8 +369,9 @@ lts()
 		local DEPTH=2
 	else
 		local DEPTH=$1
+		shift
 	fi
-	lsds --tree --depth $DEPTH
+	lsds --tree --depth "$DEPTH" "$@"
 }
 alias ltl="dom_ltl"
 dom_ltl()
@@ -415,8 +416,8 @@ findbyport(){ lsof -P -iTCP:$1 -sTCP:LISTEN }
 
 function chex()
 {
-chmod +x $1;
-$1
+chmod +x "$1";
+    "./$1"
 }
 
 # = HELPERS-SPECIALIZED {{{1
@@ -530,21 +531,44 @@ ms()
 alias d="dirs -v"
 setopt PUSHD_SILENT
 function custom_chpwd() {
-  if [[ -f ".nvmrc" ]]; then
-    nvm use
-  fi
+    if [[ -f ".nvmrc" ]]; then
+	nvm use
+    fi
 
-  # if [[ -f ".python-version" ]]; then
-  #     pyenv use
-  # fi  
+    # if [[ -f ".python-version" ]]; then
+    #     pyenv use
+    # fi
 
-  if [[ -d ".git" ]]; then
-    onefetch
-  fi
+    if [[ -d ".git" ]]; then
+	onefetch
+    fi
 
-  f
+    f
+
+    # handle_venv
 }
 add-zsh-hook chpwd custom_chpwd
+# also run it on new shells
+
+function handle_venv() {
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        # variable is set and non-empty
+	# if [[ $(dirname "$VIRTUAL_ENV")* != "$PWD" ]] && [[ "$VIRTUAL_ENV" != "$PWD"* ]]; then
+	if [[ "$PWD" != "$(dirname "$VIRTUAL_ENV")"* ]]; then
+	    # PWD and VIRUTAL_ENV are not subsrings of each other
+	    echo 'running `deactivate`'
+	    deactivate
+	fi
+    fi
+
+    # variable is not set or empty
+    if [[ -z "$VIRTUAL_ENV" ]] && [[ -d ".venv" ]]; then
+	echo 'running `source .venv/bin/activate`'
+	source .venv/bin/activate
+    fi
+
+}
+
 # . "$HOME/.cargo/env"
 export PAGER="bat"
 
@@ -1146,6 +1170,10 @@ function ef() {
     # e `fz "$1"`
     nvim `fzf -f "$1" | head -n 1`
 }
+function cf() {
+    # e `fz "$1"`
+    cat `fzf -f "$1" | head -n 1`
+}
 function ec() {
     cd "$1"
     shift
@@ -1162,11 +1190,24 @@ function zvm_vi_yank() {
 }
 # export CC="/opt/homebrew/bin/gcc-13"
 # export cc="/opt/homebrew/bin/gcc-13"
-alias cfg='/usr/bin/git --git-dir=$HOME/p/hacker-dom/domfiles --work-tree=$HOME/Dropbox/Mackup'
+alias cfg='/usr/bin/git --git-dir=$HOME/p/hacker-dom/bare/domfiles --work-tree=$HOME/Dropbox/Mackup'
+
+function dom_git_csv() {
+    echo 'commit,author,description,timestamp'
+}
+
+alias gcsv='dom_git_csv'
+
+eval "$(_WOKE_COMPLETE=zsh_source woke)"
+
+export PATH="$HOME/bin/sync:$HOME/bin:$PATH"
 
 # REFERENCES
 # [so-echo-dash]: https://stackoverflow.com/a/57656708/4204961
 # [so-zsh-ctrl-d]: https://superuser.com/a/1452645/852686
+
+# This needs to go at the end, since it will be sourcing a `.venv/bin/actiave` file and hence prepending to $PATH (In particular, it needs to go after eg code that adds pipx to path).
+# handle_venv
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
