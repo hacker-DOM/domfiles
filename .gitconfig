@@ -71,3 +71,5 @@
 
 [push]
 	autoSetupRemote = true
+[core]
+	excludesfile = /Users/dteiml/.gitignore

@@ -265,7 +265,7 @@ nmap <BS> <c-o>
 nmap <del> <c-i>
 
 " variables
-" let g:help_in_tabs = 1
+let g:help_in_tabs = 1
 
 nmap s  <plug>(SubversiveSubstitute)
 nmap ss <plug>(SubversiveSubstituteLine)
@@ -367,10 +367,12 @@ function! g:FnHelpInNewTab ()
 if &filetype == 'help' && g:help_in_tabs
     "Convert the help window to a tab...
     "silent execute "normal \<C-w>T
+    " echomsg "hello"
+    " if 
     wincmd T
-            "  normal! zz
-            call timer_start(0, {-> feedkeys("zz", "n")})
-            set number
+    "  normal! zz
+    call timer_start(0, {-> feedkeys("zz", "n")})
+    set number
 endif
 endfunction
 
@@ -413,9 +415,15 @@ command Ps PackerSync
 
 autocmd TextChanged,TextChangedI * call g:FnWriteIfFileIsNamed()
 
+function! g:ScrollIfNotOnFirstLine()
+    if winline() != 1 && winline() != winheight(0)
+        lua Scroll('zz', 0, 1)
+    endif
+endfunction
+
 augroup AuCenter
     autocmd!
-    autocmd CursorMoved * normal! zz
+    autocmd CursorMoved * call g:ScrollIfNotOnFirstLine()
 augroup END
 
 " augroup AuSplit
@@ -426,7 +434,7 @@ augroup END
 
 augroup AuHelpInTabs
     autocmd!
-    " autocmd CursorMoved *.txt call g:FnHelpInNewTab() 
+    autocmd BufEnter *.txt call g:FnHelpInNewTab()
 augroup END
 
 augroup AuNetrwMapping
@@ -626,3 +634,13 @@ let g:vim_markdown_auto_insert_bullets = 1
 nnoremap v V
 nnoremap V v
 nnoremap # ^
+
+vnoremap t j
+vnoremap h k
+
+" markdown vim plugin folds automatically
+let g:vim_markdown_folding_disabled = 1
+
+" ftplugin/man.vim overrides j and k
+let g:no_man_maps = 1
+" let g:

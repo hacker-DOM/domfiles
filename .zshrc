@@ -158,7 +158,7 @@ alias  eh="cdn $HOME/.hammerspoon; nvim $DOM_BEGIN_ALMOST_AT_END init.lua"
 alias  eg="nvim $DOM_BEGIN_ALMOST_AT_END $HOME/.gitconfig"
 alias egi="nvim $DOM_BEGIN_ALMOST_AT_END $HOME/.gitignore"
 # alias  en="cdn $HOME/.config/nvim; nvim $DOM_BEGIN_ALMOST_AT_END init.lua"
-alias  en="cdn $HOME/.config/nvim; nvim init.lua"
+alias  en="cdn $HOME/.config/nvim; nvim lua/plugins/dom.lua"
 dom_nt()
 {
   cdn $HOME/Dropbox/notes/neorg; nvim $(ls **/*.norg | head -n 5)
@@ -178,7 +178,7 @@ alias st="tmux source-file $HOME/.tmux.conf"
 # = ALIAS-OTHER {{{1
 alias ip="ipython"
 alias py="python3"
-alias f="pwd && dom_lsd"
+alias f="dom_lsd && pwd"
 alias v="pbpaste"
 #https://github.com/sharkdp/bat/issues/1050#issuecomment-638593463
 alias cat="bat"
@@ -212,7 +212,7 @@ alias gr="git remote -v"
 
 alias gst="git stash"
 
-alias gs="git status -sb"
+alias gs="git status -sb && git log --oneline -n 5"
 
 alias gb="git branch -av"
 
@@ -329,7 +329,22 @@ alias vi="nvim"
 
 alias vim="nvim"
 
-alias e="nvim"
+function dom_nvim() {
+    # if called with arguments, dispatch no `nvim`
+    # if called w/o arguments, if current directory contains a file "README*", open it
+    if [[ $# -eq 0 ]]; then
+	local readme=$(find . -maxdepth 1 -iname "README*" | head -n 1)
+	if [[ -n "$readme" ]]; then
+	    nvim "$readme" +'Neotree reveal float' "$@"
+	else
+	    nvim "$@"
+	fi
+    else
+	nvim "$@"
+    fi
+}
+
+alias e="dom_nvim"
 
 # = TMUX {{{1
 
@@ -350,18 +365,16 @@ dom_lsd()
     fi
 }
 
-# = GENERIC HELPERS {{{1
-lt() 
+dom_lsd_tree()
 {
-	if [ $# -eq 0 ]
-	then
-		local DEPTH=2
-	else
-		local DEPTH=$1
-		shift
-	fi
-	lsd --tree --depth "$DEPTH" "$@"
+    if [[ $(tput cols) -le 78 ]]; then
+	lts
+    else
+    	ltl
+    fi
 }
+
+# = GENERIC HELPERS {{{1
 lts() 
 {
 	if [ $# -eq 0 ]
@@ -373,16 +386,27 @@ lts()
 	fi
 	lsds --tree --depth "$DEPTH" "$@"
 }
-alias ltl="dom_ltl"
-dom_ltl()
+ltl()
 {
-	lt "$@" | less
+	if [ $# -eq 0 ]
+	then
+		local DEPTH=2
+	else
+		local DEPTH=$1
+		shift
+	fi
+	lsdl --tree --depth "$DEPTH" "$@"
 }
-alias ltls="dom_ltls"
-dom_ltls()
-{
-	lts "$@" | less
-}
+alias lt="dom_lsd_tree"
+# dom_ltl()
+# {
+# 	lt "$@" | less
+# }
+# alias ltls="dom_ltls"
+# dom_ltls()
+# {
+# 	lts "$@" | less
+# }
 
 # pipe stdin to echo -n to rm newline, then copy to clipboard
 c()         { echo -n "$(\cat -)" | pbcopy }
@@ -1201,6 +1225,12 @@ alias gcsv='dom_git_csv'
 eval "$(_WOKE_COMPLETE=zsh_source woke)"
 
 export PATH="$HOME/bin/sync:$HOME/bin:$PATH"
+
+function adoc() {
+    asciidoctor "$1" && open -a "Brave Browser" "${1%.*}.html"
+}
+
+alias ewl="nvim /Users/dteiml/.local/share/nvim/lazy/nvim-lspconfig/lua/lspconfig/server_configurations/woke.lua"
 
 # REFERENCES
 # [so-echo-dash]: https://stackoverflow.com/a/57656708/4204961

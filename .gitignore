@@ -7,4 +7,6 @@ __pycache__
 .metadata.json
 .woke-build
 .woke-logs
+# **/.metadata.json
 .metadata.json
+.venv

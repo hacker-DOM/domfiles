@@ -15,8 +15,14 @@
     :editor/move-block-up       "ctrl+mod+up"
     :editor/move-block-down     "ctrl+mod+down"
     :command-palette/toggle     "mod+e"
-    :editor/expand-block-children "mod+alt+]"
-    :editor/collapse-block-children "mod+alt+["
+    :editor/expand-block-children ["mod+alt+]", "z o"]
+    :editor/collapse-block-children ["mod+alt+[", "z c"]
+
+    ; ideally I'd have jump to block @ cmd+r),
+    ; but logseq doesn't seem to support disabling refresh @ cmd+r
+    :go/search                  ["mod+t"]
+    :go/search-in-page          ["mod+shift+t"]
+
     ; :editor/new-block           "enter"
     ; :editor/new-block           "cmd+enter"
     ; :editor/new-line            "shift+enter"
