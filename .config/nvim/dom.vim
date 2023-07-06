@@ -369,9 +369,12 @@ if &filetype == 'help' && g:help_in_tabs
     "silent execute "normal \<C-w>T
     " echomsg "hello"
     " if 
+    " only
+    " call g:FnNoSplit()
     wincmd T
     "  normal! zz
     call timer_start(0, {-> feedkeys("zz", "n")})
+    " call g:FnSplitAndScrollBind()
     set number
 endif
 endfunction
@@ -457,7 +460,7 @@ endif
 "     else
 "         norm! kly$jp
 "     endif
-" endfunctin
+" endfunction
 
 function g:FnSplitAndScrollBind()
     " echomsg "split and scroll bind"
@@ -644,3 +647,13 @@ let g:vim_markdown_folding_disabled = 1
 " ftplugin/man.vim overrides j and k
 let g:no_man_maps = 1
 " let g:
+autocmd FileType solidity setlocal commentstring=//\ %s
+autocmd FileType asciidoc setlocal commentstring=//\ %s
+set tw=80 " textwidth
+set fo-=t " format options
+
+command -nargs=* B execute 'vert' 'Bufferize' <q-args> | wincmd w
+" command B Bufferize
+
+command Ev tabe ~/.config/nvim/dom.vim
+command En tabe ~/.config/nvim/lua/plugins/dom.lua

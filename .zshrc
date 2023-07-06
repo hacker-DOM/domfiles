@@ -164,7 +164,7 @@ dom_nt()
   cdn $HOME/Dropbox/notes/neorg; nvim $(ls **/*.norg | head -n 5)
 }
 alias nt=dom_nt
-alias  ev="cdn $HOME/.config/nvim; nvim $DOM_BEGIN_ALMOST_AT_END dom.vim"
+alias ev="cdn $HOME/.config/nvim; nvim $DOM_BEGIN_ALMOST_AT_END dom.vim"
 alias eip="cdn $HOME/.ipython; nvim $DOM_BEGIN_ALMOST_AT_END profile_default/ipython_config.py"
 alias epy="nvim $DOM_BEGIN_ALMOST_AT_END $HOME/.config/python/startup.py"
 
@@ -212,7 +212,8 @@ alias gr="git remote -v"
 
 alias gst="git stash"
 
-alias gs="git status -sb && git log --oneline -n 5"
+# alias gs="git status -sb && git log --oneline -n 5"
+alias gs="git status -sb && git lg1 -n 10"
 
 alias gb="git branch -av"
 
@@ -337,7 +338,7 @@ function dom_nvim() {
 	if [[ -n "$readme" ]]; then
 	    nvim "$readme" +'Neotree reveal float' "$@"
 	else
-	    nvim "$@"
+	    nvim +'Neotree reveal float' "$@"
 	fi
     else
 	nvim "$@"
@@ -345,6 +346,7 @@ function dom_nvim() {
 }
 
 alias e="dom_nvim"
+alias er="dom_nvim README*"
 
 # = TMUX {{{1
 
@@ -567,7 +569,14 @@ function custom_chpwd() {
 	onefetch
     fi
 
-    f
+    # f
+    dom_lsd
+    pwd
+
+    local readme=$(find . -maxdepth 1 -iname "README*" | head -n 1)
+    if [[ -n "$readme" ]]; then
+	bat -r 1:10 "$readme"
+    fi
 
     # handle_venv
 }
@@ -1232,6 +1241,47 @@ function adoc() {
 
 alias ewl="nvim /Users/dteiml/.local/share/nvim/lazy/nvim-lspconfig/lua/lspconfig/server_configurations/woke.lua"
 
+function dom_gho() {
+    local owner="$1"
+    shift
+    # gh repo list "$owner" --limit 150 --json createdAt,description,homepageUrl,isArchived,name,nameWithOwner,primaryLanguage,pushedAt,stargazerCount,updatedAt,url,visibility "$@" | vd -f json -
+    # all: assignableUsers codeOfConduct contactLinks createdAt defaultBranchRef deleteBranchOnMerge description diskUsage forkCount fundingLinks hasDiscussionsEnabled hasIssuesEnabled hasProjectsEnabled hasWikiEnabled homepageUrl id isArchived isBlankIssuesEnabled isEmpty isFork isInOrganization isMirror isPrivate isSecurityPolicyEnabled isTemplate isUserConfigurationRepository issueTemplates issues labels languages latestRelease licenseInfo mentionableUsers mergeCommitAllowed milestones mirrorUrl name nameWithOwner openGraphImageUrl owner parent primaryLanguage projects pullRequestTemplates pullRequests pushedAt rebaseMergeAllowed repositoryTopics securityPolicyUrl squashMergeAllowed sshUrl stargazerCount templateRepository updatedAt url usesCustomOpenGraphImage viewerCanAdminister viewerDefaultCommitEmail viewerDefaultMergeMethod viewerHasStarred viewerPermission viewerPossibleCommitEmails viewerSubscription visibility watchers
+    gh repo list "$owner" --limit 150 --json \
+	nameWithOwner,stargazerCount,createdAt,pushedAt,description,homepageUrl,name,diskUsage,url,visibility,hasWikiEnabled,isArchived "$@" > /tmp/dom_gho.json
+    jq 'map({stargazerCount: .stargazerCount, nameWithOwner: .nameWithOwner, createdAt: .createdAt, pushedAt: .pushedAt, description: .description, homepageUrl: .homepageUrl, name: .name, diskUsage: .diskUsage, url: .url, visibility: .visibility, hasWikiEnabled: .hasWikiEnabled, isArchived: .isArchived})' /tmp/dom_gho.json > /tmp/dom_gho_ordered.json
+    mlr --j2c cat /tmp/dom_gho_ordered.json > /tmp/dom_gho_ordered.csv
+    vd --play "$HOME/bin/sync/dom_gho_sort_by_stargazers_file.vd" -w 10 /tmp/dom_gho_ordered.csv
+}
+function dom_ghr() {
+    # all: createdAt defaultBranch description forksCount fullName hasDownloads hasIssues hasPages hasProjects hasWiki homepage id isArchived isDisabled isFork isPrivate language license name openIssuesCount owner pushedAt size stargazersCount updatedAt url visibility watchersCount
+    gh search repos "$@" --limit 150 --json \
+	fullName,language,stargazersCount,createdAt,pushedAt,description,homepage,name,size,url,visibility,hasWiki,isArchived > /tmp/dom_ghr.json
+    jq 'map({stargazersCount: .stargazersCount, fullName: .fullName, language: .language, createdAt: .createdAt, pushedAt: .pushedAt, description: .description, homepage: .homepage, name: .name, size: .size, url: .url, visibility: .visibility, hasWiki: .hasWiki, isArchived: .isArchived})' /tmp/dom_ghr.json \
+    | vd -f json -w 10 --play "$HOME/bin/sync/dom_ghr_sort_by_stargazers.vd" -
+}
+alias gho=dom_gho
+alias ghr=dom_ghr
+alias gh="PAGER='bat -p' gh"
+
+insert_func_def() {
+  LBUFFER="$(typeset -f $LBUFFER)"
+}
+
+# dom: ctrl-f is not working, dk why
+# unbind Ctrl-F
+# bindkey -r '^f'
+# zle -N insert_func_def
+# bindkey '^f' insert_func_def
+
+# dom: ctr-t is
+zle -N insert_func_def
+bindkey '^t' insert_func_def
+
+alias gbsut="git branch --set-upstream-to"
+alias gbsu=gbsut
+alias glg="git lg1"
+
+
 # REFERENCES
 # [so-echo-dash]: https://stackoverflow.com/a/57656708/4204961
 # [so-zsh-ctrl-d]: https://superuser.com/a/1452645/852686
@@ -1241,3 +1291,4 @@ alias ewl="nvim /Users/dteiml/.local/share/nvim/lazy/nvim-lspconfig/lua/lspconfi
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+

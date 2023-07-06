@@ -65,9 +65,20 @@ except ImportError: pass
 
 try: from slither import Slither
 except ImportError: pass
-try: import woke
+try:
+    import woke
+    def compile() -> "SolidityCompiler":
+        from woke.config import WokeConfig
+        from woke.compiler import SolidityCompiler
+        cfg = WokeConfig()
+        cfg.load_configs()
+        c = SolidityCompiler(cfg)
+        c.load()
+        return c
 except ImportError: pass
-try: import rich
+try:
+    import rich
+    i = rich.inspect
 except ImportError: pass
 
 try:

@@ -8,6 +8,9 @@ vim.env.PATH = "/Users/dteiml/.local/bin:" .. vim.env.PATH
 -- vim.api.nvim_create_autocmd("BufEnter", {
 --     command = "set rnu nu",
 -- })
+-- disable iw and aw for wordmotion
+-- must come before vim-wordmotion is loaded
+vim.cmd[[let g:wordmotion_mappings = {"iw": "", "aw": "", "iW": "", "aW": ""}]]
 require("config.lazy")
 -- require("neo-tree.command").execute({ action = "show", toggle = true, dir = vim.loop.cwd() })
 

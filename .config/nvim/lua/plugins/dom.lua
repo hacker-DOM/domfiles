@@ -715,30 +715,42 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     keys = {
-    {
-      "<leader>fe",
-      function()
-        -- action "focus" is also the default
-        require("neo-tree.command").execute({ action = "focus", position = "float", toggle = true, reveal = true, dir = vim.loop.cwd()})
-      end,
-      desc = "File explorer [float]",
-    },
-    {
-      "<leader>fE",
-      function()
-        require("neo-tree.command").execute({ position = "left", toggle = true, reveal = true, dir = vim.loop.cwd() })
-      end,
-      desc = "File explorer [left]",
-    },
-    { "<leader>e", "<leader>fe", desc = "File explorer [float]", remap = true },
-    { "<leader>E", "<leader>fE", desc = "File explorer [left]", remap = true },
+      {
+        "<leader>fe",
+        function()
+          -- action "focus" is also the default
+          require("neo-tree.command").execute({
+            action = "focus",
+            position = "float",
+            toggle = true,
+            reveal = true,
+            dir = vim.loop.cwd(),
+          })
+        end,
+        desc = "File explorer [float]",
+      },
+      {
+        "<leader>fE",
+        function()
+          require("neo-tree.command").execute({ position = "left", toggle = true, reveal = true, dir = vim.loop.cwd() })
+        end,
+        desc = "File explorer [left]",
+      },
+      { "<leader>e", "<leader>fe", desc = "File explorer [float]", remap = true },
+      { "<leader>E", "<leader>fE", desc = "File explorer [left]", remap = true },
     },
     opts = {
       filesystem = {
+        filtered_items = {
+          visible = true,
+          never_show = {
+            "__pycache__",
+            ".DS_Store",
+          },
+        },
         window = {
           mappings = {
             ["z"] = "none",
-
             ["zo"] = neotree_zo,
             ["zO"] = neotree_zO,
             ["zc"] = neotree_zc,
@@ -758,13 +770,11 @@ return {
   },
   -- {
   --   "lucc/nvimpager",
-  --   opts = 
+  --   opts =
   -- }
   {
     "norcalli/nvim-terminal.lua",
-    opts = {
-
-    }
+    opts = {},
   },
   -- {
   --   "nvim-tree/nvim-web-devicons",
@@ -774,4 +784,12 @@ return {
   --     }
   --   }
   -- }
+  {
+    "akinsho/bufferline.nvim",
+    opts = {
+      options = {
+        diagnostics = false,
+      },
+    },
+  },
 }
