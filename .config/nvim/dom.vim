@@ -21,8 +21,19 @@ let mapleader = " "
 " nnoremap <leader>h <cmd>Telescope help_tags<cr>
 
 " nvim-treesitter
-" set foldmethod=expr
-" set foldexpr=nvim_treesitter#foldexpr()
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+autocmd BufReadPost,FileReadPost * normal! zR
+" region from https://old.reddit.com/r/vim/comments/7boh5s/dyk_folds_can_automatically_open_and_close/dpjjdw2/
+set foldclose=all " Close folds if you leave them in any way
+" set foldcolumn=1 " Show the foldcolumn
+" set foldenable " Turn on folding
+set foldlevel=0 " Autofold everything by default
+set foldmethod=syntax " Fold on the syntax
+set foldnestmax=1 " I only like to fold outer functions
+" set foldopen=all " Open folds if you touch them in any way
+set foldopen=hor,insert " Open folds if you touch them in any way
+" endregion from https://old.reddit.com/r/vim/comments/7boh5s/dyk_folds_can_automatically_open_and_close/dpjjdw2/
 " set nofoldenable
 
 " colorscheme
@@ -62,7 +73,23 @@ set cmdwinheight=15
 " keymaps-general
 nnoremap <Esc> :noh<cr>:
 " nnoremap q :q<CR>
+" this misbehaves in the command-line window
 nnoremap q :bnext<CR>
+" augroup mygroup
+"     autocmd!
+"     autocmd BufEnter * if &filetype !=# 'vim' && &buftype !=# 'nofile' | nnoremap q :bnext<CR> | endif
+" augroup END
+" function! g:FnUnmapQ()
+"     echomsg('unmapq')
+"     if mapcheck("q", "n")
+"         unmap q
+"     endif
+" endfunction
+" augroup mygroup
+"     autocmd!
+"     autocmd BufEnter * if &filetype ==# 'vim' && &buftype ==# 'nofile' | call g:FnUnmapQ()<CR> | endif
+" augroup END
+
 nnoremap Q :call g:FnCloseTab()<CR>
 " nnoremap U <C-R>
 " nnoremap <BS> :E<CR>
@@ -649,6 +676,7 @@ let g:no_man_maps = 1
 " let g:
 autocmd FileType solidity setlocal commentstring=//\ %s
 autocmd FileType asciidoc setlocal commentstring=//\ %s
+autocmd FileType asciidoc setlocal formatoptions-=c | setlocal formatoptions+=t
 set tw=80 " textwidth
 set fo-=t " format options
 
@@ -657,3 +685,119 @@ command -nargs=* B execute 'vert' 'Bufferize' <q-args> | wincmd w
 
 command Ev tabe ~/.config/nvim/dom.vim
 command En tabe ~/.config/nvim/lua/plugins/dom.lua
+
+" region chatgpt code
+function! OpenInBrowser(filename)
+    if has("mac")
+        execute '!open ' . a:filename
+    elseif has("unix")
+        execute '!xdg-open ' . a:filename
+    elseif has("win32") || has("win64")
+        execute '!start ' . a:filename
+    endif
+endfunction
+
+command! Adoc execute '!asciidoctor %' |
+    \ if v:shell_error == 0 | call OpenInBrowser(expand('%:r') . '.html') | endif
+
+command! AdocRootMain execute '!asciidoctor ' . getcwd() . '/main.adoc' |
+  \ if v:shell_error == 0 | call OpenInBrowser(getcwd() . '/main.html') | endif
+
+" chatgpt comments:
+" In these commands:
+"
+" % is the current file name, and %:r is the current file name without the extension.
+" has("mac"), has("unix"), and has("win32") or has("win64") checks for the operating system.
+" !open, !xdg-open, and !start are commands to open a file in the default application (like a web browser for HTML files) on macOS, Linux, and Windows respectively.
+" getcwd() returns the current working directory.
+" v:shell_error is a variable in Vim that holds the exit status of the last shell command. If it's 0, the command was successful.
+" You can use these commands in Vim by typing :Adoc or :AdocRootMain.
+" endregion chatgpt code
+
+
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+function! g:FnSpAndGotoDefinition()
+    :sp
+    " norm! zz
+    " the split starts off on one line below
+    norm! k
+    norm gd
+    wincmd w
+    norm! zz
+    " the original file is one line above
+    norm! j
+    wincmd w
+endfunction
+
+function! g:FnSpAndGotoDeclaration()
+    :sp
+    " norm! zz
+    " the split starts off on one line below
+    norm! k
+    norm gD
+    wincmd w
+    norm! zz
+    " the original file is one line above
+    norm! j
+    wincmd w
+endfunction
+
+function! g:FnSpAndGotoType()
+    :sp
+    " norm! zz
+    " the split starts off on one line below
+    norm! k
+    norm gy
+    wincmd w
+    norm! zz
+    " the original file is one line above
+    norm! j
+    wincmd w
+endfunction
+
+function! g:FnSpAndGotoImplementation()
+    :sp
+    " norm! zz
+    " the split starts off on one line below
+    norm! k
+    norm gI
+    wincmd w
+    norm! zz
+    " the original file is one line above
+    norm! j
+    wincmd w
+endfunction
+
+function! g:FnSpAndGotoReferences()
+    :sp
+    " norm! zz
+    " the split starts off on one line below
+    norm! k
+    norm gr
+    wincmd w
+    norm! zz
+    " the original file is one line above
+    norm! j
+    wincmd w
+endfunction
+
+map <C-W>gd :call g:FnSpAndGotoDefinition()<CR>
+map <C-W>gD :call g:FnSpAndGotoDeclaration()<CR>
+map <C-W>gy :call g:FnSpAndGotoType()<CR>
+map <C-W>gI :call g:FnSpAndGotoImplementation()<CR>
+map <C-W>gr :call g:FnSpAndGotoReferences()<CR>
+
+" for some reason <cr> doesn't work in command-line mode and quickfix list, but
+" it does with this mapping
+map <cr> <cr>
+
+autocmd FileType qf nnoremap <buffer> <S-Enter> <CR>:cclose<CR>
+inoremap <s-esc> <esc>l
+command! S lua require("telescope.builtin").live_grep({search_dirs={vim.fn.expand("%:p")}})
+" The <C-R>= sequence in these mappings allows you to evaluate an expression and insert its result into the buffer. The strftime function formats the current date and time according to the format string.
+" inoremap <C-i> <C-R>=strftime('%Y-%m-%d %H:%M:%S')<CR>
+inoremap <C-i> <C-R>="hacker-DOM: " . strftime('%Y-%m-%d %H:%M:%S') . ': '<CR>
+inoremap <C-j> <C-R>="ChatGPT: " . strftime('%Y-%m-%d %H:%M:%S') . ': '<CR>
+

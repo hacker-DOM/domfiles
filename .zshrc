@@ -178,7 +178,16 @@ alias st="tmux source-file $HOME/.tmux.conf"
 # = ALIAS-OTHER {{{1
 alias ip="ipython"
 alias py="python3"
-alias f="dom_lsd && pwd"
+function dom_f() {
+    dom_lsd
+    pwd
+
+    local readme=$(find . -maxdepth 1 -iname "README*" | head -n 1)
+    if [[ -n "$readme" ]]; then
+	bat -r 1:10 "$readme"
+    fi
+}
+alias f="dom_f"
 alias v="pbpaste"
 #https://github.com/sharkdp/bat/issues/1050#issuecomment-638593463
 alias cat="bat"
@@ -237,6 +246,21 @@ alias gmu="git submodule update --init --recursive"
 #     fi
 # }
 
+function dom_get_owner {
+    # fwiw, these test cases pass for both owner and repo
+    # echo "https://www.github.com/owner/repo/blob/main/README.md" | sd "((https://www\.)?github\.com/)?([^/\s]+)/([^/\s]+).*$" '$3'
+    # echo "github.com/owner/repo" | sd "((https://www\.)?github\.com/)?([^/\s]+)/([^/\s]+).*$" '$3'
+    # echo "owner/repo" | sd "((https://www\.)?github\.com/)?([^/\s]+)/([^/\s]+).*$" '$3'
+    # echo "owner/repo/" | sd "((https://www\.)?github\.com/)?([^/\s]+)/([^/\s]+).*$" '$3'
+    # echo "owner/repo/blob/main/README.md" | sd "((https://www\.)?github\.com/)?([^/\s]+)/([^/\s]+).*$" '$3'
+    sd '((https://www\.)?github\.com/)?([^/\s]+)/([^/\s]+).*$' '$3' <<< "$1"
+}
+
+function dom_get_repo {
+    # same regex, just print different group
+    sd '((https://www\.)?github\.com/)?([^/\s]+)/([^/\s]+).*$' '$4' <<< "$1"
+}
+
 function dom_get_cd_dir {
     if [[ $# -ge 2 ]]; then
         echo "$2"
@@ -263,7 +287,7 @@ function dom_gh_cd {
 }
 
 function dom_gh_clone {
-    # remove leading or tralinig slashes
+    # remove leading or trailing slashes
     local first_arg=$(sd '^/?(.*?)/?$' '$1' <<< "$1")
     shift
     # echo $first_arg
@@ -288,29 +312,33 @@ function dom_gh_clone_depth {
 
 alias gcd="dom_gh_clone_depth"
 
-function dom_gh_clone_branch_depth {
-    gh repo clone "$@" -- --single-branch --depth 1 --recursive
-    dom_gh_cd "$@"
+function dom_gh_clone_owner_branch_depth {
+    local owner=$(dom_get_owner "$1")
+    # echo $owner
+    local repo=$(dom_get_repo "$1")
+    # echo $repo
+    local directory="_$owner"
+    gh repo clone "$owner/$repo" "$directory/$repo" -- --single-branch --depth 1 --recursive
+    # dom_gh_cd "$@"
+    cd "$directory"
+    cd "$repo"
 }
 
-function dom_sl_clone {
-    sl clone --git "$@"
-    dom_gh_cd "$@"
+alias gcrdb="dom_gh_clone_repo_only_branch_depth"
+
+alias gcrbd="dom_gh_clone_repo_only_branch_depth"
+
+alias gcdb="dom_gh_clone_owner_branch_depth"
+
+alias gcbd="dom_gh_clone_owner_branch_depth"
+
+# -----
+
+function dom_git_checkout() {
+    git checkout "$@" && f
 }
 
-function dom_slg_clone {
-    local dir=$(dom_get_cd_dir "$@")
-    gh repo clone "$@"  "$dir-git"
-    sl clone --git "$@" "$dir-sl"
-    
-    dom_gh_cd placeholder "$dir-sl"
-}
-
-alias gcdb="dom_gh_clone_branch_depth"
-
-alias gcbd="dom_gh_clone_branch_depth"
-
-alias gch="git checkout"
+alias gch="dom_git_checkout"
 
 alias gd="git difftool --no-symlinks --dir-diff"
 
@@ -411,10 +439,10 @@ alias lt="dom_lsd_tree"
 # }
 
 # pipe stdin to echo -n to rm newline, then copy to clipboard
-c()         { echo -n "$(\cat -)" | pbcopy }
+co()         { echo -n "$(\cat -)" | pbcopy }
 
 # copy arg
-ca()        { \cat "$1" | c }
+ca()        { \cat "$1" | co }
 
 cl()        { cloc $@ --by-file-by-lang }
 
@@ -569,14 +597,9 @@ function custom_chpwd() {
 	onefetch
     fi
 
-    # f
-    dom_lsd
-    pwd
-
-    local readme=$(find . -maxdepth 1 -iname "README*" | head -n 1)
-    if [[ -n "$readme" ]]; then
-	bat -r 1:10 "$readme"
-    fi
+    f
+    # dom_lsd
+    # pwd
 
     # handle_venv
 }
@@ -641,7 +664,7 @@ rme()
 }
 countc()
 {
-	echo -n $(v) | wc -c | awk '{print $1}'
+	echo -n $(v) | wc -co | awk '{print $1}'
 }
 countm()
 {
@@ -836,7 +859,7 @@ dom_gcalcli_calw()
 {
 	cal calw $(q -t "today") 2 --monday --width 25 "$@" | cat
 }
-alias ca="c agenda --details url --details description"
+# alias ca="c agenda --details url --details description"
 alias b="brew"
 #https://superuser.com/a/1514591/852686
 zstyle ':completion:*' completer _expand_alias _complete _ignored
@@ -924,7 +947,7 @@ alias klkf="kitty @ launch --hold --cwd current --keep-focus zsh -c"
 alias ks="kitty @ send-text --match"
 # --no-ignore - don't respect .(git|fd)files
 # alias fdi="fd -I"
-alias u="kitty +kitten unicode_input | c"
+alias u="kitty +kitten unicode_input | co"
 expand_aliases_on_space()
 {
 globalias()
@@ -948,11 +971,12 @@ alias ......='cd .. && cd .. && cd .. && cd .. && cd ..'
 alias .......='cd .. && cd .. && cd .. && cd .. && cd .. && cd ..'
 alias ........='cd .. && cd .. && cd .. && cd .. && cd .. && cd .. && cd ..'
 alias .........='cd .. && cd .. && cd .. && cd .. && cd .. && cd .. && cd .. && cd ..'
+# alias -g ...="../.."
 alias -g H='--help | cat'
 alias -g R='| hg'
 alias -g B='| bat'
 alias -g L='| less'
-alias -g C='| c'
+alias -g C='| co'
 alias -g N='| nvim -'
 alias matrix=cmatrix
 # alias kl='kitty @ goto-layout'
@@ -1203,10 +1227,10 @@ function ef() {
     # e `fz "$1"`
     nvim `fzf -f "$1" | head -n 1`
 }
-function cf() {
-    # e `fz "$1"`
-    cat `fzf -f "$1" | head -n 1`
-}
+# function cf() {
+#     # e `fz "$1"`
+#     cat `fzf -f "$1" | head -n 1`
+# }
 function ec() {
     cd "$1"
     shift
@@ -1240,6 +1264,8 @@ function adoc() {
 }
 
 alias ewl="nvim /Users/dteiml/.local/share/nvim/lazy/nvim-lspconfig/lua/lspconfig/server_configurations/woke.lua"
+
+# hi
 
 function dom_gho() {
     local owner="$1"
@@ -1281,6 +1307,96 @@ alias gbsut="git branch --set-upstream-to"
 alias gbsu=gbsut
 alias glg="git lg1"
 
+alias wb="woke compile"
+alias wco="woke compile"
+alias wg="woke graph"
+alias wt="woke test"
+alias wf="woke fuzz"
+
+alias openb="open -a 'Brave Browser.app'"
+
+function dom_git_next() {
+    local commits=$(git rev-list --topo-order --first-parent HEAD..main)
+    if [[ -z "$commits" ]]; then
+        echo "You are at the newest commit on main branch"
+        return 1
+    fi
+    local next_commit=$(echo "$commits" | tail -1)
+    git checkout $next_commit
+}
+
+function dom_git_commits() {
+    start=$1
+    end=$2
+    step=$3
+
+    commits=$(git rev-list --topo-order --reverse --first-parent main .)
+
+    for i in $(seq $start $step $end); do
+        commit=$(echo "$commits" | sed "${i}q;d")
+	commit="${commit:0:7}"
+        new_id=$(kitty @ launch --type tab --cwd current --location after)
+        # kitty @ send-text --match id:$new_id " PAGER='bat --paging always' git show --ext-diff -m $commit\n"
+	# adding --stat to the command above supresses the diff (and there isn't
+	# a good way to re-enable it). so need to use `git log -p`:
+	kitty @ send-text --match id:$new_id " PAGER='bat --paging always' git log -p --ext-diff -m --stat $commit^..$commit\n"
+	kitty @ set-tab-title --match id:$new_id "$i $commit"
+    done
+}
+
+alias gn=dom_git_next
+# alias 
+
+dom_cast_flashbots() {
+    cast "$@" --flashbots
+}
+alias cf=dom_cast_flashbots
+
+dom_format_int() {
+    # echo "$1" | python3 "$HOME/bin/sync/dom_format_int.py"
+    # if stdin exists
+    # if read -t0; then
+	# read -r l;
+	# if [[ -n $l && -n $1 ]]; then
+	#     echo "Both stdin and argument specified to dom_format_int, returning... :-)" >&2
+	#     return
+	# fi
+    # fi
+    # echo "line:$l"
+    # echo "$1$l" | python3 "$HOME/bin/sync/dom_format_int.py"
+    if [[ -n $1 ]]; then
+	echo "$1" | python3 "$HOME/bin/sync/dom_format_int.py"
+    else
+	python3 "$HOME/bin/sync/dom_format_int.py"
+    fi
+}
+
+eval "$(cast completions zsh)"
+
+dom_plotext() {
+    python -c "import sys; import plotext as plt; import json; d=json.load(sys.stdin); x=list(map(lambda e: e['$1'], d)); y=list(map(lambda e: e['$2'], d)); plt.simple_bar(x, y); plt.show()"
+}
+
+alias c=cast
+
+dom_sai() {
+    gem=0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
+    gov=0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2
+    pip=0x729D19f657BD0614b4985Cf1D82531c67569197B
+    pep=0x99041F808D598B782D5a3e498681C2452A31da08
+    pit=0x69076e44a9c70a67d5b79d95795aba299083c275
+    adm=0x9eF05f7F6deB616fd37aC3c959a2dDD25A54E4F5
+    sai=0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359
+    sin=0x79f6d0f646706e1261acf0b93dcb864f357d4680
+    skr=0xf53ad2c6851052a81b42133467480961b2321c09
+    dad=0x315cbb88168396d12e1a255f9cb935408fe80710
+    mom=0xf2c5369cffb8ea6284452b0326e326dbfdcb867c
+    vox=0x9b0f70df76165442ca6092939132bbaea77f2d7a
+    tub=0x448a5065aebb8e423f0896e6c5d525c040f59af3
+    tap=0xbda109309f9fafa6dd6a9cb9f1df4085b27ee8ef
+    top=0x9b0ccf7c8994e19f39b2b4cf708e0a7df65fa8a3
+    start_block=3754385
+}
 
 # REFERENCES
 # [so-echo-dash]: https://stackoverflow.com/a/57656708/4204961

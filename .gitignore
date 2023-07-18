@@ -8,5 +8,7 @@ __pycache__
 .woke-build
 .woke-logs
 # **/.metadata.json
-.metadata.json
 .venv
+.woke-dash
+.woke-graph
+.pytest_cache

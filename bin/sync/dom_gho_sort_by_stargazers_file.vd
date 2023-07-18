@@ -1,0 +1,3 @@
+sheet	col	row	longname	input	keystrokes	comment
+dom_gho_ordered	stargazerCount		type-int			sort descending by current column; replace any existing sort criteria 
+dom_gho_ordered	stargazerCount		sort-desc		]	sort descending by current column; replace any existing sort criteria 

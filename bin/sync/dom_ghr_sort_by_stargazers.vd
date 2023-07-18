@@ -1,0 +1,2 @@
+sheet	col	row	longname	input	keystrokes	comment
+-	stargazersCount		sort-desc		]	sort descending by current column; replace any existing sort criteria 

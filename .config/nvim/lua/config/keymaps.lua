@@ -37,11 +37,19 @@ pcall(function ()
   vim.keymap.del("n", "t")
 end)
 
+local function keymap_j()
+  -- vim.cmd([[lua Scroll('<C-d>', 1, 1)]])
+  Scroll('<C-d>', 1, 1)
+  print('hi')
+  -- vim.cmd("set scroll=0")
+end
+
 -- vim.keymap.del('n', 'h')
 vim.keymap.set({ "n", "x" }, "h", "<Cmd>lua Scroll('<C-u>', 1, 1)<CR>")
 vim.keymap.set({ "n", "x" }, "t", "<Cmd>lua Scroll('<C-d>', 1, 1)<CR>")
 vim.keymap.set({ "n", "x" }, "k", "<Cmd>lua Scroll('<C-u>', 1, 1)<CR>")
 vim.keymap.set({ "n", "x" }, "j", "<Cmd>lua Scroll('<C-d>', 1, 1)<CR>")
+-- vim.keymap.set({ "n", "x" }, "j", keymap_j)
 
 -- region from https://github.com/declancm/cinnamon.nvim
 

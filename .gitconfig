@@ -41,7 +41,10 @@
 
 # region difftastic differ
 [diff]
+	# set default difftool to keyword `difftastic`. it is defined lower
+	# below
         tool = difftastic
+	# use an external tool for generating diffs for `git diff`
 	external = difft
 	guitool = difftastic.gui
 
@@ -53,6 +56,7 @@
 [difftool "difftastic.gui"]
         cmd = difft "$LOCAL" "$REMOTE"
 [pager]
+	# open difftool in a pager
         difftool = true
 # endregion difftastic differ
 
