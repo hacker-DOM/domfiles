@@ -1490,11 +1490,45 @@ alias de=deactivate
 # alias dv=dve
 
 function dom_fuzzy_lines() {
+    # $1: absolute file path
+    # $2: (optional) fuzzy query
     local line=$(nl -ba -w1 -s' ' "$1" | fzf -q "$2" | awk '{print $1}')
+    # echo 'line'
+    # echo $line
     cat "$1" --pager "less +$line" -H "$line"
 }
+
 function dom_fuzzy_file_fuzzy_lines() {
-    local file=$(fzf -q "$1")
+    # $1: (optional) fuzzy query path
+    # $2: (optional) fuzzy query
+    if [[ "$1" == /* ]]; then
+	# absolute path
+	# includes shell expansion like `~/.giticonfig` -> `/Users/deiml/.gitconfig`
+	if [[ -e "$1" ]]; then
+	    # node exists
+	    if [[ -f "$1" ]]; then
+		# node is file or symlink to file
+		local file="$1"
+	    elif [[ -d "$1" ]]; then
+		# node is directory or symlink to directory
+		# local file=$(find "$1" -type f | fzf -q "$2")
+		local file_relative_to_dir=$(cd > /dev/null "$1" && fzf && cd - > /dev/null)
+		local file="$1/$file_relative_to_dir"
+	    else
+		echo 'You provided an absolute path that is neither a file nor a directory, nor a symlink to a file nor directory.'
+		return 1
+	    fi
+	else
+	    echo 'You provided an absolute path that does not exist.'
+	    return 1
+	fi
+    else
+	# relative path
+	# launch fzf to select file
+	local file=$(fzf -q "$1")
+    fi
+    # echo 'file'
+    # echo $file
     dom_fuzzy_lines "$file" "$2"
 }
 alias fl=dom_fuzzy_file_fuzzy_lines #accepts optionally a fuzzy query path and optionally a fuzzy query
