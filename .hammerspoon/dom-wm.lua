@@ -201,7 +201,8 @@ local MARGINS_VERT_RIGHT = {
 local shs = {
 	center = "a",
 	hor = "s",
-	vert = "d",
+	vert_half = "d",
+	vert_custom = "t",
 	max = "f",
 }
 
@@ -448,6 +449,38 @@ local function vert(marginsLeft, marginsRight)
 	end
 end
 
+local function vert(leftWeight, totalWeight, marginsLeft, marginsRight)
+	return function()
+		local win = hs.window.focusedWindow()
+		local fr = win:frame()
+		local win_ = getOther()
+		local fr_ = win_:frame()
+		local scrFr = hs.screen.mainScreen():frame()
+		fr["x"] = marginsLeft.left
+		-- sum of both windows' widths
+		local totalW = scrFr["w"] - marginsLeft.left - marginsLeft.right - marginsRight.left - marginsRight.right
+		print("marginsLeft", hs.inspect(marginsLeft))
+		print("marginsRight", hs.inspect(marginsRight))
+		print("scrFr", hs.inspect(scrFr))
+		print(totalW)
+		-- fr['w'] = scrFr['w'] / 2 - marginsLeft.left - marginsLeft.right
+		fr["w"] = totalW * leftWeight / totalWeight
+		fr["y"] = marginsLeft.up
+		fr["h"] = scrFr["h"] - marginsLeft.up - marginsLeft.down
+		-- fr_['x'] = scrFr['w'] / 2 + marginsRight.left
+		fr_["x"] = scrFr["w"] - marginsRight.right - totalW * (totalWeight - leftWeight) / totalWeight
+		-- fr_['w'] = scrFr['w'] / 2 - marginsRight.left - marginsRight.right
+		fr_["w"] = totalW * (totalWeight - leftWeight) / totalWeight
+		fr_["y"] = marginsRight.up
+		fr_["h"] = scrFr["h"] - marginsRight.up - marginsRight.down
+		print("fr", hs.inspect(fr))
+		print("fr_", hs.inspect(fr_))
+		win:setFrame(fr)
+		win_:setFrame(fr_)
+	end
+end
+
+
 local function max(marginsMax)
 	return function()
 		local win = hs.window.focusedWindow()
@@ -552,6 +585,7 @@ if maps.shortcuts then
 	local m = maps.shortcuts
 	wm:bind(m[1], m[2].center, center(HOR_SCALE, VERT_SCALE))
 	wm:bind(m[1], m[2].hor, hor(MARGINS_HOR_UP, MARGINS_HOR_DOWN))
-	wm:bind(m[1], m[2].vert, vert(MARGINS_VERT_LEFT, MARGINS_VERT_RIGHT))
+	wm:bind(m[1], m[2].vert_half, vert(1, 2, MARGINS_VERT_LEFT, MARGINS_VERT_RIGHT))
+	wm:bind(m[1], m[2].vert_custom, vert(7, 10, MARGINS_VERT_LEFT, MARGINS_VERT_RIGHT))
 	wm:bind(m[1], m[2].max, max(MARGINS_MAX))
 end

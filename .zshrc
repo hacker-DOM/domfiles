@@ -179,7 +179,7 @@ alias st="tmux source-file $HOME/.tmux.conf"
 alias ip="ipython"
 alias py="python3"
 function dom_f() {
-    dom_lsd
+    dom_lsd_tree
     pwd
 
     local readme=$(find . -maxdepth 1 -iname "README*" | head -n 1)
@@ -247,18 +247,23 @@ alias gmu="git submodule update --init --recursive"
 # }
 
 function dom_get_owner {
+    local REGEX='(?:https?://)?(?:www\.)?(?:github\.com/)?([^/\s]+)/([^/\s]+).*$'
     # fwiw, these test cases pass for both owner and repo
-    # echo "https://www.github.com/owner/repo/blob/main/README.md" | sd "((https://www\.)?github\.com/)?([^/\s]+)/([^/\s]+).*$" '$3'
-    # echo "github.com/owner/repo" | sd "((https://www\.)?github\.com/)?([^/\s]+)/([^/\s]+).*$" '$3'
-    # echo "owner/repo" | sd "((https://www\.)?github\.com/)?([^/\s]+)/([^/\s]+).*$" '$3'
-    # echo "owner/repo/" | sd "((https://www\.)?github\.com/)?([^/\s]+)/([^/\s]+).*$" '$3'
-    # echo "owner/repo/blob/main/README.md" | sd "((https://www\.)?github\.com/)?([^/\s]+)/([^/\s]+).*$" '$3'
-    sd '((https://www\.)?github\.com/)?([^/\s]+)/([^/\s]+).*$' '$3' <<< "$1"
+    # sd "$REGEX" '$1' <<< 'https://www.github.com/owner/repo/blob/main/README.md'
+    # sd "$REGEX" '$1' <<< 'http://www.github.com/owner/repo/blob/main/README.md'
+    # sd "$REGEX" '$1' <<< 'http://github.com/owner/repo/blob/main/README.md'
+    # sd "$REGEX" '$1' <<< 'www.github.com/owner/repo/blob/main/README.md'
+    # sd "$REGEX" '$1' <<< 'github.com/owner/repo/blob/main/README.md'
+    # sd "$REGEX" '$1' <<< 'owner/repo'
+    # sd "$REGEX" '$1' <<< 'owner/repo/'
+    # sd "$REGEX" '$1' <<< 'owner/repo/blob/main/README.md#L234'
+    sd "$REGEX" '$1' <<< "$1"
 }
 
 function dom_get_repo {
-    # same regex, just print different group
-    sd '((https://www\.)?github\.com/)?([^/\s]+)/([^/\s]+).*$' '$4' <<< "$1"
+    local REGEX='(?:https?://)?(?:www\.)?(?:github\.com/)?([^/\s]+)/([^/\s]+).*$'
+    # same regex as dom_get_owner, just print different group
+    sd "$REGEX" '$2' <<< "$1"
 }
 
 function dom_get_cd_dir {
@@ -394,6 +399,8 @@ dom_lsd()
 	lsdl
     fi
 }
+
+alias l="dom_lsd"
 
 dom_lsd_tree()
 {
@@ -582,7 +589,7 @@ ms()
 }
 
 
-alias d="dirs -v"
+alias dd="dirs -v"
 setopt PUSHD_SILENT
 function custom_chpwd() {
     if [[ -f ".nvmrc" ]]; then
@@ -972,7 +979,7 @@ alias .......='cd .. && cd .. && cd .. && cd .. && cd .. && cd ..'
 alias ........='cd .. && cd .. && cd .. && cd .. && cd .. && cd .. && cd ..'
 alias .........='cd .. && cd .. && cd .. && cd .. && cd .. && cd .. && cd .. && cd ..'
 # alias -g ...="../.."
-alias -g H='--help | cat'
+alias -g H='--help | bat --plain'
 alias -g R='| hg'
 alias -g B='| bat'
 alias -g L='| less'
@@ -1191,7 +1198,7 @@ function dom_alt() {
     cdn "$dirname"
     if [[ -e "$basename" ]] && [[ -e "_$basename" ]]; then
 	echo "Both $1 and _$1 exist"
-	exit 1
+	return
     fi
     if [[ -e "$basename" ]]; then
 	# case x -> _x
@@ -1278,15 +1285,16 @@ function dom_gho() {
     mlr --j2c cat /tmp/dom_gho_ordered.json > /tmp/dom_gho_ordered.csv
     vd --play "$HOME/bin/sync/dom_gho_sort_by_stargazers_file.vd" -w 10 /tmp/dom_gho_ordered.csv
 }
-function dom_ghr() {
+function dom_ghs() {
     # all: createdAt defaultBranch description forksCount fullName hasDownloads hasIssues hasPages hasProjects hasWiki homepage id isArchived isDisabled isFork isPrivate language license name openIssuesCount owner pushedAt size stargazersCount updatedAt url visibility watchersCount
-    gh search repos "$@" --limit 150 --json \
+    # gh search repos "$@" --limit 150 --json \
+    gh search repos "$@" --limit 30 --json \
 	fullName,language,stargazersCount,createdAt,pushedAt,description,homepage,name,size,url,visibility,hasWiki,isArchived > /tmp/dom_ghr.json
     jq 'map({stargazersCount: .stargazersCount, fullName: .fullName, language: .language, createdAt: .createdAt, pushedAt: .pushedAt, description: .description, homepage: .homepage, name: .name, size: .size, url: .url, visibility: .visibility, hasWiki: .hasWiki, isArchived: .isArchived})' /tmp/dom_ghr.json \
     | vd -f json -w 10 --play "$HOME/bin/sync/dom_ghr_sort_by_stargazers.vd" -
 }
 alias gho=dom_gho
-alias ghr=dom_ghr
+alias ghs=dom_ghs
 alias gh="PAGER='bat -p' gh"
 
 insert_func_def() {
@@ -1397,6 +1405,112 @@ dom_sai() {
     top=0x9b0ccf7c8994e19f39b2b4cf708e0a7df65fa8a3
     start_block=3754385
 }
+
+function dom_just_init() {
+#     local DOM_JUST_INIT=$(<<'EOF'
+# EOF
+# )
+#     local DOM_JUST_INIT=$(<<'EOF'
+# # execution sequence:  a -> b -> c -> d 
+# x: a && c d
+#
+# # execute recipe 'a'  around
+# b:
+#   echo 'B start!'
+#   just a
+#   echo 'B end!'
+#
+# # depend with params by expression
+# default: (build "main")
+#
+# build target:
+#   @echo 'Building {{target}}...'
+# EOF
+# )
+
+    cat "$HOME/bin/sync/justfile" > justfile
+}
+
+alias ji=dom_just_init
+alias j=just
+
+# from https://github.com/cds-amal/fzf-eip/blob/dc30e9bf2c175b987c15689a44f5bfc7b71d1f7f/README.md:
+# FZF_EIP_HOME is the directory where you cloned to
+export FZF_EIP_HOME=$HOME/bin/.fzf-eip
+source $FZF_EIP_HOME/init.sh
+
+export BAT_STYLE_ALL_BUT_NUMBERS='header,header-filesize,grid,rule,snip'
+alias kls='python3 "$HOME/bin/sync/kitty_ls.py"'
+
+alias es="nvim +':lua require([[persistence]]).load()'"
+# hack bc we currently lazy-load node, yet pyright relies on node
+# alias nvim="node -v &> /dev/null && nvim"
+function nvim() {
+    node -v &> /dev/null && command nvim "$@"
+}
+# ok, tt is actually a program (looks like its builtin of creating Ruby parsers
+# from treetop grammers). weird. i hope that programs using it will not source
+# this file.
+function tt() {
+    trash "$1" && touch "$1";
+}
+
+# ChatGPT: 2023-08-10 18:45:19: 
+# Certainly! Here's a zsh function that will attempt to source the activate script from one of the specified virtual environment directories (.env, .venv, venv, env). If more than one of these directories exists, it will alert the user and return without activating any of them:
+dom_activate_venv() {
+  local venv_paths=(".env" ".venv" "venv" "env")
+  local found=0
+  local venv_to_activate=""
+
+  for venv in "${venv_paths[@]}"; do
+    if [[ -d $venv && -f $venv/bin/activate ]]; then
+      if (( found > 0 )); then
+        echo "Multiple virtual environments detected. Please specify which one to activate."
+        return 1
+      fi
+      venv_to_activate=$venv
+      ((found++))
+    fi
+  done
+
+  if (( found == 1 )); then
+    source $venv_to_activate/bin/activate
+    echo "Activated virtual environment from $venv_to_activate"
+  elif (( found == 0 )); then
+    echo "No virtual environment detected."
+    return 1
+  fi
+}
+
+alias mk=mkdir
+alias me='python3 -m venv .venv && source .venv/bin/activate'
+alias se=dom_activate_venv
+# alias sv=sve
+alias de=deactivate
+# alias dv=dve
+
+function dom_fuzzy_lines() {
+    local line=$(nl -ba -w1 -s' ' "$1" | fzf -q "$2" | awk '{print $1}')
+    cat "$1" --pager "less +$line" -H "$line"
+}
+function dom_fuzzy_file_fuzzy_lines() {
+    local file=$(fzf -q "$1")
+    dom_fuzzy_lines "$file" "$2"
+}
+alias fl=dom_fuzzy_file_fuzzy_lines #accepts optionally a fuzzy query path and optionally a fuzzy query
+alias fzl="dom_fuzzy_lines $HOME/.zshrc" #accepts an optional query
+# alias ffl=dom_fuzzy_file_fuzzy_lines #accepts a fuzzy path and optional query
+
+# hacker-DOM: 2023-08-11 13:26:18: NOTE: `gpgconf --kill gpg-agent` kills gpg
+# deamon
+
+alias d=ddgr
+
+function dom_pdftotext_bat() {
+    pdftotext "$1" - | bat -l txt
+}
+
+alias ptb=dom_pdftotext_bat
 
 # REFERENCES
 # [so-echo-dash]: https://stackoverflow.com/a/57656708/4204961

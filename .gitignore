@@ -12,3 +12,6 @@ __pycache__
 .woke-dash
 .woke-graph
 .pytest_cache
+.env.sh
+.env.sh.gpg
+

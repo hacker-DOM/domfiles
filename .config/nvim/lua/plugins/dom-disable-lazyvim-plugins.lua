@@ -1,5 +1,8 @@
 if true then
-  return {}
+  return {
+    { "akinsho/bufferline.nvim", cond = false},
+    { "rcarriga/nvim-notify", cond = false },
+  }
 end
 
 return {

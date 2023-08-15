@@ -120,6 +120,22 @@ local choices_public = {
 		['subText'] = '',
 	},
 	{
+		['text'] = 'Uniswap V2 Factory Mainnet',
+		['subText'] = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
+	},
+	{
+		['text'] = 'Uniswap V2 Pool: USDC/WETH Mainnet',
+		['subText'] = '0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc',
+	},
+	{
+		['text'] = 'USDC Mainnet',
+		['subText'] = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+	},
+	{
+		['text'] = 'WETH Mainnet',
+		['subText'] = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+	},
+	{
 		['text'] = '',
 		['subText'] = '',
 	},

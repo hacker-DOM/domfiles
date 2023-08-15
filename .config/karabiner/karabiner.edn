@@ -46,6 +46,7 @@
     :mark1     [{:vendor_id 12951 :product_id  6505}]
     :mx-ergo   [{:vendor_id  1133 :product_id 45085}]
     :mx-master [{:vendor_id 1133 :product_id 45091}]
+    :glove80   [{:vendor_id  5824 :product_id 10203}]
 }
 
 ; define applications
@@ -93,27 +94,6 @@
 ; goku cannot write simple_modifications
 ; https://github.com/yqrashawn/GokuRakuJoudo/issues/44
 
-;{:des "f1  ->  f11"
-;    :rules [
-;        ;{:from [{:key_code "f1"}]
-;        ; :to [{:key_code "f"} {:key_code "exclamation_mark"}]
-;        ; :type "basic"}]}
-;        [:f1 :f11]
-;    ]
-;}
-
-
-;{:des "modifiers -> sticky modifiers"}
-; no support for sticky modifiers :-(
-; https://github.com/yqrashawn/GokuRakuJoudo/issues/117
-
-; {:des "right_alt -> spacebar"
-;     :rules [
-;         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
-;         [:##right_alt :spacebar]
-;     ]
-; }
-
 {:des "mx master middle button"
     :rules [
         [:condi :mx-master]
@@ -121,70 +101,19 @@
     ]
 }
 
-; {:des "right shift is alt"
-;     :rules [
-;         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
-;         [:right_shift :left_option]
-;     ]
-; }
-
-; {:des "right alt is left alt"
-;     :rules [
-;         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
-;         [:right_option :left_option]
-;     ]
-; }
-
 ;; everrywhere
-{:des "f18, f19 <-> ctrl+left/right"
+{:des "escape switches apps"
     :rules [
-        ; [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
-        [:condi :mark1]
-        [:!Sf1 :1]
-        [:!Sf2 :2]
-        [:!Sf3 :3]
-        [:!Sf4 :4]
-        [:!Sf5 :5]
-        [:!Sf6 :6]
-        [:!Sf7 :7]
-        [:!Sf8 :8]
-        [:!Sf9 :9]
-        [:!Sf10 :0]
-        [:!Cf1 :!C1]
-        [:!Cf2 :!C2]
-        [:!Cf3 :!C3]
-        [:!Cf4 :!C4]
-        [:!Cf5 :!C5]
-        [:!Cf6 :!C6]
-        [:!Cf7 :!C7]
-        [:!Cf8 :!C8]
-        [:!Cf9 :!C9]
-        [:!Cf10 :!C0]
-        [:!SCf1 :!Cf1]
-        [:!SCf2 :!Cf2]
-        [:!SCf3 :!Cf3]
-        [:!SCf4 :!Cf4]
-        [:!SCf5 :!Cf5]
-        [:!SCf6 :!Cf6]
-        [:!SCf7 :!Cf7]
-        [:!SCf8 :!Cf8]
-        [:!SCf9 :!Cf9]
-        [:!SCf10 :!Cf10]
-    ]
-}
-
-{:des "f18, f19 <-> ctrl+left/right"
-    :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :glove80]
         [:escape :!Otab]
         ; [:!Cescape [:!Otab :!Otab]]
         [:!Cescape :!Ospacebar] 
     ]
 }
 
-{:des "f18, f19 <-> ctrl+left/right"
+{:des "escape switches apps on mark1"
     :rules [
-        ; [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+        [:condi :mark1]
         [:f13 :!Otab]
         [:!Cf13 [:!Otab :!Otab]]
         [:##f13 :escape]
@@ -203,7 +132,7 @@
 
 {:des "vim-everywhere"
     :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1]
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1 :glove80]
         [:!O#CSj :down_arrow]
         [:!O#CSk :up_arrow]
         [:!O#CSm :left_arrow]
@@ -233,17 +162,6 @@
         [:!O#CSt :!Otab]
         
         [:!O#CSy :!Otab]
-        ; ---
-        ; [:!O#Sd  :!Sdown_arrow]
-        ; [:!O#CSt :down_arrow]
-        ; [:!O#CSh :up_arrow]
-        ; [:!O#CSw :right_arrow]
-        ; [:!O#CSg :delete_or_backspace]
-        ; [:!O#CSc :return_or_enter]
-        ; [:!O#CSn :delete_forward]
-        ;[:!O#Se  :!C#Sdown_arrow]
-        ; [:!Oe    :end]
-        ; [:!OSe   :home]
     ]
 }
 
@@ -291,7 +209,7 @@
 
 {:des "numbers  <->  shift numbers" 
     :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1]
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1 :glove80]
         [:1 :!S1]
         [:!S1 :1]
         [:2 :!S2]
@@ -315,18 +233,6 @@
     ]
 }
 
-;; all apple keyboards
-; {:des "spacebar  ->  spacebar/left_shift"
-;     :rules [
-;         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
-;         [:##spacebar nil nil {
-;             :alone [:spacebar]
-;             :held [:left_shift]
-;         }]
-;     ]
-; }
-
-
 {:des "spacebar  ->  spacebar/left_shift"
     :rules [
         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
@@ -339,7 +245,7 @@
 
 {:des "caps_lcock  ->  escape/left_option"
     :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :glove80]
         [:##caps_lock nil nil {
             :alone [:escape]
             :held [:left_option]
@@ -348,14 +254,6 @@
         [:!Ospacebar :spacebar]
     ]
 }
-
-; {:des "shift  ->  tab"
-;     :rules [
-;         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
-;         [:##left_shift :tab]
-;         [:##right_shift :tab]
-;     ]
-; }
 
 ;; everywhere dvorak
 
@@ -402,16 +300,6 @@
         [:!C#FTOSQWERl :!Cp]
         [:!C#FTOSQWERsemicolon :!Cz]
 
-        ; [:!C#FTOSQWERquote :!Cq]
-        ; [:!C#FTOSQWERc :!Ci]
-        ; [:!C#FTOSQWERb :!Cn]
-        ; [:!C#FTOSQWERv :!Cperiod]
-        ; [:!C#FTOSQWERz :!Cbackslash]
-
-        ; modifiers mark1
-        ; [:condi :mark1]
-        ; [:!C#FTOSQWERx :!Cb]
-
         [:!C#FTOSQWERz :!Cslash]
         [:!C#FTOSQWERx :!Cb]
         [:!C#FTOSQWERc :!Ci]
@@ -450,18 +338,6 @@
         [:!T#FOSQWERk :!Tv]
         [:!T#FOSQWERl :!Tp]
         [:!T#FOSQWERsemicolon :!Tz]
-
-        ; [:!T#FOSQWERbackslash :!T]
-
-        ; [:!T#FOSQWERquote :!Tq]
-        ; [:!T#FOSQWERc :!Ti]
-        ; [:!T#FOSQWERb :!Tn]
-        ; [:!T#FOSQWERv :!Tperiod]
-        ; [:!T#FOSQWERz :!Tbackslash]
-
-        ; modifiers mark1
-        ; [:condi :mark1]
-        ; [:!T#FOSQWERx :!Tb]
 
         [:!T#FOSQWERz :!Tslash]
         [:!T#FOSQWERx :!Tb]
@@ -548,69 +424,13 @@
 
 {:des "dv mark1 ;  <->  :"
     :rules [
-        [:condi :dv :mark1]
+        [:condi :dv :mark1 :glove80]
         ; [:semicolon :!Ssemicolon]
         ; [:!Ssemicolon :semicolon]
         [:z :!Sz]
         [:!Sz :z]
     ]
 }
-
-;; unused
-
-; {:des "
-;     :rules [
-;         [:condi :mx-ergo]
-;         [
-
-; {:des "; <-> : dvorak"
-;     :rules [
-;         [:condi :dv]
-;         [:y :!O
-
-; {:des "'  <->  \""
-;     :rules [
-;         [:quote :!Squote]
-;         [:!Squote :quote]
-;     ]
-; }
-
-;doesn't work well with Logseq
-; {:des "[]  <->  {}"
-;     :rules [
-;         [:open_bracket :!Sopen_bracket]
-;         [:!Sopen_bracket :open_bracket]
-;         [:close_bracket :!Sclose_bracket]
-;         [:!Sclose_bracket :close_bracket]
-;     ]
-; }
-
-; {:des "dvorak modifiers"
-;     :rules [
-;         [:condi :dv]
-;         [:!Ct :Ct]
-;     ]
-; }
-
-;; {:des "qwerty fn+left hemisphere -> cmd+left hemisphere"
-;;     :rules [
-;;         [:condi :kb-air :kb-pro :qw]
-;;         [:!Fz :!Cz]
-;;         [:!Fx :!Cx]
-;;         [:!Fc :!Cc]
-;;         [:!Fv :!Cv]
-;;     ]
-;; }
-
-;; {:des "dvorak fn+left hemisphere -> cmd+left hemisphere"
-;;     :rules [
-;;         [:condi :kb-air :kb-pro :dv]
-;;         [:!Fz :!Cbackslash]
-;;         [:!Fx :!Cv]
-;;         [:!Fc :!Ci]
-;;         [:!Fv :!Cperiod]
-;;     ]
-;; }
 
 {:des "qwerty pro"
     :rules [
@@ -619,30 +439,6 @@
         [:##non_us_backslash :grave_accent_and_tilde]
     ]
 }
-
-; {:des "dvorak kb-air"
-;     :rules [
-;         [:condi :kb-air :dv]
-;         [:#CFTOQWERnon_us_backslash :!Sz]
-;         [:!S#CFTOQWERnon_us_backslash :z]
-;     ]
-; }
-
-; {:des "dvorak modifiers mark1"
-;     :rules [
-;     ]
-; }
-
-; {:des "dvorak modifiers mac kbs"
-;     :rules [
-;         [:condi :dv :kb-air :kb-pro]
-;         [:!C#FTOSQWERnon_us_backslash :!Cy]
-;         [:!C#FTOSQWERz :!Cy]
-;         [:!C#FTOSQWERx :!Cx]
-;         [:!C#FTOSQWERc :!Cc]
-;         [:!C#FTOSQWERv :!Cv]
-;     ]
-; }
 
 {:des "mx ergo"
     :rules [

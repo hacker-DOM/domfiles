@@ -1,0 +1,25 @@
+#!/usr/bin/env just --justfile
+# https://github.com/casey/just
+# Also `brew install just`
+# 
+
+alias h := hello
+
+# the first recipe will be the default one (the one run if you just run `just` in the directory). We'll define the implementation later and just refer to it now.
+default: default_impl
+
+set positional-arguments := true
+hello:
+    echo "hello"
+# this cannot be changed once first assigned
+# set positional-arguments := false
+
+# if no default recipe, first recipe will be default
+default_impl:
+    # fun fact 1 - the $'...' syntax is called ANSI-C quoting and allows us to
+    # interpret backslashes as in the C language.
+    # fun fact 2 - removing the `=` after `--list-prefix` will not work,
+    # (the error msg is `error: Found argument '- ' which wasn't expected, or isn't valid in this context`)
+    # I'm not sure if this is a quirk of shell or a bug in Just
+    @just --list --unsorted --justfile {{justfile()}} --list-heading $'Recipes:\n' --list-prefix='- '
+

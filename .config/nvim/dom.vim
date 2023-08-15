@@ -115,10 +115,16 @@ nnoremap <C-t> :tabnew<CR>
 " nnoremap T :bnext<CR>
 " nnoremap K :bprevious<CR>
 " nnoremap H :bprevious<CR>
-nnoremap J :BufferLineCycleNext<CR>
-nnoremap T :BufferLineCycleNext<CR>
-nnoremap K :BufferLineCyclePrev<CR>
-nnoremap H :BufferLineCyclePrev<CR>
+" command! DomBnext if exists(":BufferLineCycleNext") | execute "BufferLineCycleNext" | else | bnext | endif
+" command! DomBprev if exists(":BufferLineCyclePrev") | execute "BufferLineCyclePrev" | else | bprev | endif
+" nnoremap J :BufferLineCycleNext<CR>
+" nnoremap T :BufferLineCycleNext<CR>
+" nnoremap K :BufferLineCyclePrev<CR>
+" nnoremap H :BufferLineCyclePrev<CR>
+nmap J ]f
+nmap T ]f
+nmap K [f
+nmap H [f
 nnoremap <c-1> :BufferLineGoToBuffer 1<CR>
 nnoremap <c-2> :BufferLineGoToBuffer 2<CR>
 nnoremap <c-3> :BufferLineGoToBuffer 3<CR>
@@ -430,7 +436,7 @@ command Spaces2 set softtabstop=2 shiftwidth=2
 command Spaces4 set softtabstop=4 shiftwidth=4
 command SplitAndScrollBind call g:FnSplitAndScrollBind()
 command NoSplit call g:FnNoSplit()
-command CopyFilePath !echo %:p | c
+command CopyFilePath !echo %:p | pbcopy
 
 command Dvorak set langmap='q,\\,w,.e,pr,yt,fy,gu,ci,ro,lp,aa,os,ed,if,ug,dh,tj,hk,nl,s:,:z,qx,jc,kv,xb,mm,w\\,,v.,z\\/,\\"Q,<W,>E,PR,YT,FY,GU,CI,RO,LP,AA,OS,ED,IF,UG,DH,TJ,HK,NL,S\\;,\\;Z,QX,JC,KV,XB,BN,MM,W<,V>,Z?
 
@@ -800,4 +806,9 @@ command! S lua require("telescope.builtin").live_grep({search_dirs={vim.fn.expan
 " inoremap <C-i> <C-R>=strftime('%Y-%m-%d %H:%M:%S')<CR>
 inoremap <C-i> <C-R>="hacker-DOM: " . strftime('%Y-%m-%d %H:%M:%S') . ': '<CR>
 inoremap <C-j> <C-R>="ChatGPT: " . strftime('%Y-%m-%d %H:%M:%S') . ': '<CR>
+
+command! -nargs=* J !just <args>
+
+command! L Limelight
+command LL Limelight!
 

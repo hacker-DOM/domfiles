@@ -448,34 +448,36 @@ return {
   -- },
   {
     "folke/twilight.nvim",
-    config = function()
-      require("twilight").setup({
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-        {
-          dimming = {
-            alpha = 0.1, -- amount of dimming
-            -- we try to get the foreground from the highlight groups or fallback color
-            color = { "Normal", "#ffffff" },
-            term_bg = "#000000", -- if guibg=NONE, this will be used to calculate text color
-            inactive = false, -- when true, other windows will be fully dimmed (unless they contain the same buffer)
-          },
-          -- context = 10, -- amount of lines we will try to show around the current line
-          context = 10, -- amount of lines we will try to show around the current line
-          treesitter = true, -- use treesitter when available for the filetype
-          -- treesitter is used to automatically expand the visible text,
-          -- but you can further control the types of nodes that should always be fully expanded
-          expand = { -- for treesitter, we we always try to expand to the top-most ancestor with these types
-            "function",
-            "method",
-            "table",
-            "if_statement",
-          },
-          exclude = {}, -- exclude these filetypes
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+      {
+        dimming = {
+          alpha = 0.001, -- amount of dimming
+          -- we try to get the foreground from the highlight groups or fallback color
+          color = { "Normal", "#ffffff" },
+          term_bg = "#000000", -- if guibg=NONE, this will be used to calculate text color
+          inactive = false, -- when true, other windows will be fully dimmed (unless they contain the same buffer)
         },
-      })
-    end,
+        -- context = 10, -- amount of lines we will try to show around the current line
+        context = 1, -- amount of lines we will try to show around the current line
+        -- treesitter = true, -- use treesitter when available for the filetype
+        treesitter = false, -- use treesitter when available for the filetype
+        -- treesitter is used to automatically expand the visible text,
+        -- but you can further control the types of nodes that should always be fully expanded
+        expand = { -- for treesitter, we we always try to expand to the top-most ancestor with these types
+          -- "function",
+          -- "method",
+          -- "table",
+          -- "if_statement",
+        },
+        exclude = {}, -- exclude these filetypes
+      },
+    },
+  },
+  {
+    "junegunn/limelight.vim",
   },
   -- { "ziontee113/syntax-tree-surfer" },
   -- {
@@ -746,7 +748,82 @@ return {
           never_show = {
             "__pycache__",
             ".DS_Store",
+            ".metadata.json",
           },
+        },
+        components = {
+
+          name = function(config, node, state)
+            local vim = vim
+            local highlights = require("neo-tree.ui.highlights")
+            local highlight = config.highlight or highlights.FILE_NAME
+
+            -- Fetch node name and path
+            local nodeName = node.name
+            local nodePath = node.path
+
+            -- Determine the parent directory of the node
+            local parentDir = vim.fn.fnamemodify(nodePath, ":h")
+
+            -- Check for .metadata.json in the same directory
+            local metadataPath = parentDir .. "/.metadata.json"
+
+            if vim.fn.filereadable(metadataPath) == 1 then
+              local metadata = vim.fn.readfile(metadataPath)
+              local jsonData = vim.json.decode(table.concat(metadata, "\n"))
+
+              -- If the node name exists in the JSON's `lines` field and 'programmingCode' exists for that node
+              -- print(vim.inspect(jsonData))
+              -- if jsonData["lines"] and jsonData["lines"][nodeName] and jsonData["lines"][nodeName]["programmingCode"] then
+              if jsonData[nodeName] and jsonData[nodeName]["programmingCode"] then
+                -- print("success!")
+                -- nodeName = nodeName .. "   (" .. jsonData[nodeName]["programmingCode"] .. ")"
+                -- nodeName = "(" .. jsonData[nodeName]["programmingCode"] .. " loc)" .. nodeName
+                -- ChatGPT: 2023-08-11 13:45:42:
+                -- This function works by:
+                --
+                -- Reversing the string representation of the number.
+                -- Using gsub to insert underscores every three digits.
+                -- Reversing the string back to its original order.
+                -- Removing any leading underscore that might have been added.
+                -- You can use this function to format numbers with underscores as thousands separators.
+                function formatWithUnderscores(number)
+                  local str = tostring(number)
+                  local formatted = str:reverse():gsub("(%d%d%d)", "%1_")
+                  return formatted:reverse():gsub("^_", "")
+                  -- local str = tostring(number)
+                  -- local formatted = str:reverse():gsub("(%d%d%d)", "%1_")
+                  -- formatted = formatted:reverse()
+                  -- return formatted:gsub("^_", "")
+                end
+
+                local loc = jsonData[nodeName]["programmingCode"]
+                local loc_under = formatWithUnderscores(loc)
+                local loc_under_padded = string.format("%9s", loc_under)
+                -- nodeName = "(" .. loc .. ") " .. nodeName
+                nodeName = loc_under_padded .. "    " .. nodeName
+              end
+            end
+
+            if node.type == "directory" then
+              highlight = highlights.DIRECTORY_NAME
+            end
+            if node:get_depth() == 1 then
+              highlight = highlights.ROOT_NAME
+            else
+              if config.use_git_status_colors == nil or config.use_git_status_colors then
+                local git_status = state.components.git_status({}, node, state)
+                if git_status and git_status.highlight then
+                  highlight = git_status.highlight
+                end
+              end
+            end
+
+            return {
+              text = nodeName,
+              highlight = highlight,
+            }
+          end,
         },
         window = {
           mappings = {
@@ -908,7 +985,7 @@ return {
 
       -- name (default: venv) - The name of the venv directories to look for.
       -- name = "venv", -- NOTE: You can also use a lua table here for multiple names: {"venv", ".venv"}`
-      name = {"venv", ".venv", ".env", "env"}, -- NOTE: You can also use a lua table here for multiple names: {"venv", ".venv"}`
+      name = { "venv", ".venv", ".env", "env" }, -- NOTE: You can also use a lua table here for multiple names: {"venv", ".venv"}`
 
       -- fd_binary_name (default: fd) - The name of the fd binary on your system.
       fd_binary_name = "fd",
@@ -917,5 +994,75 @@ return {
       notify_user_on_activate = true,
     },
     event = "VeryLazy", -- Optional: needed only if you want to type `:VenvSelect` without a keymapping
+  },
+  {
+    "HampusHauffman/block.nvim",
+    opts = {},
+  },
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    -- default
+    -- opts = function()
+    --   local nls = require("null-ls")
+    --   return {
+    --     root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
+    --     sources = {
+    --       nls.builtins.formatting.fish_indent,
+    --       nls.builtins.diagnostics.fish,
+    --       nls.builtins.formatting.stylua,
+    --       nls.builtins.formatting.shfmt,
+    --       -- nls.builtins.diagnostics.flake8,
+    --     },
+    --   }
+    -- end,
+    opts = function()
+      local nls = require("null-ls")
+      return {
+        root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
+        sources = {
+          -- region diagnostics
+          -- nls.builtins.diagnostics.cspell, -- need a binary for this one
+          -- nls.builtins.diagnostics.ruff,
+          nls.builtins.diagnostics.zsh,
+          -- nls.builtins.diagnostics.black,
+          -- blackd is a small HTTP server that exposes Black’s functionality over a simple protocol. The main benefit of using it is to avoid the cost of starting up a new Black process every time you want to blacken a file. The only way to configure the formatter is by using the provided config options, it will not pick up on config files.
+          -- nls.builtins.diagnostics.blackd,
+          -- region formatting
+          nls.builtins.formatting.stylua,
+          nls.builtins.formatting.forge_fmt,
+          nls.builtins.formatting.gofmt,
+          nls.builtins.formatting.isort,
+          nls.builtins.formatting.just,
+          -- nls.builtins.formatting.prettier,
+          nls.builtins.formatting.rustfmt,
+          nls.builtins.formatting.treefmt.with({
+            -- treefmt requires a config file
+            condition = function(utils)
+              return utils.root_has_file("treefmt.toml")
+            end,
+          }),
+          nls.builtins.formatting.dprint,
+          -- region hover
+          nls.builtins.hover.dictionary,
+          -- region code actions
+          -- nls.builtins.code_actions.cspell,
+        },
+      }
+    end,
+  },
+  {
+    "jackMort/ChatGPT.nvim",
+    event = "VeryLazy",
+    opts = {
+      api_key_cmd = (function()
+        local home = vim.fn.expand("$HOME")
+        return "gpg --quiet -d " .. home .. "/.secrets/openai.gpg"
+      end)(),
+    },
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
   },
 }
