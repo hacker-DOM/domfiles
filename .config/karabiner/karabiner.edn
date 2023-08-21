@@ -80,12 +80,38 @@
 
 ; define profiles
 :profiles {:Default {
+    ;; simultaneous_threshold_milliseconds (def: 50)
+    ;; keys need to be pressed within this threshold to be considered simultaneous
+    ; :sim     50
+
+    ;; to_delayed_action_delay_milliseconds (def: 500)
+    ;; basically it means time after which the key press is count delayed
+    ; :delay   500
+
+    ;; to_if_alone_timeout_milliseconds (def: 1000)
+    ;; hold for 995s and single tap registered; hold for 1005s and seen as modifier
+    ; :alone   1000
+
+    ;; to_if_held_down_threshold_milliseconds (def: 500)
+    ;; key is fired twice when 500 ms is elapsed (otherwise seen as a hold command)
+    ;; increase this value to allow you to hold a simlayer key longer before the next key is pressed
+    ; :held    1000
+
     :default true
-    :alone 500
-    :held 100
+    :sim 0
     :delay 500
-    :sim 50
+    ; :alone 500
+    :alone 1000
+    :held 100
 }}
+
+:tos {
+    :to_dash [
+        {:key :hyphen
+        :repeat false}
+        ; :repeat :false
+    ]
+}
 
 ; define manipulators
 :main [
@@ -93,6 +119,26 @@
 ; previously simple_modifications
 ; goku cannot write simple_modifications
 ; https://github.com/yqrashawn/GokuRakuJoudo/issues/44
+
+{:des "mx master middle button"
+    :rules [
+        ; [:l nil nil {:to_if_held_down {:key :a}}]
+        [:condi :magic-kb-air :magic-kb-pro]
+        ; [:l nil nil {
+        ;     :alone [{:key :l :halt true}]
+        ;     ; :to_if_alone [:l]
+        ;     ; :to_if_held_down [:a]
+        ;     ; :held [{:key :delete_or_backspace :repeat false} {:key :quote :repeat false} ]
+        ;     :held [{:key :quote :repeat false} ]
+        ;     ; :hold_down_ms 3000
+        ;     ; :halt
+        ; }]
+[:l nil nil {
+    :alone [{:key :l :halt true}]
+    :held [{:key :quote :repeat false} ]
+}]
+    ]
+}
 
 {:des "mx master middle button"
     :rules [
@@ -107,7 +153,8 @@
         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :glove80]
         [:escape :!Otab]
         ; [:!Cescape [:!Otab :!Otab]]
-        [:!Cescape :!Ospacebar] 
+        [:!Oescape :!Ospacebar] 
+        [:!Cescape :!Ctab]
     ]
 }
 
@@ -133,78 +180,68 @@
 {:des "vim-everywhere"
     :rules [
         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1 :glove80]
-        [:!O#CSj :down_arrow]
-        [:!O#CSk :up_arrow]
-        [:!O#CSm :left_arrow]
-        [:!O#CScomma :right_arrow]
-        [:!O#CSsemicolon :delete_or_backspace]
-        [:!O#CSp :delete_forward]
-        [:!O#CSi :return_or_enter]
-        [:!O#CSu :!Stab]
-        [:!O#CSo :tab]
-        ; [:!O#CSsemicolon :delete_forward]
-        [:!O#CSh   :end]
-        [:!O#CSl    :home]
-        [:!O#CSn    :!Oleft_arrow]
-        [:!O#CSperiod :!Oright_arrow]
+        [:!O#CSTj :down_arrow]
+        [:!O#CSTk :up_arrow]
+        [:!O#CSTm :left_arrow]
+        [:!O#CSTsemicolon :delete_or_backspace]
+        [:!O#CSTcomma :right_arrow]
+        [:!O#CSTp :delete_forward]
+        [:!O#CSTi :return_or_enter]
+        [:!O#CSTu :!Stab]
+        [:!O#CSTo :tab]
+        ; [:!O#CSTsemicolon :delete_forward]
+        [:!O#CSTh   :end]
+        [:!O#CSTl    :home]
+        [:!O#CSTn    :!Oleft_arrow]
+        [:!O#CSTperiod :!Oright_arrow]
         ; ---
-        [:!O#CSd :left_arrow]
-        [:!O#CSf :right_arrow]
-        [:!O#CSa :delete_or_backspace]
-        [:!O#CSq :delete_forward]
-        [:!O#CSe :return_or_enter]
-        [:!O#CSw :!Stab]
-        [:!O#CSr :tab]
-        ; [:!O#CSsemicolon :delete_forward]
-        [:!O#CSs    :!Oleft_arrow]
-        [:!O#CSg :!Oright_arrow]
+        [:!O#CSTd :left_arrow]
+        [:!O#CSTf :right_arrow]
+        [:!O#CSTa :delete_or_backspace]
+        ; [:!O#CSTq :delete_forward]
+        [:!O#CSTe :return_or_enter]
+        ; [:!O#CSTw :!Stab]
+        ; [:!O#CSTr :tab]
+        [:!O#CSTw :!TStab]
+        [:!O#CSTr :!Ttab]
+        ; [:!O#CSTq :!Sleft_arrow]
+        ; [:!O#CSTt :!Sright_arrow]
+        ; [:!O#CSTsemicolon :delete_forward]
+        [:!O#CSTs :!Sleft_arrow]
+        [:!O#CSTg :!Sright_arrow]
         ; ---
-        [:!O#CSt :!Otab]
+        ; [:!O#CSTt :!Otab]
         
-        [:!O#CSy :!Otab]
+        [:!O#CSTy :!Otab]
     ]
 }
 
-{:des "vim-everywhere"
+
+; {:des "option -> cmd+control"
+;     :rules [
+;         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1 :glove80]
+;         [:left_option [:f15 :f16]]
+;     ] 
+; }
+
+{:des "vim-everywhere bottom-left orthogonal keyboards"
     :rules [
-        [:condi :mark1]
-        [:!O#CSc :down_arrow]
-        [:!O#CSv :up_arrow]
-        [:!O#CSx   :end]
-        [:!O#CSb    :home]
+        [:condi :mark1 :glove80]
+        [:!O#CSTc :down_arrow]
+        [:!O#CSTv :up_arrow]
+        [:!O#CSTx   :end]
+        [:!O#CSTb    :home]
     ] 
 }
 
-{:des "vim-everywhere"
+{:des "vim-everywhere bottom-left non-orthogonal keyboards"
     :rules [
         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
-        [:!O#CSx :down_arrow]
-        [:!O#CSc :up_arrow]
-        [:!O#CSz   :end]
-        [:!O#CSv    :home]
+        [:!O#CSTx :down_arrow]
+        [:!O#CSTc :up_arrow]
+        [:!O#CSTz   :end]
+        [:!O#CSTv    :home]
     ] 
-}
-
-{:des "vim-everywhere dvorak everywhere"
-    :rules [
-    ]
-}
-
-; making an exception here
-{:des "vim-everywhere dvorak mac"
-    :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
-        [:!O#CSx :down_arrow]
-        [:!O#CSc :up_arrow]
-    ]
-}
-
-{:des "vim-everywhere dvorak mark1"
-    :rules [
-        [:condi :mark1]
-        [:!O#CSc :down_arrow]
-        [:!O#CSv :up_arrow]
-    ]
 }
 
 {:des "numbers  <->  shift numbers" 
@@ -236,22 +273,24 @@
 {:des "spacebar  ->  spacebar/left_shift"
     :rules [
         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
-        [:##fn nil nil {
-            :alone [:tab]
-            :held [:fn]
-        }]
+        ; [:##fn nil nil {
+        ;     :alone [:tab]
+        ;     :held [:fn]
+        ;     ; :hold_down_ms 100
+        ; }]
     ]
 }
 
 {:des "caps_lcock  ->  escape/left_option"
     :rules [
         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :glove80]
-        [:##caps_lock nil nil {
+        [:##caps_lock :left_option nil {
             :alone [:escape]
-            :held [:left_option]
+            ; :held [:left_option]
+            ; :hold_down_ms 100
         }]
         ; [:##caps_lock :escape]
-        [:!Ospacebar :spacebar]
+        ; [:!Ospacebar :spacebar]
     ]
 }
 
@@ -268,7 +307,10 @@
         [:##equal_sign :close_bracket]
         [:##open_bracket :hyphen]
         [:##close_bracket :equal_sign]
-        [:##quote :open_bracket] 
+        ; [:##quote :open_bracket] 
+        [:##quote :left_option nil {
+            :alone [:open_bracket]
+        }]
     ]
 }
 
@@ -416,7 +458,7 @@
 
 {:des "`/~  <->  §/±"
     :rules [
-        [:condi :mark1]
+        [:condi :mark1 :glove80]
         [:##grave_accent_and_tilde :non_us_backslash]
         [:##non_us_backslash :grave_accent_and_tilde]
     ]

@@ -800,6 +800,10 @@ map <C-W>gr :call g:FnSpAndGotoReferences()<CR>
 map <cr> <cr>
 
 autocmd FileType qf nnoremap <buffer> <S-Enter> <CR>:cclose<CR>
+autocmd FileType neo-tree noremap <buffer> j :lua Scroll('5j', 1, 1)<CR>
+autocmd FileType neo-tree noremap <buffer> t :lua Scroll('5j', 1, 1)<CR>
+autocmd FileType neo-tree noremap <buffer> k :lua Scroll('5k', 1, 1)<CR>
+autocmd FileType neo-tree noremap <buffer> h :lua Scroll('5k', 1, 1)<CR>
 inoremap <s-esc> <esc>l
 command! S lua require("telescope.builtin").live_grep({search_dirs={vim.fn.expand("%:p")}})
 " The <C-R>= sequence in these mappings allows you to evaluate an expression and insert its result into the buffer. The strftime function formats the current date and time according to the format string.

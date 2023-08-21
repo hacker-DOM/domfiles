@@ -10,7 +10,7 @@ local mark = require("harpoon.mark")
 local ui = require("harpoon.ui")
 
 vim.keymap.set("n", "<leader>a", mark.add_file)
-vim.keymap.set("n", "<leader>fh>", ui.toggle_quick_menu)
+vim.keymap.set("n", "<leader>fh", ui.toggle_quick_menu)
 
 vim.keymap.set("n", "<leader>!", function()
   ui.nav_file(1)
@@ -45,10 +45,14 @@ local function keymap_j()
 end
 
 -- vim.keymap.del('n', 'h')
-vim.keymap.set({ "n", "x" }, "h", "<Cmd>lua Scroll('<C-u>', 1, 1)<CR>")
-vim.keymap.set({ "n", "x" }, "t", "<Cmd>lua Scroll('<C-d>', 1, 1)<CR>")
-vim.keymap.set({ "n", "x" }, "k", "<Cmd>lua Scroll('<C-u>', 1, 1)<CR>")
-vim.keymap.set({ "n", "x" }, "j", "<Cmd>lua Scroll('<C-d>', 1, 1)<CR>")
+-- vim.keymap.set({ "n", "x" }, "h", "<Cmd>lua Scroll('<C-u>', 1, 1)<CR>")
+-- vim.keymap.set({ "n", "x" }, "t", "<Cmd>lua Scroll('<C-d>', 1, 1)<CR>")
+-- vim.keymap.set({ "n", "x" }, "k", "<Cmd>lua Scroll('<C-u>', 1, 1)<CR>")
+-- vim.keymap.set({ "n", "x" }, "j", "<Cmd>lua Scroll('<C-d>', 1, 1)<CR>")
+vim.keymap.set({ "n", "x" }, "h", "<Cmd>lua Scroll('20k', 1, 1)<CR>")
+vim.keymap.set({ "n", "x" }, "t", "<Cmd>lua Scroll('20j', 1, 1)<CR>")
+vim.keymap.set({ "n", "x" }, "k", "<Cmd>lua Scroll('20k', 1, 1)<CR>")
+vim.keymap.set({ "n", "x" }, "j", "<Cmd>lua Scroll('20j', 1, 1)<CR>")
 -- vim.keymap.set({ "n", "x" }, "j", keymap_j)
 
 -- region from https://github.com/declancm/cinnamon.nvim

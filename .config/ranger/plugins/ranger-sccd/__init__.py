@@ -13,22 +13,12 @@ class DevIconsLinemode(LinemodeBase):
 
   uses_metadata = True
 
-  # required_metadata = ["lines"]
-  
   def filetitle(self, file, metadata):
-    return devicon(file) + SEPARATOR + file.relative_path + " (" + (metadata.comment if metadata.comment else "") + ")"
+    return devicon(file) + SEPARATOR + file.relative_path + (" (" + metadata.comment + ") " if metadata.comment else "")
     # return str(type(file))
   
   def infostring(self, file, metadata):
-    # print('HHHHHHHHHHHHHH')
-    # return str(len(metadata))
     try:
-      # return list(metadata.keys())[0]
-      # return str(metadata.programmingCode)
       return f'{metadata.programmingCode:_}'
     except Exception:
       return ""
-    if "lines" in metadata:
-      return metadata.lines[file.relative_path].programmingCode
-    else:
-      return file.user
