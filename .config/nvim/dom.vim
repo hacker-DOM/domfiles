@@ -816,3 +816,5 @@ command! -nargs=* J !just <args>
 command! L Limelight
 command LL Limelight!
 
+" nnoremap [f :lua 
+

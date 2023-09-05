@@ -203,9 +203,9 @@ export EDITOR="nvim"
 # = GIT {{{1
 alias g="git"
 
-alias gf="git fetch"
+alias gf="dom_git_fetch"
 
-alias gp="git pull"
+alias gp="dom_git_pull"
 
 alias gpu="git push origin HEAD"
 
@@ -227,6 +227,60 @@ alias gs="git status -sb && git lg1 -n 10"
 alias gb="git branch -av"
 
 alias gmu="git submodule update --init --recursive"
+
+# hacker-DOM: 2023-09-05 13:27:47:
+# can you write two functions, `dom_git_fetch` and `dom_git_pull`, that will first save head, perform the operation, then do `git log --oneline` to show what's changed
+# ChatGPT: 2023-09-05 13:26:55:
+# Certainly! Below are two shell functions, dom_git_fetch and dom_git_pull, that should do what you're asking for. These functions first save the current HEAD commit hash, perform the git fetch or git pull operation, and then use git log --oneline to show the commits that have been updated.
+# Notes
+# These functions assume that you are working with a remote named origin. If you're using a different remote name, you'll need to modify the functions accordingly.
+# The dom_git_fetch function shows the commits that have been updated in the remote but not yet merged into your local branch.
+# The dom_git_pull function shows the commits that have been updated and merged into your local branch.
+# These functions don't handle all possible edge cases or errors, so they are intended for basic use cases.
+# ChatGPT: 2023-09-05 13:30:17:
+# Certainly! Below are the modified versions of dom_git_fetch and dom_git_pull that work with the default remote for the current branch, rather than always using origin.
+# ChatGPT: 2023-09-05 13:37:05:
+# Certainly! To include the last commit you were on in the git log output, you can adjust the range for the git log command. Specifically, you can use ${old_head}^..HEAD for dom_git_pull and ${old_head}^..$default_remote/${current_branch} for dom_git_fetch. The caret (^) symbol indicates the parent commit, effectively including the commit pointed to by old_head in the log.
+
+
+# Function to perform git fetch and show updated commits
+dom_git_fetch() {
+    # Save the current HEAD commit hash
+    old_head=$(git rev-parse HEAD)
+
+    # Get the name of the current branch
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+    # Get the default remote for the current branch
+    default_remote=$(git config --get branch.$current_branch.remote)
+
+    # Perform git fetch
+    git fetch $default_remote
+
+    # Show the commits that have been updated, including the last commit you were on
+    echo "Commits updated after git fetch:"
+    git log --oneline ${old_head}^..$default_remote/${current_branch}
+}
+
+# Function to perform git pull and show updated commits
+dom_git_pull() {
+    # Save the current HEAD commit hash
+    old_head=$(git rev-parse HEAD)
+
+    # Get the name of the current branch
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+    # Get the default remote for the current branch
+    default_remote=$(git config --get branch.$current_branch.remote)
+
+    # Perform git pull
+    git pull $default_remote $current_branch
+
+    # Show the commits that have been updated, including the last commit you were on
+    echo "Commits updated after git pull:"
+    git log --oneline ${old_head}^..HEAD
+}
+
 
 # alias gc="dom_git_clone"
 

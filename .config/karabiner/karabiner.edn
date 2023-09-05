@@ -133,10 +133,10 @@
         ;     ; :hold_down_ms 3000
         ;     ; :halt
         ; }]
-[:l nil nil {
-    :alone [{:key :l :halt true}]
-    :held [{:key :quote :repeat false} ]
-}]
+    ; [:l nil nil {
+    ;     :alone [{:key :l :halt true}]
+    ;     :held [{:key :quote :repeat false} ]
+    ; }]
     ]
 }
 
@@ -195,19 +195,20 @@
         [:!O#CSTn    :!Oleft_arrow]
         [:!O#CSTperiod :!Oright_arrow]
         ; ---
-        [:!O#CSTd :left_arrow]
-        [:!O#CSTf :right_arrow]
+        ; [:!O#CSTd :left_arrow]
+        ; [:!O#CSTf :right_arrow]
         [:!O#CSTa :delete_or_backspace]
-        ; [:!O#CSTq :delete_forward]
+        [:!O#CSTq :delete_forward]
         [:!O#CSTe :return_or_enter]
         ; [:!O#CSTw :!Stab]
         ; [:!O#CSTr :tab]
-        [:!O#CSTw :!TStab]
-        [:!O#CSTr :!Ttab]
+        [:!O#CSTs :!TStab]
+        [:!O#CSTf :!Ttab]
         ; [:!O#CSTq :!Sleft_arrow]
         ; [:!O#CSTt :!Sright_arrow]
         ; [:!O#CSTsemicolon :delete_forward]
-        [:!O#CSTs :!Sleft_arrow]
+        ; [:!O#CSTd [{:key :!Sright_arrow :halt true]
+        [:!O#CSTd :!Sright_arrow]
         [:!O#CSTg :!Sright_arrow]
         ; ---
         ; [:!O#CSTt :!Otab]

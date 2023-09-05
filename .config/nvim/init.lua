@@ -25,9 +25,35 @@ require("config.lazy")
 
 require('config.woke')
 
+-- M.next_source = function(state)
+local function foo()
+  local sources = require("neo-tree").config.sources
+  local sources = require("neo-tree").config.source_selector.sources
+  local next_source = sources[1]
+  for i, source_info in ipairs(sources) do
+    print(i, vim.inspect(source_info))
+    -- if source_info.source == state.name then
+    --   next_source = sources[i + 1]
+    --   if not next_source then
+    --     next_source = sources[1]
+    --   end
+    --   break
+    -- end
+  end
+
+  -- require("neo-tree.command").execute({
+  --   source = next_source.source,
+  --   position = state.current_position,
+  --   action = "focus",
+  -- })
+end
+
+
 -- doesn't work, idk why
 -- require("luasnip.loaders.from_snipmate").lazy_load()
 vim.cmd("source /Users/dteiml/.config/nvim/dom.vim")
+
+-- vim.keymap.set("n", "J", foo)
 
 -- ChatGPT: 2023-07-20 12:05:31:
 -- Please note, Lua's require function works based on the concept of "packages". Lua maintains a list of paths where it looks for the packages. If the file is not found in the same directory, you need to ensure that Lua's package path (package.path) is set up correctly to include the directory of your module.
