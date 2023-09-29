@@ -309,8 +309,13 @@
         [:##open_bracket :hyphen]
         [:##close_bracket :equal_sign]
         ; [:##quote :open_bracket] 
+        ; quote (slash) is option (alt)
         [:##quote :left_option nil {
             :alone [:open_bracket]
+        }]
+        ; backslash is shift
+        [:##backslash :left_shift nil {
+            :alone [:backslash]
         }]
     ]
 }

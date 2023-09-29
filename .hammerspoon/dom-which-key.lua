@@ -2,7 +2,6 @@
 local choices_private = require("dom-which-key-private").choices
 -- choices that _aren't_ sensitive
 local choices_public = {
-{["text"] = "Email", [ "subText"] = "dteiml@gmail.com"},
 {["text"] = "Yellow Paper", [ "subText"] = "https://ethereum.github.io/yellowpaper/paper.pdf"},
 {["text"] = "Yellow Paper Course", [ "subText"] = "https://www.youtube.com/watch?v=e84V1MxRlYs"},
 {["text"] = "Woke", [ "subText"] = "https://github.com/Ackee-Blockchain/woke"},
@@ -24,7 +23,9 @@ local choices_public = {
 {["text"] = "Unicode em-dash", [ "subText"] = "—"},
 {["text"] = "Unicode right arrow", [ "subText"] = "→"},
 {["text"] = "Unicode left arrow", [ "subText"] = "←"},
+{["text"] = "Unicode double arrow", [ "subText"] = "↔"},
 {["text"] = "Unicode therefore (implies)", [ "subText"] = "⇒"},
+{["text"] = "Unicode logical equivalence (iff)", [ "subText"] = "⟺"},
 {["text"] = "Unicode QED", [ "subText"] = "∎"},
 {["text"] = "Unicode is an element of (belongs to set)", [ "subText"] = "∈"},
 {["text"] = "Unicode is not an element of (doesn't belong to set)", [ "subText"] = "∉"},
@@ -34,6 +35,8 @@ local choices_public = {
 {["text"] = "Unicode proper superset of", [ "subText"] = "⊇"},
 {["text"] = "Greek letter pi", [ "subText"] = "π"},
 {["text"] = "Greek letter Pi", [ "subText"] = "Π"},
+{["text"] = "Greek letter delta", [ "subText"] = "δ"},
+{["text"] = "Greek letter Delta", [ "subText"] = "Δ"},
 {["text"] = "Greek letter sigma", [ "subText"] = "σ"},
 {["text"] = "Greek letter Sigma", [ "subText"] = "Σ"},
 {["text"] = "Greek letter theta", [ "subText"] = "θ"},

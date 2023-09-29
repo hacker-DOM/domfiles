@@ -1,5 +1,6 @@
 if true then
   return {
+    { "ggandor/flit.nvim", cond = false},
     { "akinsho/bufferline.nvim", cond = false},
     { "rcarriga/nvim-notify", cond = false },
   }

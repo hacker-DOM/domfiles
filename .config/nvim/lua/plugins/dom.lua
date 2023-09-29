@@ -560,18 +560,18 @@ return {
   { "tpope/vim-sleuth" },
   { "folke/noice.nvim", opts = { messages = { enabled = false } } },
   -- overriding this one
-  {
-    "ggandor/flit.nvim",
-    keys = function()
-      ---@type LazyKeys[]
-      local ret = {}
-      for _, key in ipairs({ "f", "F" }) do
-        ret[#ret + 1] = { key, mode = { "n", "x", "o" }, desc = key }
-      end
-      return ret
-    end,
-    opts = { labeled_modes = "nx" },
-  },
+  -- {
+  --   "ggandor/flit.nvim",
+  --   -- keys = function()
+  --   --   ---@type LazyKeys[]
+  --   --   local ret = {}
+  --   --   for _, key in ipairs({ "f", "F" }) do
+  --   --     ret[#ret + 1] = { key, mode = { "n", "x", "o" }, desc = key }
+  --   --   end
+  --   --   return ret
+  --   -- end,
+  --   opts = { keys = { f = "f", F = "F", t = 'abciea', T = 'aieaiea' }, labeled_modes = "nx" },
+  -- },
   { "AndrewRadev/bufferize.vim" },
   {
     "zbirenbaum/copilot.lua",
@@ -1186,5 +1186,59 @@ return {
         },
       },
     },
+  },
+  -- local SymbolKind = vim.lsp.protocol.SymbolKind
+  --
+  -- ---@type UserOpts
+  -- local default_opts = {
+  --   ---@type table<string, any> `nvim_set_hl`-like options for highlight virtual text
+  --   hl = { link = 'Comment' },
+  --   ---@type lsp.SymbolKind[] Symbol kinds what need to be count (see `lsp.SymbolKind`)
+  --   kinds = { SymbolKind.Function, SymbolKind.Method },
+  --   ---@type 'above'|'end_of_line'|'textwidth'
+  --   vt_position = 'above',
+  --   ---@type function(symbol: Symbol): string
+  --   text_format = function(symbol)
+  --     local fragments = {}
+  --
+  --     if symbol.references then
+  --       local usage = symbol.references <= 1 and 'usage' or 'usages'
+  --       local num = symbol.references == 0 and 'no' or symbol.references
+  --       table.insert(fragments, ('%s %s'):format(num, usage))
+  --     end
+  --
+  --     if symbol.definition then
+  --       table.insert(fragments, symbol.definition .. ' defs')
+  --     end
+  --
+  --     if symbol.implementation then
+  --       table.insert(fragments, symbol.implementation .. ' impls')
+  --     end
+  --
+  --     return table.concat(fragments, ', ')
+  --   end,
+  --   references = { enabled = true, include_declaration = false },
+  --   definition = { enabled = false },
+  --   implementation = { enabled = false },
+  --   ---@type UserOpts[]
+  --   filetypes = {},
+  -- }
+  -- SymbolKind = { File = 1, Module = 2, Namespace = 3, Package = 4, Class = 5, Method = 6, Property = 7, Field = 8, Constructor = 9, Enum = 10, Interface = 11, Function = 12, Variable = 13, Constant = 14, String = 15, Number = 16, Boolean = 17, Array = 18, Object = 19, Key = 20, Null = 21, EnumMember = 22, Struct = 23, Event = 24, Operator = 25, TypeParameter = 26, }
+  {
+    "Wansmer/symbol-usage.nvim",
+    event = "BufReadPre", -- need run before LspAttach if you use nvim 0.9. On 0.10 use 'LspAttach'
+    config = function()
+      local SymbolKind = vim.lsp.protocol.SymbolKind
+      local opts = {
+        -- kinds = { SymbolKind.Function, SymbolKind.Method },
+        kinds = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 },
+        definitions = { enabled = true },
+        implementations = { enabled = true },
+      }
+      require("symbol-usage").setup(opts)
+    end,
+    -- opts = {
+    --
+    -- }
   },
 }
