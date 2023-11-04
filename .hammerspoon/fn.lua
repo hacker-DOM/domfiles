@@ -1,4 +1,6 @@
 local log = hs.logger.new(getCurrentFileName(), "debug")
+require('helpers')
+local timer = require'hs.timer'
 
 local function openLogseqSearch()
 	-- hs.application.launchOrFocus('logseq')
@@ -58,7 +60,8 @@ local function openZk()
 	-- end
 end
 
-local function focus_last_window_or_launch(app_name)
+local function focus_last_window_or_launch(app_bundle_id)
+	-- no('frontmost app name ' .. hs.application.frontmostApplication():name())
 	-- .find does pattern (or literal if 3rd arg is true) matching on:
 	-- 1. application name
 	-- 2. window title
@@ -66,19 +69,59 @@ local function focus_last_window_or_launch(app_name)
 	-- 4. process id
 	-- second arg is whether the full variable must match or just part
 	-- (string.find). We want the full one to match.
-	local app = hs.application.find(app_name, true)
+	-- third arg whether to interpret string literally (true) or as a
+	-- pattern (false)
+	local app = hs.application.find(app_bundle_id, true, true)
+	if type(app) == 'table' then
+		no('warning: found multiple apps for ' .. app_bundle_id .. ', using first')
+		app = app[1]
+	end
+	app:activate()
+	-- local win = app:focusedWindow()
+	-- win:unminimize()
+	-- timer.doAfter(0.001,function()win:focus()end)
+	-- win:focus()
+	-- app:activate()
+	-- hs.timer.doAfter(0.001, function ()
+	-- 	win:focus()
+	-- end)
+	-- win:becomeMain()
+	-- win:focus()
+	-- app:activate()
+	-- return
 	-- print('hs.application.runningApplications()', hs.inspect(hs.application.runningApplications()))
 	-- print('printing', app_name, hs.inspect(app))
 	-- print('app:allWindows()', hs.inspect(app:allWindows()))
-	local win
-	if app then
-		win = app:focusedWindow() or app:mainWindow()
-	end
-	if win then
-		win:focus()
-	else
-		hs.application.launchOrFocus(app_name)
-	end
+
+
+
+
+	-- local win
+	-- if app then
+	-- 	no('found app for ' .. app_name)
+	-- 	win = app:focusedWindow() 
+	-- 	if win then
+	-- 		no('found focused win for ' .. app_name .. ', focusing')
+	-- 		win:focus()
+	-- 	else
+	-- 		no('didnt find focused win for ' .. app_name ..', will try main win')
+	-- 		win = app:mainWindow()
+	-- 		if win then
+	-- 			no('found main win for ' .. app_name .. ', focusing')
+	-- 			win:focus()
+	-- 		else
+	-- 			no('didnt find win for ' .. app_name .. ', will launch')
+	-- 			hs.application.launchOrFocus(app_name)
+	-- 		end
+	-- 	end
+	-- end
+
+
+
+		
+	-- else
+	-- 	no('didnt find app')
+	-- end
 	-- for i, v in ipairs(hs.application.find("logseq"):allWindows()) do
 	-- 	print(i, v)
 	-- end
@@ -86,39 +129,39 @@ end
 
 -- Define the remapping function
 
+hs.hotkey.bind({}, "f1", function()
+	focus_last_window_or_launch("com.vivaldi.Vivaldi")
+end)
 hs.hotkey.bind({}, "f2", function()
-	focus_last_window_or_launch("Brave Browser")
+	focus_last_window_or_launch("com.google.Chrome")
 end)
 hs.hotkey.bind({}, "f3", function()
-	focus_last_window_or_launch("Kitty")
-end)
-hs.hotkey.bind({}, "f1", function()
-	focus_last_window_or_launch("Vivaldi")
+	focus_last_window_or_launch("net.kovidgoyal.kitty")
 end)
 hs.hotkey.bind({}, "f4", function()
-	focus_last_window_or_launch("Slack")
+	focus_last_window_or_launch("com.tinyspeck.slackmacgap")
 end)
+-- hs.hotkey.bind({}, "f5", function()
+-- 	focus_last_window_or_launch("")
+-- end)
 hs.hotkey.bind({}, "f5", function()
-	focus_last_window_or_launch("Hammerspoon")
+	focus_last_window_or_launch("com.spotify.client")
 end)
 hs.hotkey.bind({}, "f6", function()
-	focus_last_window_or_launch("Spotify")
+	focus_last_window_or_launch("com.tdesktop.Telegram")
 end)
 hs.hotkey.bind({}, "f7", function()
-	focus_last_window_or_launch("Telegram Desktop")
+	-- focus_last_window_or_launch("Twitter")
 end)
 hs.hotkey.bind({}, "f8", function()
-	focus_last_window_or_launch("Twitter")
+	-- focus_last_window_or_launch("Discord")
 end)
 hs.hotkey.bind({}, "f9", function()
-	focus_last_window_or_launch("Discord")
-end)
-hs.hotkey.bind({}, "f10", function()
-	focus_last_window_or_launch("Logseq")
+	focus_last_window_or_launch("com.electron.logseq")
 end)
 
 hs.hotkey.bind({ "cmd" }, "f2", function()
-	focus_last_window_or_launch("Logseq")
+	focus_last_window_or_launch("com.electron.logseq")
 end)
 
 hs.hotkey.bind({ "cmd" }, "f3", openKittyWindow)
@@ -129,19 +172,19 @@ hs.hotkey.bind({ "cmd" }, "f5", function()
 	hs.reload()
 end)
 hs.hotkey.bind({ "cmd" }, "f6", function()
-	focus_last_window_or_launch("Mail")
+	focus_last_window_or_launch("com.apple.mail")
 end)
 hs.hotkey.bind({ "cmd" }, "f7", function()
-	focus_last_window_or_launch("Visual Studio Code")
+	-- focus_last_window_or_launch("Visual Studio Code")
 end)
 hs.hotkey.bind({ "cmd" }, "f8", function()
-	focus_last_window_or_launch("Calendar")
+	focus_last_window_or_launch("com.apple.iCal")
 end)
 hs.hotkey.bind({ "cmd" }, "f9", function()
-	focus_last_window_or_launch("Notion")
+	focus_last_window_or_launch("notion.id")
 end)
 hs.hotkey.bind({ "cmd" }, "f10", function()
-	focus_last_window_or_launch("Dash")
+	focus_last_window_or_launch("com.kapeli.dashdoc")
 end)
 
 -- 11 12 are volume

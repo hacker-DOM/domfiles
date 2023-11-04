@@ -120,6 +120,55 @@
 ; goku cannot write simple_modifications
 ; https://github.com/yqrashawn/GokuRakuJoudo/issues/44
 
+{:des "f7 through f12 are media keys"
+    :rules [
+        [:condi :kb-air :magic-kb-air :magic-kb-pro]
+        [:f7 :rewind]
+        [:f8 :play_or_pause]
+        [:f9 :fastforward]
+        [:f10 :mute]
+        [:f11 :volume_decrement]
+        [:f12 :volume_increment]
+        ; fn+f7 through f12 are function keys
+        [:!Ff7 :f7]
+        [:!Ff8 :f8]
+        [:!Ff9 :f9]
+        [:!Ff10 :f10]
+        [:!Ff11 :f11]
+        [:!Ff12 :f12]
+    ]
+}
+
+{:des "f7, f8, f9 on moergo are media keys"
+    :rules [
+    ;     [:condi :glove80]
+    ;     [:f7 :rewind]
+    ;     [:f8 :play_or_pause]
+    ;     [:f9 :fastforward]
+    ;     ; fn+f7 through f12 are function keys
+    ;     [:!Ff7 :f7]
+    ;     [:!Ff8 :f8]
+    ;     [:!Ff9 :f9]
+    ;     [:!Ff10 :f10]
+    ;     [:!Ff11 :f11]
+    ;     [:!Ff12 :f12]
+    ]
+}
+
+{:des "bottom-most row (modifiers, space)"
+    :rules [
+        ; [:condi :kb-air]
+        ; [:left_option :left_command] ; use sticky_left_command in simple
+        ; modifications (gui)
+        ; [:left_command nil nil {
+        ;     :alone [{:key :delete_or_backspace}]
+        ;     ; :alone [{:key :delete_or_backspace :repeat true}]
+        ;     ; :alone [:delete_or_backspace]
+        ; }]
+        ; [:right_command :return_or_enter]
+    ]
+}
+
 {:des "mx master middle button"
     :rules [
         ; [:l nil nil {:to_if_held_down {:key :a}}]
@@ -153,7 +202,7 @@
         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :glove80]
         [:escape :!Otab]
         ; [:!Cescape [:!Otab :!Otab]]
-        [:!Oescape :!Ospacebar] 
+        ; [:!Oescape :!Ospacebar] 
         [:!Cescape :!Ctab]
     ]
 }

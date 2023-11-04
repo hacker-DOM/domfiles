@@ -1,4 +1,4 @@
--- choices I don't want to share in git & screen sharing
+-- I don't want to share in git & screen sharing
 local choices_private = require("dom-which-key-private").choices
 -- choices that _aren't_ sensitive
 local choices_public = {
@@ -103,6 +103,48 @@ local choices_public = {
 {["text"] = "Uniswap V2 Pool: USDC/WETH Mainnet", [ "subText"] = "0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc"},
 {["text"] = "USDC Mainnet", [ "subText"] = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"},
 {["text"] = "WETH Mainnet", [ "subText"] = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"},
+
+-- czech diacritic:
+-- Í Ě É Ď Č Á Ž Ý Ů Ú Ť Š Ř Ó Ň
+-- í ň ó ř š ť ú ů ý ž á č ď é ě
+
+-- Í Ě É Ď Č Á Ž Ý Ů Ú Ť Š Ř Ó Ň
+-- í ň ó ř š ť ú ů ý ž á č ď é ě
+{["text"] = "Czech Long Capital I (Í)", [ "subText"] = "Í"},
+{["text"] = "Czech Hard Capital E (Ě)", [ "subText"] = "Ě"},
+{["text"] = "Czech Long Capital E (É)", [ "subText"] = "É"},
+{["text"] = "Czech Hard Capital D (Ď)", [ "subText"] = "Ď"},
+{["text"] = "Czech Hard Capital C (Č)", [ "subText"] = "Č"},
+{["text"] = "Czech Long Capital A (Á)", [ "subText"] = "Á"},
+{["text"] = "Czech Hard Capital Z (Ž)", [ "subText"] = "Ž"},
+{["text"] = "Czech Long Capital Y (Ý)", [ "subText"] = "Ý"},
+{["text"] = "Czech Long Capital U (Ů)", [ "subText"] = "Ů"},
+{["text"] = "Czech Long Capital U (Ú)", [ "subText"] = "Ú"},
+{["text"] = "Czech Hard Capital T (Ť)", [ "subText"] = "Ť"},
+{["text"] = "Czech Hard Capital S (Š)", [ "subText"] = "Š"},
+{["text"] = "Czech Hard Capital R (Ř)", [ "subText"] = "Ř"},
+{["text"] = "Czech Long Capital O (Ó)", [ "subText"] = "Ó"},
+{["text"] = "Czech Hard Capital N (Ň)", [ "subText"] = "Ň"},
+
+{["text"] = "Czech Long Lowercase i (í)", [ "subText"] = "í"},
+{["text"] = "Czech Hard Lowercase e (ě)", [ "subText"] = "ě"},
+{["text"] = "Czech Long Lowercase e (é)", [ "subText"] = "é"},
+{["text"] = "Czech Hard Lowercase d (ď)", [ "subText"] = "ď"},
+{["text"] = "Czech Hard Lowercase c (č)", [ "subText"] = "č"},
+{["text"] = "Czech Long Lowercase a (á)", [ "subText"] = "á"},
+{["text"] = "Czech Hard Lowercase z (ž)", [ "subText"] = "ž"},
+{["text"] = "Czech Long Lowercase y (ý)", [ "subText"] = "ý"},
+{["text"] = "Czech Long Lowercase u (ů)", [ "subText"] = "ů"},
+{["text"] = "Czech Long Lowercase u (ú)", [ "subText"] = "ú"},
+{["text"] = "Czech Hard Lowercase t (ť)", [ "subText"] = "ť"},
+{["text"] = "Czech Hard Lowercase s (š)", [ "subText"] = "š"},
+{["text"] = "Czech Hard Lowercase r (ř)", [ "subText"] = "ř"},
+{["text"] = "Czech Long Lowercase o (ó)", [ "subText"] = "ó"},
+{["text"] = "Czech Hard Lowercase n (ň)", [ "subText"] = "ň"},
+
+{["text"] = "Czech Capital ", [ "subText"] = ""},
+{["text"] = "Czech Capital ", [ "subText"] = ""},
+
 }
 local choices_all = hs.fnutils.concat(choices_public, choices_private)
 

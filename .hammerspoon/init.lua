@@ -6,6 +6,7 @@ require 'misc'
 require 'fn'
 require 'dom-wm'
 require 'dom-which-key'
+-- require 'window_switcher'
 
 -- maximize window
 -- hs.hotkey.bind({ "ctrl", "shift" }, "i", function()

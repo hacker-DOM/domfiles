@@ -1,4 +1,6 @@
 -- Modal window manager
+-- local log = hs.logger.new(getCurrentFileName(), "debug")
+require("helpers")
 
 -- Activate with Cmd+M
 local wm = hs.hotkey.modal.new(M, "m")
@@ -157,11 +159,17 @@ local APP = "Notes"
 -- move to halves
 -- bigger & alternative smaller
 
-local MARGIN_LEFT = 60
+-- local MARGIN_LEFT = 60
+-- local MARGIN_DOWN = 0 -- around 25 offset
+-- local MARGIN_UP = 50 -- around 25 offset
+-- local MARGIN_RIGHT = 25
+-- local MARGIN_BETWEEN = 15
+local MARGIN_LEFT = 0
 local MARGIN_DOWN = 0 -- around 25 offset
-local MARGIN_UP = 50 -- around 25 offset
-local MARGIN_RIGHT = 25
-local MARGIN_BETWEEN = 15
+local MARGIN_UP = 0 -- around 25 offset
+local MARGIN_RIGHT = 0
+local MARGIN_BETWEEN = 0
+
 
 local MARGINS_MAX = {
 	left = MARGIN_LEFT,
@@ -204,6 +212,8 @@ local shs = {
 	vert_half = "d",
 	vert_custom = "t",
 	max = "f",
+	focus_next_display = "j",
+	focus_prev_display = "k",
 }
 
 local maps = {
@@ -242,7 +252,8 @@ function wm:entered()
 		print_mod(maps.moveToSides[1]),
 		table.concat(maps.moveToSides[2]),
 		-- print_mod(maps.extendToSides[1]),
-		'a','b',
+		"a",
+		"b",
 		-- table.concat(maps.extendToSides[2]),
 		print_mod(maps.bigger[1]),
 		table.concat(maps.bigger[2]),
@@ -480,18 +491,64 @@ local function vert(leftWeight, totalWeight, marginsLeft, marginsRight)
 	end
 end
 
-
 local function max(marginsMax)
 	return function()
+		-- no'max called'
 		local win = hs.window.focusedWindow()
 		local fr = win:frame()
-		local scrFr = hs.screen.mainScreen():frame()
+		local scr = win:screen()
+		-- print(hs.inspect(scr))
+		local scrFr = win:screen():frame()
 		fr["x"] = marginsMax.left
 		fr["w"] = scrFr["w"] - marginsMax.left - marginsMax.right
 		fr["y"] = marginsMax.up
 		print(fr["y"])
 		fr["h"] = scrFr["h"] - marginsMax.up - marginsMax.down
-		win:setFrame(fr)
+		-- doesn't work!!!
+		-- win:setFrame(fr)
+		-- win:setFrameInScreenBounds(fr)
+		-- fr = {x = 100, y = 50, w = , h = 0}
+		-- win:setFrame(fr)
+		-- win:setTopLeft({fr["x"], fr["y"]})
+		win:maximize()
+	end
+end
+
+local function focus_a_display(inc)
+	return function()
+		-- print("focus_next_display")
+		local wf = hs.window.filter.new()
+		local screen = hs.window.focusedWindow():screen()
+		print(hs.inspect(screen))
+		local idx = indexOfEl(hs.screen.allScreens(), screen)
+		print('idx', idx)
+		local new_idx = (idx + inc - 1) % #hs.screen.allScreens() + 1
+		print('new_idx', new_idx)
+		local next_id = hs.screen.allScreens()[new_idx]:id()
+
+		-- you can also do hs.screen.mainScreen():id()
+		-- (choosing this one because it's more readable)
+		wf:setScreens( next_id )
+		local wins = wf:getWindows()
+		print(hs.inspect(wins))
+		local win = wins[1]
+		win:focus()
+	end
+end
+
+local function move_to_display(inc)
+	return function()
+		print("move_to_display")
+		-- local wf = hs.window.filter.new()
+		local screen = hs.window.focusedWindow():screen()
+		print(hs.inspect(screen))
+		local idx = indexOfEl(hs.screen.allScreens(), screen)
+		print('idx', idx)
+		local new_idx = (idx + inc - 1) % #hs.screen.allScreens() + 1
+		print('new_idx', new_idx)
+		local new_screen = hs.screen.allScreens()[new_idx]
+		hs.window.focusedWindow():moveToScreen(new_screen, false, true)
+
 	end
 end
 
@@ -588,4 +645,68 @@ if maps.shortcuts then
 	wm:bind(m[1], m[2].vert_half, vert(1, 2, MARGINS_VERT_LEFT, MARGINS_VERT_RIGHT))
 	wm:bind(m[1], m[2].vert_custom, vert(7, 10, MARGINS_VERT_LEFT, MARGINS_VERT_RIGHT))
 	wm:bind(m[1], m[2].max, max(MARGINS_MAX))
+	wm:bind(m[1], m[2].focus_next_display, focus_a_display(1))
+	wm:bind(m[1], m[2].focus_prev_display, focus_a_display(-1))
+	wm:bind('shift', 'J', move_to_display(1))
+	wm:bind('shift', 'K', move_to_display(-1))
 end
+
+-- hs.hotkey.bind(A, "tab", function()
+-- 	no('hi')
+--
+-- end)
+
+-- local switcher = hs.window.switcher.new() -- default windowfilter: only visible windows, all Spaces
+-- ws = require 'dom-window-switcher-github'
+local ws = require("dom-window-switcher-local")
+local switcher = ws.new() -- default windowfilter: only visible windows, all Spaces
+ws.setLogLevel(5)
+-- switcher_space = hs.window.switcher.new(hs.window.filter.new():setCurrentSpace(true):setDefaultFilter{}) -- include minimized/hidden windows, current Space only
+-- switcher_browsers = hs.window.switcher.new{'Safari','Google Chrome'} -- specialized switcher for your dozens of browser windows :)
+
+-- bind to hotkeys; WARNING: at least one modifier key is required!
+-- hs.hotkey.bind('alt','tab','Next window',function()switcher:next()end)
+-- hs.hotkey.bind('alt-shift','tab','Prev window',function()switcher:previous()end)
+-- hs.hotkey.bind('alt','`','Prev window',function()switcher:previous()end)
+-- hs.hotkey.bind('shift','tab','Next window',function()switcher:next()end)
+-- hs.hotkey.bind('shift','`','Prev window',function()switcher:previous()end)
+
+-- local chooser_public = hs.chooser.new(function(item)
+-- 	local t = hs.window.allWindows()[1]
+-- 	no("hey")
+-- 	print("hey")
+-- 	print(hs.inspect(t))
+-- 	-- for key, value in pairs(t) do
+-- 	-- 	print(key, value)
+-- 	-- end
+-- 	-- Then, check for and iterate over the metatable's __index
+-- 	local meta = getmetatable(t)
+-- 	if meta and meta.__index then
+-- 		for key, value in pairs(meta.__index) do
+-- 			print("metatable:", key, value)
+-- 		end
+-- 	end
+-- end)
+-- local app = hs.application.frontmostApplication()
+-- local app_wf = hs.window.filter.new(app:name())
+-- local app_wins = app_wf:getWindows(hs.window.filter.sortByFocusedLast)
+-- local choices = {}
+-- for i, w in ipairs(app_wins) do
+-- 	-- Get the name of the application
+-- 	local appName = app:name()
+-- 	-- Get the title of the window
+-- 	local windowTitle = w:title()
+--
+-- 	-- Insert the transformed data into the new table
+-- 	table.insert(choices, {
+-- 		text = appName,
+-- 		subText = windowTitle, -- Assuming 'subtext' is the window title
+-- 	})
+-- end
+-- print(hs.inspect(app_wins))
+-- chooser_public:choices(choices)
+-- chooser_public:searchSubText(true)
+--
+-- hs.hotkey.bind("shift", "tab", function()
+-- 	chooser_public:show()
+-- end)

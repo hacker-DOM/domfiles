@@ -35,3 +35,12 @@ AM  = {'alt', 'cmd'}
 ASM = {'alt', 'shift', 'cmd'}
 CAM = {'ctrl', 'alt', 'cmd'}
 CASM= {'ctrl', 'alt', 'shift', 'cmd'}
+
+function indexOfEl(tbl, search)
+    for index, value in ipairs(tbl) do
+        if value == search then
+            return index
+        end
+    end
+    return nil -- return nil if the table is not found
+end

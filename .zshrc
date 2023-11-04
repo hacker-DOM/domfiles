@@ -209,13 +209,24 @@ alias gp="dom_git_pull"
 
 alias gpu="git push origin HEAD"
 
-alias gl="git log"
+# all of these things are run thru $PAGER == bat
+# for graphs, i prefer to see the line numbers on the left (default bat
+# formatting)
+# but for regular logs, i prefer not to
 
-alias gls="git log --pretty=oneline"
+alias gl="BAT_STYLE=plain git dom-log"
 
-alias gll="git log --stat"
+alias glns="BAT_STYLE=plain git dom-log --numstat"
+
+alias glg="git lg1"
+
+# alias gls="git log --pretty=oneline"
+#
+# alias gll="git log --stat"
 
 alias ga="git add"
+
+alias gau="git add -u"
 
 alias gr="git remote -v"
 
@@ -280,6 +291,7 @@ dom_git_pull() {
     echo "Commits updated after git pull:"
     git log --oneline ${old_head}^..HEAD
 }
+
 
 
 # alias gc="dom_git_clone"
@@ -1025,13 +1037,13 @@ cdd()
 {
     cd "$(dirname $1)"
 }
-alias ...='cd .. && cd ..'
-alias ....='cd .. && cd .. && cd ..'
-alias .....='cd .. && cd .. && cd .. && cd ..'
-alias ......='cd .. && cd .. && cd .. && cd .. && cd ..'
-alias .......='cd .. && cd .. && cd .. && cd .. && cd .. && cd ..'
-alias ........='cd .. && cd .. && cd .. && cd .. && cd .. && cd .. && cd ..'
-alias .........='cd .. && cd .. && cd .. && cd .. && cd .. && cd .. && cd .. && cd ..'
+alias -g ...='cd .. && cd ..'
+alias -g ....='cd .. && cd .. && cd ..'
+alias -g .....='cd .. && cd .. && cd .. && cd ..'
+alias -g ......='cd .. && cd .. && cd .. && cd .. && cd ..'
+alias -g .......='cd .. && cd .. && cd .. && cd .. && cd .. && cd ..'
+alias -g ........='cd .. && cd .. && cd .. && cd .. && cd .. && cd .. && cd ..'
+alias -g .........='cd .. && cd .. && cd .. && cd .. && cd .. && cd .. && cd .. && cd ..'
 # alias -g ...="../.."
 alias -g H='--help | bat --plain'
 alias -g R='| hg'
@@ -1074,7 +1086,7 @@ dom-file-sep() {
 
 DOM_SCC_DIRS()
 {
-    for file in $(ls -1); do dom-file-sep $file; scc $file; done B
+    for file in $(ls -1); do dom-file-sep $file; scc $file; done
 }
 
 alias sccds=DOM_SCC_DIRS
@@ -1367,7 +1379,6 @@ bindkey '^t' insert_func_def
 
 alias gbsut="git branch --set-upstream-to"
 alias gbsu=gbsut
-alias glg="git lg1"
 
 alias wb="woke compile"
 alias wco="woke compile"
@@ -1376,6 +1387,7 @@ alias wt="woke test"
 alias wf="woke fuzz"
 
 alias openb="open -a 'Brave Browser.app'"
+alias openc="open -a 'Google Chrome.app'"
 
 function dom_git_next() {
     local commits=$(git rev-list --topo-order --first-parent HEAD..main)

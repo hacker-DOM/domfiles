@@ -1241,4 +1241,7 @@ return {
     --
     -- }
   },
+  {
+    "itchyny/vim-qfedit"
+  }
 }
