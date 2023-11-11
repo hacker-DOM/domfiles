@@ -1,6 +1,6 @@
 local log = hs.logger.new(getCurrentFileName(), "debug")
-require('helpers')
-local timer = require'hs.timer'
+require("helpers")
+local timer = require("hs.timer")
 
 local function openLogseqSearch()
 	-- hs.application.launchOrFocus('logseq')
@@ -72,8 +72,8 @@ local function focus_last_window_or_launch(app_bundle_id)
 	-- third arg whether to interpret string literally (true) or as a
 	-- pattern (false)
 	local app = hs.application.find(app_bundle_id, true, true)
-	if type(app) == 'table' then
-		no('warning: found multiple apps for ' .. app_bundle_id .. ', using first')
+	if type(app) == "table" then
+		no("warning: found multiple apps for " .. app_bundle_id .. ", using first")
 		app = app[1]
 	end
 	app:activate()
@@ -93,13 +93,10 @@ local function focus_last_window_or_launch(app_bundle_id)
 	-- print('printing', app_name, hs.inspect(app))
 	-- print('app:allWindows()', hs.inspect(app:allWindows()))
 
-
-
-
 	-- local win
 	-- if app then
 	-- 	no('found app for ' .. app_name)
-	-- 	win = app:focusedWindow() 
+	-- 	win = app:focusedWindow()
 	-- 	if win then
 	-- 		no('found focused win for ' .. app_name .. ', focusing')
 	-- 		win:focus()
@@ -116,9 +113,6 @@ local function focus_last_window_or_launch(app_bundle_id)
 	-- 	end
 	-- end
 
-
-
-		
 	-- else
 	-- 	no('didnt find app')
 	-- end
@@ -128,6 +122,24 @@ local function focus_last_window_or_launch(app_bundle_id)
 end
 
 -- Define the remapping function
+
+hs.hotkey.bind(M, "escape", function()
+	local wf = hs.window.filter.new()
+	local wins = wf:getWindows(hs.window.filter.sortByFocusedLast)
+	local excludedApps = { ["com.vivaldi.Vivaldi"] = true, ["com.google.Chrome"] = true, ["net.kovidgoyal.kitty"] = true, ["com.tinyspeck.slackmacgap"] = true, ["com.spotify.client"] = true, ["com.tdesktop.Telegram"] = true, ["com.electron.logseq"] = true, ["com.apple.mail"] = true, ["com.apple.iCal"] = true, ["notion.id"] = true, ["com.apple.notificationcenterui"] = true, ["com.microsoft.VSCode"] = true }
+	-- no'running'
+
+	for _, win in ipairs(wins) do
+		local appName = win:application():bundleID()
+		if not excludedApps[appName] then
+			-- no('window ' .. win:title() .. ' in app ' .. appName .. ' is not excluded, will focus')
+			win:focus()
+			return
+		end
+	end
+
+	return nil -- Return nil if no matching window is found
+end)
 
 hs.hotkey.bind({}, "f1", function()
 	focus_last_window_or_launch("com.vivaldi.Vivaldi")
@@ -164,7 +176,10 @@ hs.hotkey.bind({ "cmd" }, "f2", function()
 	focus_last_window_or_launch("com.electron.logseq")
 end)
 
-hs.hotkey.bind({ "cmd" }, "f3", openKittyWindow)
+-- hs.hotkey.bind({ "cmd" }, "f3", openKittyWindow)
+hs.hotkey.bind({ "cmd" }, "f3", function()
+	focus_last_window_or_launch("com.microsoft.VSCode")
+end)
 
 hs.hotkey.bind({ "cmd" }, "f1", openVivaldiTab)
 
@@ -228,9 +243,9 @@ local function remapAltFxToFx(x)
 		-- hs.eventtap.event.newKeyEvent("alt", false):post()
 		-- Introduce a slight delay before sending the Fx keystroke
 		-- hs.timer.doAfter(0.01, function()
-			hs.notify.show("Hammerspoon", "", "Sending F" .. x)
+		hs.notify.show("Hammerspoon", "", "Sending F" .. x)
 
-			hs.eventtap.keyStroke({}, "F" .. x)
+		hs.eventtap.keyStroke({}, "F" .. x)
 		-- end)
 	end, nil, nil)
 end

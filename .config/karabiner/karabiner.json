@@ -335,37 +335,6 @@
             "type" : "device_if"
           } ],
           "type" : "basic"
-        }, {
-          "from" : {
-            "key_code" : "escape",
-            "modifiers" : {
-              "mandatory" : [ "left_command" ]
-            }
-          },
-          "to" : [ {
-            "key_code" : "tab",
-            "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "identifiers" : [ {
-              "vendor_id" : 5824,
-              "product_id" : 10203
-            }, {
-              "vendor_id" : 76,
-              "product_id" : 620
-            }, {
-              "vendor_id" : 1452,
-              "product_id" : 620
-            }, {
-              "vendor_id" : 1452,
-              "product_id" : 832
-            }, {
-              "vendor_id" : 1452,
-              "product_id" : 641
-            } ],
-            "type" : "device_if"
-          } ],
-          "type" : "basic"
         } ]
       }, {
         "description" : "escape switches apps on mark1",
@@ -1087,8 +1056,8 @@
             }
           },
           "to" : [ {
-            "key_code" : "right_arrow",
-            "modifiers" : [ "left_shift" ]
+            "key_code" : "equal_sign",
+            "modifiers" : [ "left_command", "left_control" ]
           } ],
           "conditions" : [ {
             "identifiers" : [ {
@@ -1122,8 +1091,8 @@
             }
           },
           "to" : [ {
-            "key_code" : "right_arrow",
-            "modifiers" : [ "left_shift" ]
+            "key_code" : "hyphen",
+            "modifiers" : [ "left_command", "left_control" ]
           } ],
           "conditions" : [ {
             "identifiers" : [ {

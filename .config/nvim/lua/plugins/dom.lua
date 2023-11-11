@@ -1241,7 +1241,10 @@ return {
     --
     -- }
   },
+  -- {
+  --   "itchyny/vim-qfedit"
+  -- }
   {
-    "itchyny/vim-qfedit"
+    "kevinhwang91/nvim-bqf",
   }
 }

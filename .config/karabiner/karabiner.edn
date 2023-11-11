@@ -203,7 +203,7 @@
         [:escape :!Otab]
         ; [:!Cescape [:!Otab :!Otab]]
         ; [:!Oescape :!Ospacebar] 
-        [:!Cescape :!Ctab]
+        ; [:!Cescape :!Ctab]
     ]
 }
 
@@ -257,8 +257,8 @@
         ; [:!O#CSTt :!Sright_arrow]
         ; [:!O#CSTsemicolon :delete_forward]
         ; [:!O#CSTd [{:key :!Sright_arrow :halt true]
-        [:!O#CSTd :!Sright_arrow]
-        [:!O#CSTg :!Sright_arrow]
+        [:!O#CSTd :!CTequal_sign] ; next kitty window ; equal_sign
+        [:!O#CSTg :!CThyphen] ; previous kitty window ; hyphen
         ; ---
         ; [:!O#CSTt :!Otab]
         

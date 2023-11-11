@@ -1,4 +1,9 @@
 -- bootstrap lazy.nvim, LazyVim and your plugins
+vim.cmd[[
+set rtp+=/opt/homebrew/opt/fzf
+" packadd fzf
+so /opt/homebrew/opt/fzf/plugin/fzf.vim
+]]
 vim.env.PATH = "/Users/dteiml/.local/bin:" .. vim.env.PATH
 -- vim.lsp.set_log_level('trace')
 -- vim.lsp.set_log_level("debug")
