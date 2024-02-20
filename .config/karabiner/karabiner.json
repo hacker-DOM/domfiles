@@ -312,10 +312,15 @@
             "key_code" : "escape"
           },
           "to" : [ {
-            "key_code" : "tab",
-            "modifiers" : [ "left_option" ]
+            "shell_command" : "open -g hammerspoon://escape"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -331,6 +336,149 @@
             }, {
               "vendor_id" : 1452,
               "product_id" : 641
+            } ],
+            "type" : "device_if"
+          } ],
+          "type" : "basic"
+        }, {
+          "from" : {
+            "key_code" : "escape",
+            "modifiers" : {
+              "mandatory" : [ "left_command" ]
+            }
+          },
+          "to" : [ {
+            "key_code" : "tab",
+            "modifiers" : [ "left_command" ]
+          } ],
+          "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
+            "identifiers" : [ {
+              "vendor_id" : 5824,
+              "product_id" : 10203
+            }, {
+              "vendor_id" : 76,
+              "product_id" : 620
+            }, {
+              "vendor_id" : 1452,
+              "product_id" : 620
+            }, {
+              "vendor_id" : 1452,
+              "product_id" : 832
+            }, {
+              "vendor_id" : 1452,
+              "product_id" : 641
+            } ],
+            "type" : "device_if"
+          } ],
+          "type" : "basic"
+        } ]
+      }, {
+        "description" : "",
+        "manipulators" : [ {
+          "to_if_alone" : [ {
+            "key_code" : "spacebar"
+          } ],
+          "from" : {
+            "key_code" : "spacebar",
+            "modifiers" : {
+              "optional" : [ "any" ]
+            }
+          },
+          "to" : [ {
+            "key_code" : "left_option"
+          } ],
+          "conditions" : [ {
+            "identifiers" : [ {
+              "vendor_id" : 1452,
+              "product_id" : 620
+            }, {
+              "vendor_id" : 76,
+              "product_id" : 620
+            } ],
+            "type" : "device_if"
+          } ],
+          "type" : "basic"
+        }, {
+          "to_if_alone" : [ {
+            "key_code" : "z",
+            "modifiers" : [ "left_shift" ]
+          } ],
+          "from" : {
+            "key_code" : "z"
+          },
+          "to" : [ {
+            "key_code" : "left_shift"
+          } ],
+          "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
+            "identifiers" : [ {
+              "vendor_id" : 5824,
+              "product_id" : 10203
+            } ],
+            "type" : "device_if"
+          } ],
+          "type" : "basic"
+        }, {
+          "to_if_alone" : [ {
+            "key_code" : "hyphen"
+          } ],
+          "from" : {
+            "key_code" : "open_bracket",
+            "modifiers" : {
+              "optional" : [ "any" ]
+            }
+          },
+          "to" : [ {
+            "key_code" : "left_control"
+          } ],
+          "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
+            "identifiers" : [ {
+              "vendor_id" : 5824,
+              "product_id" : 10203
+            } ],
+            "type" : "device_if"
+          } ],
+          "type" : "basic"
+        }, {
+          "to_if_alone" : [ {
+            "key_code" : "equal_sign"
+          } ],
+          "from" : {
+            "key_code" : "close_bracket",
+            "modifiers" : {
+              "optional" : [ "any" ]
+            }
+          },
+          "to" : [ {
+            "key_code" : "left_control"
+          } ],
+          "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
+            "identifiers" : [ {
+              "vendor_id" : 5824,
+              "product_id" : 10203
             } ],
             "type" : "device_if"
           } ],
@@ -442,6 +590,12 @@
             "key_code" : "down_arrow"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -476,6 +630,12 @@
             "key_code" : "up_arrow"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -510,6 +670,12 @@
             "key_code" : "left_arrow"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -544,6 +710,12 @@
             "key_code" : "delete_or_backspace"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -578,6 +750,12 @@
             "key_code" : "right_arrow"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -612,6 +790,12 @@
             "key_code" : "delete_forward"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -646,6 +830,12 @@
             "key_code" : "return_or_enter"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -681,6 +871,12 @@
             "modifiers" : [ "left_shift" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -715,6 +911,12 @@
             "key_code" : "tab"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -749,6 +951,12 @@
             "key_code" : "end"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -783,6 +991,12 @@
             "key_code" : "home"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -818,6 +1032,12 @@
             "modifiers" : [ "left_option" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -853,6 +1073,12 @@
             "modifiers" : [ "left_option" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -887,6 +1113,12 @@
             "key_code" : "delete_or_backspace"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -921,6 +1153,12 @@
             "key_code" : "delete_forward"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -955,6 +1193,12 @@
             "key_code" : "return_or_enter"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -990,6 +1234,12 @@
             "modifiers" : [ "left_control", "left_shift" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1025,6 +1275,12 @@
             "modifiers" : [ "left_control" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1060,6 +1316,12 @@
             "modifiers" : [ "left_command", "left_control" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1095,6 +1357,12 @@
             "modifiers" : [ "left_command", "left_control" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1130,6 +1398,12 @@
             "modifiers" : [ "left_option" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1167,6 +1441,12 @@
             "key_code" : "down_arrow"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1189,6 +1469,12 @@
             "key_code" : "up_arrow"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1211,6 +1497,12 @@
             "key_code" : "end"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1233,6 +1525,12 @@
             "key_code" : "home"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1258,6 +1556,12 @@
             "key_code" : "down_arrow"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 76,
               "product_id" : 620
@@ -1286,6 +1590,12 @@
             "key_code" : "up_arrow"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 76,
               "product_id" : 620
@@ -1314,6 +1624,12 @@
             "key_code" : "end"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 76,
               "product_id" : 620
@@ -1342,6 +1658,12 @@
             "key_code" : "home"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 76,
               "product_id" : 620
@@ -1370,6 +1692,12 @@
             "modifiers" : [ "left_shift" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1403,6 +1731,12 @@
             "key_code" : "1"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1434,6 +1768,12 @@
             "modifiers" : [ "left_shift" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1467,6 +1807,12 @@
             "key_code" : "2"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1498,6 +1844,12 @@
             "modifiers" : [ "left_shift" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1531,6 +1883,12 @@
             "key_code" : "3"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1562,6 +1920,12 @@
             "modifiers" : [ "left_shift" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1595,6 +1959,12 @@
             "key_code" : "4"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1626,6 +1996,12 @@
             "modifiers" : [ "left_shift" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1659,6 +2035,12 @@
             "key_code" : "5"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1690,6 +2072,12 @@
             "modifiers" : [ "left_shift" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1723,6 +2111,12 @@
             "key_code" : "6"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1754,6 +2148,12 @@
             "modifiers" : [ "left_shift" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1787,6 +2187,12 @@
             "key_code" : "7"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1818,6 +2224,12 @@
             "modifiers" : [ "left_shift" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1851,6 +2263,12 @@
             "key_code" : "8"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1882,6 +2300,12 @@
             "modifiers" : [ "left_shift" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1915,6 +2339,12 @@
             "key_code" : "9"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1946,6 +2376,12 @@
             "modifiers" : [ "left_shift" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -1979,6 +2415,12 @@
             "key_code" : "0"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -2018,6 +2460,12 @@
             "key_code" : "left_option"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "identifiers" : [ {
               "vendor_id" : 5824,
               "product_id" : 10203
@@ -2113,6 +2561,9 @@
           } ],
           "type" : "basic"
         }, {
+          "to_if_alone" : [ {
+            "key_code" : "quote"
+          } ],
           "from" : {
             "key_code" : "hyphen",
             "modifiers" : {
@@ -2120,7 +2571,7 @@
             }
           },
           "to" : [ {
-            "key_code" : "quote"
+            "key_code" : "left_shift"
           } ],
           "conditions" : [ {
             "input_sources" : [ {
@@ -2226,6 +2677,48 @@
             "type" : "input_source_if"
           } ],
           "type" : "basic"
+        }, {
+          "to_if_alone" : [ {
+            "key_code" : "slash"
+          } ],
+          "from" : {
+            "key_code" : "slash",
+            "modifiers" : {
+              "optional" : [ "any" ]
+            }
+          },
+          "to" : [ {
+            "key_code" : "left_shift"
+          } ],
+          "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          } ],
+          "type" : "basic"
+        }, {
+          "to_if_alone" : [ {
+            "key_code" : "return_or_enter"
+          } ],
+          "from" : {
+            "key_code" : "right_command",
+            "modifiers" : {
+              "optional" : [ "any" ]
+            }
+          },
+          "to" : [ {
+            "key_code" : "left_option"
+          } ],
+          "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          } ],
+          "type" : "basic"
         } ]
       }, {
         "description" : "dvorak modifiers cmd",
@@ -2241,13 +2734,6 @@
             "key_code" : "x",
             "modifiers" : [ "left_command", "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2261,13 +2747,6 @@
             "key_code" : "x",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2280,13 +2759,6 @@
           "to" : [ {
             "key_code" : "comma",
             "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2301,13 +2773,6 @@
             "key_code" : "d",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2320,13 +2785,6 @@
           "to" : [ {
             "key_code" : "o",
             "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2341,13 +2799,6 @@
             "key_code" : "k",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2361,13 +2812,6 @@
             "key_code" : "t",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2380,13 +2824,6 @@
           "to" : [ {
             "key_code" : "f",
             "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2401,13 +2838,6 @@
             "key_code" : "g",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2420,13 +2850,6 @@
           "to" : [ {
             "key_code" : "s",
             "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2441,13 +2864,6 @@
             "key_code" : "r",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2460,13 +2876,6 @@
           "to" : [ {
             "key_code" : "a",
             "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2481,13 +2890,6 @@
             "key_code" : "semicolon",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2500,13 +2902,6 @@
           "to" : [ {
             "key_code" : "h",
             "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2521,13 +2916,6 @@
             "key_code" : "y",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2540,13 +2928,6 @@
           "to" : [ {
             "key_code" : "u",
             "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2561,13 +2942,6 @@
             "key_code" : "j",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2580,13 +2954,6 @@
           "to" : [ {
             "key_code" : "c",
             "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2601,13 +2968,6 @@
             "key_code" : "v",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2620,13 +2980,6 @@
           "to" : [ {
             "key_code" : "p",
             "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2641,13 +2994,6 @@
             "key_code" : "z",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2660,13 +3006,6 @@
           "to" : [ {
             "key_code" : "slash",
             "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2681,13 +3020,6 @@
             "key_code" : "b",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2700,13 +3032,6 @@
           "to" : [ {
             "key_code" : "i",
             "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2721,13 +3046,6 @@
             "key_code" : "period",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2740,13 +3058,6 @@
           "to" : [ {
             "key_code" : "n",
             "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2761,13 +3072,6 @@
             "key_code" : "l",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2780,13 +3084,6 @@
           "to" : [ {
             "key_code" : "m",
             "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2801,13 +3098,6 @@
             "key_code" : "w",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2821,13 +3111,6 @@
             "key_code" : "e",
             "modifiers" : [ "left_command" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2840,13 +3123,6 @@
           "to" : [ {
             "key_code" : "open_bracket",
             "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         } ]
@@ -2864,13 +3140,6 @@
             "key_code" : "x",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2883,13 +3152,6 @@
           "to" : [ {
             "key_code" : "comma",
             "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2904,13 +3166,6 @@
             "key_code" : "d",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2923,13 +3178,6 @@
           "to" : [ {
             "key_code" : "o",
             "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -2944,13 +3192,6 @@
             "key_code" : "k",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2964,13 +3205,6 @@
             "key_code" : "t",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -2983,13 +3217,6 @@
           "to" : [ {
             "key_code" : "f",
             "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -3004,13 +3231,6 @@
             "key_code" : "g",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -3023,13 +3243,6 @@
           "to" : [ {
             "key_code" : "s",
             "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -3044,13 +3257,6 @@
             "key_code" : "r",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -3063,13 +3269,6 @@
           "to" : [ {
             "key_code" : "a",
             "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -3084,13 +3283,6 @@
             "key_code" : "semicolon",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -3103,13 +3295,6 @@
           "to" : [ {
             "key_code" : "h",
             "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -3124,13 +3309,6 @@
             "key_code" : "y",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -3143,13 +3321,6 @@
           "to" : [ {
             "key_code" : "u",
             "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -3164,13 +3335,6 @@
             "key_code" : "j",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -3183,13 +3347,6 @@
           "to" : [ {
             "key_code" : "c",
             "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -3204,13 +3361,6 @@
             "key_code" : "v",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -3224,13 +3374,6 @@
             "key_code" : "p",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -3243,13 +3386,6 @@
           "to" : [ {
             "key_code" : "z",
             "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -3264,13 +3400,6 @@
             "key_code" : "slash",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -3283,13 +3412,6 @@
           "to" : [ {
             "key_code" : "b",
             "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -3304,13 +3426,6 @@
             "key_code" : "i",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -3323,13 +3438,6 @@
           "to" : [ {
             "key_code" : "period",
             "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -3344,13 +3452,6 @@
             "key_code" : "n",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -3364,13 +3465,6 @@
             "key_code" : "l",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -3383,13 +3477,6 @@
           "to" : [ {
             "key_code" : "m",
             "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         }, {
@@ -3404,13 +3491,6 @@
             "key_code" : "w",
             "modifiers" : [ "left_control" ]
           } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
-          } ],
           "type" : "basic"
         }, {
           "from" : {
@@ -3423,13 +3503,6 @@
           "to" : [ {
             "key_code" : "e",
             "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "input_sources" : [ {
-              "input_source_id" : "Dvorak",
-              "language" : "en"
-            } ],
-            "type" : "input_source_if"
           } ],
           "type" : "basic"
         } ]
@@ -3444,6 +3517,12 @@
             "modifiers" : [ "left_shift" ]
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "input_sources" : [ {
               "input_source_id" : "US",
               "language" : "en"
@@ -3480,6 +3559,12 @@
             "key_code" : "semicolon"
           } ],
           "conditions" : [ {
+            "input_sources" : [ {
+              "input_source_id" : "Dvorak",
+              "language" : "en"
+            } ],
+            "type" : "input_source_if"
+          }, {
             "input_sources" : [ {
               "input_source_id" : "US",
               "language" : "en"
@@ -3923,12 +4008,11 @@
           "from" : {
             "key_code" : "grave_accent_and_tilde",
             "modifiers" : {
-              "optional" : [ "left_command", "left_control", "left_option", "right_command", "right_control", "right_option", "right_shift", "fn" ]
+              "mandatory" : [ "left_option" ]
             }
           },
           "to" : [ {
-            "key_code" : "z",
-            "modifiers" : [ "left_shift" ]
+            "key_code" : "z"
           } ],
           "conditions" : [ {
             "input_sources" : [ {
@@ -3948,15 +4032,18 @@
           } ],
           "type" : "basic"
         }, {
+          "to_if_alone" : [ {
+            "key_code" : "z",
+            "modifiers" : [ "left_shift" ]
+          } ],
           "from" : {
             "key_code" : "grave_accent_and_tilde",
             "modifiers" : {
-              "mandatory" : [ "left_shift" ],
-              "optional" : [ "left_command", "left_control", "left_option", "right_command", "right_control", "fn" ]
+              "optional" : [ "any" ]
             }
           },
           "to" : [ {
-            "key_code" : "z"
+            "key_code" : "left_shift"
           } ],
           "conditions" : [ {
             "input_sources" : [ {
@@ -4699,35 +4786,6 @@
     "selected" : true,
     "simple_modifications" : [ {
       "from" : {
-        "key_code" : "f15"
-      },
-      "to" : [ {
-        "sticky_modifier" : {
-          "left_control" : "toggle"
-        }
-      }, {
-        "key_code" : "left_control"
-      } ]
-    }, {
-      "from" : {
-        "key_code" : "f16"
-      },
-      "to" : [ {
-        "sticky_modifier" : {
-          "left_command" : "toggle"
-        }
-      }, {
-        "key_code" : "left_command"
-      } ]
-    }, {
-      "from" : {
-        "key_code" : "left_command"
-      },
-      "to" : [ {
-        "key_code" : "delete_or_backspace"
-      } ]
-    }, {
-      "from" : {
         "key_code" : "left_control"
       },
       "to" : [ {
@@ -4757,10 +4815,14 @@
       } ]
     }, {
       "from" : {
-        "key_code" : "right_command"
+        "key_code" : "left_command"
       },
       "to" : [ {
-        "key_code" : "return_or_enter"
+        "sticky_modifier" : {
+          "left_command" : "toggle"
+        }
+      }, {
+        "key_code" : "left_command"
       } ]
     } ],
     "virtual_hid_keyboard" : {

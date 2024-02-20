@@ -66,6 +66,9 @@
         :input_source_id "Dvorak"
         :language "en"
     }
+    :ru {
+        :input_source_id "Russian"
+    }
 }
 
 ; define templates
@@ -199,14 +202,27 @@
 ;; everrywhere
 {:des "escape switches apps"
     :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :glove80]
-        [:escape :!Otab]
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :glove80 :dv]
+        ; [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :glove80 :ru]
+        ; [:escape :!Otab]
+        ; [:escape "open hammerspoon://escape &"]
+        [:escape "open -g hammerspoon://escape"]
         ; [:!Cescape [:!Otab :!Otab]]
         ; [:!Oescape :!Ospacebar] 
-        ; [:!Cescape :!Ctab]
+        [:!Cescape :!Ctab]
+
     ]
 }
+{:des ""
+    :rules [
+        [:condi :magic-kb-air :magic-kb-pro]
+        [:##spacebar :left_option nil {
+            :alone [:spacebar]
+            ; :held [:left_option]
+            ; :hold_down_ms 100
+        }]
 
+]}
 {:des "escape switches apps on mark1"
     :rules [
         [:condi :mark1]
@@ -228,7 +244,7 @@
 
 {:des "vim-everywhere"
     :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1 :glove80]
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1 :glove80 :dv]
         [:!O#CSTj :down_arrow]
         [:!O#CSTk :up_arrow]
         [:!O#CSTm :left_arrow]
@@ -276,7 +292,7 @@
 
 {:des "vim-everywhere bottom-left orthogonal keyboards"
     :rules [
-        [:condi :mark1 :glove80]
+        [:condi :mark1 :glove80 :dv]
         [:!O#CSTc :down_arrow]
         [:!O#CSTv :up_arrow]
         [:!O#CSTx   :end]
@@ -286,7 +302,7 @@
 
 {:des "vim-everywhere bottom-left non-orthogonal keyboards"
     :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :dv]
         [:!O#CSTx :down_arrow]
         [:!O#CSTc :up_arrow]
         [:!O#CSTz   :end]
@@ -296,7 +312,7 @@
 
 {:des "numbers  <->  shift numbers" 
     :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1 :glove80]
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1 :glove80 :dv]
         [:1 :!S1]
         [:!S1 :1]
         [:2 :!S2]
@@ -333,7 +349,7 @@
 
 {:des "caps_lcock  ->  escape/left_option"
     :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :glove80]
+        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :glove80 :dv]
         [:##caps_lock :left_option nil {
             :alone [:escape]
             ; :held [:left_option]
@@ -346,14 +362,35 @@
 
 ;; everywhere dvorak
 
+
+{:des ""
+    :rules [
+        [:condi :dv :glove80]
+        [:z :left_shift nil {
+            :alone [:!Sz]
+        }]
+        ; [:##z :a]
+        [:##open_bracket :left_control nil {
+            :alone [:hyphen]
+        }]
+        [:##close_bracket :left_control nil {
+            :alone [:equal_sign]
+        }]
+    ]
+}
 {:des "domos-dvorak (domak)"
     :rules [
         [:condi :dv]
         [:#FOSQWERj :k]
         [:#FOSQWERk :j]
         [:#FOSQWERf :g]
+        ; [:#FOSQWERf :left_shift nil {
+        ;     :alone [:g]
+        ; }]
         [:#FOSQWERg :f]
-        [:##hyphen :quote]
+        [:##hyphen :left_shift nil {
+            :alone [:quote]
+        }]
         [:##equal_sign :close_bracket]
         [:##open_bracket :hyphen]
         [:##close_bracket :equal_sign]
@@ -364,14 +401,20 @@
         }]
         ; backslash is shift
         [:##backslash :left_shift nil {
-            :alone [:backslash]
+        :alone [:backslash]
+        }]
+        [:##slash :left_shift nil {
+            :alone [:slash]
+        }]
+        [:##right_command :left_option nil {
+            :alone [:return_or_enter]
         }]
     ]
 }
 
 {:des "dvorak modifiers cmd"
     :rules [
-        [:condi :dv]
+        ; [:condi]
         ; change: swap cmd+q <-> shift+cmd+q
         ; [:!C#FTOSQWERq :!Cx]
         [:!C#FTOQWERq :!CTx]
@@ -413,7 +456,7 @@
 
 {:des "dvorak modifiers ctrl"
     :rules [
-        [:condi :dv]
+        ; [:condi]
         [:!T#FOSQWERq :!Tx]
         [:!T#FOSQWERw :!Tcomma]
         [:!T#FOSQWERe :!Td]
@@ -453,7 +496,7 @@
 
 {:des "qw ;  <->  :"
     :rules [
-        [:condi :qw :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1]
+        [:condi :qw :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1 :dv]
         [:semicolon :!Ssemicolon]
         [:!Ssemicolon :semicolon]
     ]
@@ -499,8 +542,13 @@
 {:des "dvorak botom-left"
     :rules [
         [:condi :dv :kb-air :magic-kb-air]
-        [:#CFTOQWERgrave_accent_and_tilde :!Sz]
-        [:!S#CFTOQWgrave_accent_and_tilde :z]
+        ; [:#CFTOQWERgrave_accent_and_tilde :!Sz]
+        ; [:!S#CFTOQWgrave_accent_and_tilde :z]
+        [:!Ograve_accent_and_tilde :z]
+        [:##CFTOQWgrave_accent_and_tilde :left_shift nil {
+            :alone [:!Sz]
+        }]
+        ; [:##CFTOQWgrave_accent_and_tilde :left_shift]
         [:#OSQWERz :x]
         [:#OSQWERx :c]
         [:#OSQWERc :v]
