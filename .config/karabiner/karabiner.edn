@@ -37,51 +37,25 @@
 ;; ignored.
 
 {
-; define devices
 :devices {
-    :kb-air    [{:vendor_id  1452 :product_id   641}]
+    ; keyboards
+    :macbook-air    [{:vendor_id  1452 :product_id   641}]
     :kb-pro    [{:vendor_id  1452 :product_id   832}]
     :magic-kb-pro   [{:vendor_id  1452 :product_id   620}]
     :magic-kb-air   [{:vendor_id    76 :product_id   620}]
     :mark1     [{:vendor_id 12951 :product_id  6505}]
+    :glove80   [{:vendor_id  5824 :product_id 10203}]
+    ; mouses
     :mx-ergo   [{:vendor_id  1133 :product_id 45085}]
     :mx-master [{:vendor_id 1133 :product_id 45091}]
-    :glove80   [{:vendor_id  5824 :product_id 10203}]
 }
-
-; define applications
-:applications {:chrome ["^com\\.google\\.Chrome$"]
-               :emacs  ["^org\\.gnu\\.Emacs$"]
-               :iterm  ["^com\\.googlecode\\.iterm2$"]
-               :vscode ["^com\\.microsoft\\.VSCode$"]
-               :xcode  ["^com\\.apple\\.Xcode$"]
-               :zoom   ["^us\\.zoom\\.xos$"]}
+:applications { :chrome ["^com\\.google\\.Chrome$"] }
 :input-sources {
-    :qw {
-        :input_source_id "US"
-        :language "en"
-    }
-    :dv {
-        ;:input_mode_id ""
-        :input_source_id "Dvorak"
-        :language "en"
-    }
-    :ru {
-        :input_source_id "Russian"
-    }
+    :qw { :input_source_id "US" :language "en" }
+    :dv { :input_source_id "Dvorak" :language "en" }
+    :ru { :input_source_id "Russian" }
 }
-
-; define templates
-:templates {:launch "osascript -e 'tell applcation \"Alfred 5\" to run trigger \"launch%s\" in workflow \"yqrashawn.workflow.launcher\" with argument \"\"'"}
-
-; define alias for modifiers
-:modifiers {
-    ; left_command cannot be last !
-    :11 [:left_command :left_control]
-    :spacebar-modifier {:mandatory [:left_command :left_control] :optional [:left_shift]}
-}
-
-; define profiles
+; :layers {:hyper-mode {:key :caps_lock :alone {:key :escape}}}
 :profiles {:Default {
     ;; simultaneous_threshold_milliseconds (def: 50)
     ;; keys need to be pressed within this threshold to be considered simultaneous
@@ -107,16 +81,6 @@
     :alone 1000
     :held 100
 }}
-
-:tos {
-    :to_dash [
-        {:key :hyphen
-        :repeat false}
-        ; :repeat :false
-    ]
-}
-
-; define manipulators
 :main [
 
 ; previously simple_modifications
@@ -125,268 +89,65 @@
 
 {:des "f7 through f12 are media keys"
     :rules [
-        [:condi :kb-air :magic-kb-air :magic-kb-pro]
-        [:f7 :rewind]
-        [:f8 :play_or_pause]
-        [:f9 :fastforward]
-        [:f10 :mute]
-        [:f11 :volume_decrement]
-        [:f12 :volume_increment]
+        [:condi :macbook-air :magic-kb-air :magic-kb-pro]
+        [:f7 :rewind] [:f8 :play_or_pause] [:f9 :fastforward] [:f10 :mute] [:f11 :volume_decrement] [:f12 :volume_increment]
         ; fn+f7 through f12 are function keys
-        [:!Ff7 :f7]
-        [:!Ff8 :f8]
-        [:!Ff9 :f9]
-        [:!Ff10 :f10]
-        [:!Ff11 :f11]
-        [:!Ff12 :f12]
+        [:!Ff7 :f7] [:!Ff8 :f8] [:!Ff9 :f9] [:!Ff10 :f10] [:!Ff11 :f11] [:!Ff12 :f12]
     ]
 }
-
-{:des "f7, f8, f9 on moergo are media keys"
+{:des "escape. escape by itself run hammerspoon://escape, which switches to last app."
     :rules [
-    ;     [:condi :glove80]
-    ;     [:f7 :rewind]
-    ;     [:f8 :play_or_pause]
-    ;     [:f9 :fastforward]
-    ;     ; fn+f7 through f12 are function keys
-    ;     [:!Ff7 :f7]
-    ;     [:!Ff8 :f8]
-    ;     [:!Ff9 :f9]
-    ;     [:!Ff10 :f10]
-    ;     [:!Ff11 :f11]
-    ;     [:!Ff12 :f12]
-    ]
-}
-
-{:des "bottom-most row (modifiers, space)"
-    :rules [
-        ; [:condi :kb-air]
-        ; [:left_option :left_command] ; use sticky_left_command in simple
-        ; modifications (gui)
-        ; [:left_command nil nil {
-        ;     :alone [{:key :delete_or_backspace}]
-        ;     ; :alone [{:key :delete_or_backspace :repeat true}]
-        ;     ; :alone [:delete_or_backspace]
-        ; }]
-        ; [:right_command :return_or_enter]
-    ]
-}
-
-{:des "mx master middle button"
-    :rules [
-        ; [:l nil nil {:to_if_held_down {:key :a}}]
-        [:condi :magic-kb-air :magic-kb-pro]
-        ; [:l nil nil {
-        ;     :alone [{:key :l :halt true}]
-        ;     ; :to_if_alone [:l]
-        ;     ; :to_if_held_down [:a]
-        ;     ; :held [{:key :delete_or_backspace :repeat false} {:key :quote :repeat false} ]
-        ;     :held [{:key :quote :repeat false} ]
-        ;     ; :hold_down_ms 3000
-        ;     ; :halt
-        ; }]
-    ; [:l nil nil {
-    ;     :alone [{:key :l :halt true}]
-    ;     :held [{:key :quote :repeat false} ]
-    ; }]
-    ]
-}
-
-{:des "mx master middle button"
-    :rules [
-        [:condi :mx-master]
-        [{:pkey :button3} :!Ospacebar]
-    ]
-}
-
-;; everrywhere
-{:des "escape switches apps"
-    :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :glove80 :dv]
-        ; [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :glove80 :ru]
-        ; [:escape :!Otab]
-        ; [:escape "open hammerspoon://escape &"]
         [:escape "open -g hammerspoon://escape"]
-        ; [:!Cescape [:!Otab :!Otab]]
-        ; [:!Oescape :!Ospacebar] 
-        [:!Cescape :!Ctab]
-
     ]
 }
-{:des ""
-    :rules [
-        [:condi :magic-kb-air :magic-kb-pro]
-        [:##spacebar :left_option nil {
-            :alone [:spacebar]
-            ; :held [:left_option]
-            ; :hold_down_ms 100
-        }]
-
-]}
-{:des "escape switches apps on mark1"
-    :rules [
-        [:condi :mark1]
-        [:f13 :!Otab]
-        [:!Cf13 [:!Otab :!Otab]]
-        [:##f13 :escape]
-    ]
-}
-
-
-{:des "f18, f19 <-> ctrl+left/right"
-    :rules [
-        [:f18 :!Tleft_arrow]
-        [:f19 :!Tright_arrow]
-        ; [:!Tnon_us_backslash :f14]
-        [:!Tnon_us_backslash :!TStab]
-    ]
-}
-
 {:des "vim-everywhere"
     :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1 :glove80 :dv]
-        [:!O#CSTj :down_arrow]
-        [:!O#CSTk :up_arrow]
-        [:!O#CSTm :left_arrow]
-        [:!O#CSTsemicolon :delete_or_backspace]
-        [:!O#CSTcomma :right_arrow]
-        [:!O#CSTp :delete_forward]
-        [:!O#CSTi :return_or_enter]
-        [:!O#CSTu :!Stab]
-        [:!O#CSTo :tab]
-        ; [:!O#CSTsemicolon :delete_forward]
-        [:!O#CSTh   :end]
-        [:!O#CSTl    :home]
-        [:!O#CSTn    :!Oleft_arrow]
-        [:!O#CSTperiod :!Oright_arrow]
-        ; ---
-        ; [:!O#CSTd :left_arrow]
-        ; [:!O#CSTf :right_arrow]
-        [:!O#CSTa :delete_or_backspace]
-        [:!O#CSTq :delete_forward]
-        [:!O#CSTe :return_or_enter]
-        ; [:!O#CSTw :!Stab]
-        ; [:!O#CSTr :tab]
-        [:!O#CSTs :!TStab]
-        [:!O#CSTf :!Ttab]
-        ; [:!O#CSTq :!Sleft_arrow]
-        ; [:!O#CSTt :!Sright_arrow]
-        ; [:!O#CSTsemicolon :delete_forward]
-        ; [:!O#CSTd [{:key :!Sright_arrow :halt true]
-        [:!O#CSTd :!CTequal_sign] ; next kitty window ; equal_sign
+        ; :hyper-mode
+        [:condi :dv]
+
+        ; LEFT half of the keyboard
+        [:!O#CSTq :delete_forward] [:!O#CSTe :return_or_enter]
+        [:!O#CSTa :delete_or_backspace] [:!O#CSTs :!TStab]
+        ; [:!O#CSTd :!CTequal_sign] ; next kitty window ; equal_sign
+        [:!O#CSTd :!Ttab]
         [:!O#CSTg :!CThyphen] ; previous kitty window ; hyphen
-        ; ---
-        ; [:!O#CSTt :!Otab]
-        
-        [:!O#CSTy :!Otab]
+
+        ; RIGHT half of the keyboard
+        [:!O#CSTu :!Stab] [:!O#CSTi :return_or_enter] [:!O#CSTo :tab] [:!O#CSTp :delete_forward]
+        [:!O#CSTh :end] [:!O#CSTj :down_arrow] [:!O#CSTk :up_arrow] [:!O#CSTl :home] [:!O#CSTsemicolon :delete_or_backspace]
+
+        ; [:#OCSTj :down_arrow]
+        ; [:#OCSTk :up_arrow]
+        [:!O#CSTn    :!Oleft_arrow] [:!O#CSTm :left_arrow] [:!O#CSTcomma :right_arrow] [:!O#CSTperiod :!Oright_arrow]
     ]
 }
-
-
-; {:des "option -> cmd+control"
-;     :rules [
-;         [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1 :glove80]
-;         [:left_option [:f15 :f16]]
-;     ] 
-; }
-
 {:des "vim-everywhere bottom-left orthogonal keyboards"
-    :rules [
-        [:condi :mark1 :glove80 :dv]
-        [:!O#CSTc :down_arrow]
-        [:!O#CSTv :up_arrow]
-        [:!O#CSTx   :end]
-        [:!O#CSTb    :home]
-    ] 
+    :rules [ [:condi :glove80 :dv] [:!O#CSTx :end] [:!O#CSTc :down_arrow] [:!O#CSTv :up_arrow] [:!O#CSTb :home] ]
 }
-
 {:des "vim-everywhere bottom-left non-orthogonal keyboards"
-    :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :dv]
-        [:!O#CSTx :down_arrow]
-        [:!O#CSTc :up_arrow]
-        [:!O#CSTz   :end]
-        [:!O#CSTv    :home]
-    ] 
+    :rules [ [:condi :macbook-air :dv] [:!O#CSTz :end] [:!O#CSTx :down_arrow] [:!O#CSTc :up_arrow] [:!O#CSTv :home] ] 
 }
-
 {:des "numbers  <->  shift numbers" 
-    :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1 :glove80 :dv]
-        [:1 :!S1]
-        [:!S1 :1]
-        [:2 :!S2]
-        [:!S2 :2]
-        [:3 :!S3]
-        [:!S3 :3]
-        [:4 :!S4]
-        [:!S4 :4]
-        [:5 :!S5]
-        [:!S5 :5]
-        [:6 :!S6]
-        [:!S6 :6]
-        [:7 :!S7]
-        [:!S7 :7]
-        [:8 :!S8]
-        [:!S8 :8]
-        [:9 :!S9]
-        [:!S9 :9]
-        [:0 :!S0]
-        [:!S0 :0]
-    ]
+    :rules [ [:condi :dv] [:1 :!S1] [:!S1 :1] [:2 :!S2] [:!S2 :2] [:3 :!S3] [:!S3 :3] [:4 :!S4] [:!S4 :4] [:5 :!S5] [:!S5 :5] [:6 :!S6] [:!S6 :6] [:7 :!S7] [:!S7 :7] [:8 :!S8] [:!S8 :8] [:9 :!S9] [:!S9 :9] [:0 :!S0] [:!S0 :0] ]
 }
-
-{:des "spacebar  ->  spacebar/left_shift"
-    :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
-        ; [:##fn nil nil {
-        ;     :alone [:tab]
-        ;     :held [:fn]
-        ;     ; :hold_down_ms 100
-        ; }]
-    ]
-}
-
 {:des "caps_lcock  ->  escape/left_option"
-    :rules [
-        [:condi :kb-air :kb-pro :magic-kb-pro :magic-kb-air :glove80 :dv]
-        [:##caps_lock :left_option nil {
-            :alone [:escape]
-            ; :held [:left_option]
-            ; :hold_down_ms 100
-        }]
-        ; [:##caps_lock :escape]
-        ; [:!Ospacebar :spacebar]
-    ]
+    :rules [ [:condi :dv] [:##caps_lock :left_option nil { :alone [:escape] }] ]
 }
-
 ;; everywhere dvorak
-
-
 {:des ""
     :rules [
         [:condi :dv :glove80]
-        [:z :left_shift nil {
-            :alone [:!Sz]
-        }]
-        ; [:##z :a]
-        [:##open_bracket :left_control nil {
-            :alone [:hyphen]
-        }]
-        [:##close_bracket :left_control nil {
-            :alone [:equal_sign]
-        }]
+        [:z :left_shift nil { :alone [:!Sz] }]
+        [:##open_bracket :left_control nil { :alone [:hyphen] }]
+        [:##close_bracket :left_control nil { :alone [:equal_sign] }]
     ]
 }
-{:des "domos-dvorak (domak)"
+{:des "domos-dvorak"
     :rules [
         [:condi :dv]
         [:#FOSQWERj :k]
         [:#FOSQWERk :j]
         [:#FOSQWERf :g]
-        ; [:#FOSQWERf :left_shift nil {
-        ;     :alone [:g]
-        ; }]
         [:#FOSQWERg :f]
         [:##hyphen :left_shift nil {
             :alone [:quote]
@@ -394,8 +155,6 @@
         [:##equal_sign :close_bracket]
         [:##open_bracket :hyphen]
         [:##close_bracket :equal_sign]
-        ; [:##quote :open_bracket] 
-        ; quote (slash) is option (alt)
         [:##quote :left_option nil {
             :alone [:open_bracket]
         }]
@@ -414,183 +173,59 @@
 
 {:des "dvorak modifiers cmd"
     :rules [
-        ; [:condi]
         ; change: swap cmd+q <-> shift+cmd+q
         ; [:!C#FTOSQWERq :!Cx]
-        [:!C#FTOQWERq :!CTx]
-        [:!CS#FTOQWERq :!Cx]
-        [:!C#FTOSQWERw :!Ccomma]
-        [:!C#FTOSQWERe :!Cd]
-        [:!C#FTOSQWERr :!Co]
-        [:!C#FTOSQWERt :!Ck]
-        [:!C#FTOSQWERy :!Ct]
-        [:!C#FTOSQWERu :!Cf]
-        [:!C#FTOSQWERi :!Cg]
-        [:!C#FTOSQWERo :!Cs]
-        [:!C#FTOSQWERp :!Cr]
+        ; [:!C#FTOQWERq :!CTx]
+        [:condi :dv]
+        ; top row is Q to P on standard Qwerty keyboard
+        [:!CS#FTOSQWERq :!Cx] [:!C#FTOSQWERw :!Ccomma] [:!C#FTOSQWERe :!Cd] [:!C#FTOSQWERr :!Co] [:!C#FTOSQWERt :!Ck] [:!C#FTOSQWERy :!Ct] [:!C#FTOSQWERu :!Cf] [:!C#FTOSQWERi :!Cg] [:!C#FTOSQWERo :!Cs] [:!C#FTOSQWERp :!Cr]
 
-        [:!C#FTOSQWERa :!Ca]
-        [:!C#FTOSQWERs :!Csemicolon]
-        [:!C#FTOSQWERd :!Ch]
-        [:!C#FTOSQWERf :!Cy]
-        [:!C#FTOSQWERg :!Cu]
-        [:!C#FTOSQWERh :!Cj]
-        [:!C#FTOSQWERj :!Cc]
-        [:!C#FTOSQWERk :!Cv]
-        [:!C#FTOSQWERl :!Cp]
-        [:!C#FTOSQWERsemicolon :!Cz]
+        ; home row is A to semicolon on standard Qwerty keyboard
+        [:!C#FTOSQWERa :!Ca] [:!C#FTOSQWERs :!Csemicolon] [:!C#FTOSQWERd :!Ch] [:!C#FTOSQWERf :!Cy] [:!C#FTOSQWERg :!Cu] [:!C#FTOSQWERh :!Cj] [:!C#FTOSQWERj :!Cc] [:!C#FTOSQWERk :!Cv] [:!C#FTOSQWERl :!Cp] [:!C#FTOSQWERsemicolon :!Cz]
 
-        [:!C#FTOSQWERz :!Cslash]
-        [:!C#FTOSQWERx :!Cb]
-        [:!C#FTOSQWERc :!Ci]
-        [:!C#FTOSQWERv :!Cperiod]
-        [:!C#FTOSQWERb :!Cn]
-        [:!C#FTOSQWERn :!Cl]
-        [:!C#FTOSQWERm :!Cm]
-        [:!C#FTOSQWERcomma :!Cw]
-        [:!C#FTOSQWERperiod :!Ce]
-        [:!C#FTOSQWERslash :!Copen_bracket]
+        ; bottom row is Z to period on standard Qwerty keyboard
+        [:!C#FTOSQWERz :!Cslash] [:!C#FTOSQWERx :!Cb] [:!C#FTOSQWERc :!Ci] [:!C#FTOSQWERv :!Cperiod] [:!C#FTOSQWERb :!Cn] [:!C#FTOSQWERn :!Cl] [:!C#FTOSQWERm :!Cm] [:!C#FTOSQWERcomma :!Cw] [:!C#FTOSQWERperiod :!Ce] [:!C#FTOSQWERslash :!Copen_bracket]
 
     ]
 }
 
 {:des "dvorak modifiers ctrl"
     :rules [
-        ; [:condi]
-        [:!T#FOSQWERq :!Tx]
-        [:!T#FOSQWERw :!Tcomma]
-        [:!T#FOSQWERe :!Td]
-        [:!T#FOSQWERr :!To]
-        [:!T#FOSQWERt :!Tk]
-        [:!T#FOSQWERy :!Tt]
-        [:!T#FOSQWERu :!Tf]
-        [:!T#FOSQWERi :!Tg]
-        [:!T#FOSQWERo :!Ts]
-        [:!T#FOSQWERp :!Tr]
+        [:condi :dv]
+        ; top row is Q to P on standard Qwerty keyboard
+        [:!T#FOSQWERq :!Tx] [:!T#FOSQWERw :!Tcomma] [:!T#FOSQWERe :!Td] [:!T#FOSQWERr :!To] [:!T#FOSQWERt :!Tk] [:!T#FOSQWERy :!Tt] [:!T#FOSQWERu :!Tf] [:!T#FOSQWERi :!Tg] [:!T#FOSQWERo :!Ts] [:!T#FOSQWERp :!Tr]
 
-        [:!T#FOSQWERa :!Ta]
-        [:!T#FOSQWERs :!Tsemicolon]
-        [:!T#FOSQWERd :!Th]
-        [:!T#FOSQWERf :!Ty]
-        [:!T#FOSQWERg :!Tu]
-        [:!T#FOSQWERh :!Tj]
-        [:!T#FOSQWERj :!Tc]
-        [:!T#FOSQWERk :!Tv]
-        [:!T#FOSQWERl :!Tp]
-        [:!T#FOSQWERsemicolon :!Tz]
+        ; home row is A to semicolon on standard Qwerty keyboard
+        [:!T#FOSQWERa :!Ta] [:!T#FOSQWERs :!Tsemicolon] [:!T#FOSQWERd :!Th] [:!T#FOSQWERf :!Ty] [:!T#FOSQWERg :!Tu] [:!T#FOSQWERh :!Tj] [:!T#FOSQWERj :!Tc] [:!T#FOSQWERk :!Tv] [:!T#FOSQWERl :!Tp] [:!T#FOSQWERsemicolon :!Tz]
 
-        [:!T#FOSQWERz :!Tslash]
-        [:!T#FOSQWERx :!Tb]
-        [:!T#FOSQWERc :!Ti]
-        [:!T#FOSQWERv :!Tperiod]
-        [:!T#FOSQWERb :!Tn]
-        [:!T#FOSQWERn :!Tl]
-        [:!T#FOSQWERm :!Tm]
-        [:!T#FOSQWERcomma :!Tw]
-        [:!T#FOSQWERperiod :!Te]
+        ; bottom row is Z to period on standard Qwerty keyboard
+        [:!T#FOSQWERz :!Tslash] [:!T#FOSQWERx :!Tb] [:!T#FOSQWERc :!Ti] [:!T#FOSQWERv :!Tperiod] [:!T#FOSQWERb :!Tn] [:!T#FOSQWERn :!Tl] [:!T#FOSQWERm :!Tm] [:!T#FOSQWERcomma :!Tw] [:!T#FOSQWERperiod :!Te]
     ]
 }
-
-
-;; everywhere qwerty
-
-{:des "qw ;  <->  :"
-    :rules [
-        [:condi :qw :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1 :dv]
-        [:semicolon :!Ssemicolon]
-        [:!Ssemicolon :semicolon]
-    ]
-}
-
-{:des "qw cmd+q <-> shift+cmd+q"
-    :rules [
-        [:condi :qw :kb-air :kb-pro :magic-kb-pro :magic-kb-air :mark1]
-        [:!C#FOQWERq :!CSq]
-        [:!CS#FTOSQWERq :!Cq]
-    ]
-}
-
-;; all apple keyboards qwerty
-{:des "`/~  <->  §/±"
-    :rules [
-        [:condi :qw :kb-air :kb-pro :magic-kb-pro :magic-kb-air]
-        [:##grave_accent_and_tilde :non_us_backslash]
-        [:##non_us_backslash :grave_accent_and_tilde]
-    ]
-}
-
-;; pro dvorak
-{:des "dvorak bottom-left"
-    :rules [
-        [:condi :dv :kb-pro :magic-kb-pro]
-        [:##grave_accent_and_tilde :non_us_backslash]
-        ; [:#CTOSQWERy :non_us_backslash]
-        ; [:#CTOSQWERy :non_us_backslash]
-        ; [:#CFTOQWERnon_us_backslash :!Sz]
-        ; [:!S#CFTOQWERnon_us_backslash :z]
-        [:#CFTOQWERnon_us_backslash :!Sz]
-        [:!S#CFTOQWnon_us_backslash :z]
-        [:#OSQWERz :x]
-        [:#OSQWERx :c]
-        [:#OSQWERc :v]
-        [:#OSQWERv :b]
-        [:#OSQWERb :y]
-    ]
-}
-
-;; air dvorak
 {:des "dvorak botom-left"
     :rules [
-        [:condi :dv :kb-air :magic-kb-air]
-        ; [:#CFTOQWERgrave_accent_and_tilde :!Sz]
-        ; [:!S#CFTOQWgrave_accent_and_tilde :z]
+        [:condi :macbook-air :dv]
         [:!Ograve_accent_and_tilde :z]
         [:##CFTOQWgrave_accent_and_tilde :left_shift nil {
             :alone [:!Sz]
         }]
-        ; [:##CFTOQWgrave_accent_and_tilde :left_shift]
-        [:#OSQWERz :x]
-        [:#OSQWERx :c]
-        [:#OSQWERc :v]
-        [:#OSQWERv :b]
-        [:#OSQWERb :y]
-    ]
+        [:#OSQWERz :x] [:#OSQWERx :c] [:#OSQWERc :v] [:#OSQWERv :b] [:#OSQWERb :y] ]
 }
-
-;; mark1
-
 {:des "`/~  <->  §/±"
     :rules [
-        [:condi :mark1 :glove80]
-        [:##grave_accent_and_tilde :non_us_backslash]
-        [:##non_us_backslash :grave_accent_and_tilde]
+        [:condi :mark1 :glove80] [:##grave_accent_and_tilde :non_us_backslash] [:##non_us_backslash :grave_accent_and_tilde]
     ]
 }
-
 {:des "dv mark1 ;  <->  :"
-    :rules [
-        [:condi :dv :mark1 :glove80]
-        ; [:semicolon :!Ssemicolon]
-        ; [:!Ssemicolon :semicolon]
-        [:z :!Sz]
-        [:!Sz :z]
-    ]
+    :rules [ [:condi :dv :mark1 :glove80] [:z :!Sz] [:!Sz :z] ]
 }
 
-{:des "qwerty pro"
-    :rules [
-        [:condi :kb-pro :qw]
-        [:##grave_accent_and_tilde :non_us_backslash]
-        [:##non_us_backslash :grave_accent_and_tilde]
-    ]
-}
-
+; region mouses
 {:des "mx ergo"
-    :rules [
-        [:condi :mx-ergo]
-        [:button4 :!Copen_bracket]
-        [:button5 :!Cclose_bracket]
-    ]
+    :rules [ [:condi :mx-ergo] [:button4 :!Copen_bracket] [:button5 :!Cclose_bracket] ]
+}
+{:des "mx master middle button"
+    :rules [ [:condi :mx-master] [{:pkey :button3} :!Ospacebar] ]
 }
 
 ] ; close main

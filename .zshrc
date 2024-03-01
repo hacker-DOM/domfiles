@@ -1159,6 +1159,7 @@ alias gmd='gh repo view'
 alias gbr='gh browse --repo'
 
 function dom_ranger() {
+    cdn "$1"
     if ranger --choosedir=$HOME/.rangerdir "$@"; then
     		LASTDIR=`cat $HOME/.rangerdir`
     		cd "$LASTDIR"
@@ -1190,7 +1191,7 @@ function pr() {
     		+'packadd github_nvim_theme' \
     		+'colorscheme github_light' \
     		+"set syntax=$1" \
-    		+"source $(brew --prefix)/Cellar/neovim/0.9.0/share/nvim/runtime/syntax/2html.vim" \
+    		+"source $(brew --prefix)/Cellar/neovim/0.9.2/share/nvim/runtime/syntax/2html.vim" \
 				+'wqa!' \
 		-
 		open Untitled.html
@@ -1611,6 +1612,22 @@ function dom_pdftotext_bat() {
 }
 
 alias ptb=dom_pdftotext_bat
+
+export PATH="$HOME/.cargo/bin:$PATH"
+# https://yazi-rs.github.io/docs/quick-start
+alias yt='yt-dlp'
+function dom_yazi() {
+    cdn "$1"
+    local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
+    yazi "$@" --cwd-file="$tmp"
+    if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+	cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+}
+alias y=dom_yazi
+
+source "$HOME/private.zsh"
 
 # REFERENCES
 # [so-echo-dash]: https://stackoverflow.com/a/57656708/4204961

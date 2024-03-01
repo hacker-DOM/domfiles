@@ -121,30 +121,100 @@ local function focus_last_window_or_launch(app_bundle_id)
 	-- end
 end
 
--- Define the remapping function
-
-hs.hotkey.bind(M, "escape", function()
+hs.urlevent.bind('escape', function()
+	-- no'hel'
 	local wf = hs.window.filter.new()
 	local wins = wf:getWindows(hs.window.filter.sortByFocusedLast)
-	local excludedApps = { ["com.vivaldi.Vivaldi"] = true, ["com.google.Chrome"] = true, ["net.kovidgoyal.kitty"] = true, ["com.tinyspeck.slackmacgap"] = true, ["com.spotify.client"] = true, ["com.tdesktop.Telegram"] = true, ["com.electron.logseq"] = true, ["com.apple.mail"] = true, ["com.apple.iCal"] = true, ["notion.id"] = true, ["com.apple.notificationcenterui"] = true, ["com.microsoft.VSCode"] = true }
-	-- no'running'
-
+	local frontApp = hs.application.frontmostApplication()
 	for _, win in ipairs(wins) do
-		local appName = win:application():bundleID()
-		if not excludedApps[appName] then
-			-- no('window ' .. win:title() .. ' in app ' .. appName .. ' is not excluded, will focus')
+		if win:application() ~= frontApp then
 			win:focus()
 			return
 		end
 	end
 
-	return nil -- Return nil if no matching window is found
 end)
 
-hs.hotkey.bind({}, "f1", function()
+-- Define the remapping function
+-- hs.hotkey.bind({}, "escape", function()
+-- 	no'hel'
+-- 	local wf = hs.window.filter.new()
+-- 	local wins = wf:getWindows(hs.window.filter.sortByFocusedLast)
+-- 	local frontApp = hs.application.frontmostApplication()
+-- 	for _, win in ipairs(wins) do
+-- 		if win:application() ~= frontApp then
+-- 			win:focus()
+-- 			return
+-- 		end
+-- 	end
+-- end)
+
+local function focus_non_fav_window(idx)
+	local wf = hs.window.filter.new()
+	local wins = wf:getWindows(hs.window.filter.sortByFocusedLast)
+	local excludedApps = {
+		["com.ableton.live"] = true,
+		["com.apple.finder"] = true,
+		["com.apple.iCal"] = true,
+		["com.apple.mail"] = true,
+		["com.apple.ActivityMonitor"] = true,
+		["com.apple.notificationcenterui"] = true,
+		["com.atomixproductions.virtualdj"] = true,
+		["com.electron.logseq"] = true,
+		["com.github.th-ch.youtube-music"] = true,
+		["com.google.Chrome"] = true,
+		["com.microsoft.VSCode"] = true,
+		["com.serato.seratodj"] = true,
+		["com.spotify.client"] = true,
+		["com.tdesktop.Telegram"] = true,
+		["com.tinyspeck.slackmacgap"] = true,
+		["com.vivaldi.Vivaldi"] = true,
+		["company.thebrowser.Browser"] = true,
+		["info.sioyek.sioyek"] = true, 
+		["net.kovidgoyal.kitty"] = true,
+		["notion.id"] = true,
+		["org.hammerspoon.Hammerspoon"] = true,
+		["org.videolan.vlc"] = true,
+	}
+	-- no'running'
+	local current_app = hs.application.frontmostApplication():bundleID()
+	print('current', current_app)
+	-- print('current', current_app)
+	excludedApps[current_app] = true
+
+	for _, win in ipairs(wins) do
+		local appName = win:application():bundleID()
+		if not excludedApps[appName] then
+			-- no('window ' .. win:title() .. ' in app ' .. appName .. ' is not excluded, will focus')
+			if idx == 1 then
+				win:focus()
+				return
+			else
+				idx = idx - 1
+			end
+		end
+	end
+
+	return nil -- Return nil if no matching window is found
+end
+
+
+hs.hotkey.bind(S, "escape", function()
+	focus_non_fav_window(1)
+end)
+
+hs.hotkey.bind(C, "escape", function()
+	focus_non_fav_window(2)
+end)
+
+hs.hotkey.bind(CS, "escape", function()
+	focus_non_fav_window(3)
+end)
+
+hs.hotkey.bind({"cmd"}, "f1", function()
 	focus_last_window_or_launch("com.vivaldi.Vivaldi")
 end)
-hs.hotkey.bind({}, "f2", function()
+hs.hotkey.bind({"cmd"}, "f2", function()
 	focus_last_window_or_launch("com.google.Chrome")
 end)
 hs.hotkey.bind({}, "f3", function()
@@ -172,7 +242,7 @@ hs.hotkey.bind({}, "f9", function()
 	focus_last_window_or_launch("com.electron.logseq")
 end)
 
-hs.hotkey.bind({ "cmd" }, "f2", function()
+hs.hotkey.bind({ }, "f2", function()
 	focus_last_window_or_launch("com.electron.logseq")
 end)
 
@@ -181,16 +251,20 @@ hs.hotkey.bind({ "cmd" }, "f3", function()
 	focus_last_window_or_launch("com.microsoft.VSCode")
 end)
 
-hs.hotkey.bind({ "cmd" }, "f1", openVivaldiTab)
+-- hs.hotkey.bind({ "cmd" }, "f1", openVivaldiTab)
+-- hs.hotkey.bind({ "cmd" }, "f1", function() 
+hs.hotkey.bind({ }, "f1", function()
+	focus_last_window_or_launch("company.thebrowser.Browser")
+end)
 
 hs.hotkey.bind({ "cmd" }, "f5", function()
 	hs.reload()
 end)
 hs.hotkey.bind({ "cmd" }, "f6", function()
-	focus_last_window_or_launch("com.apple.mail")
+	focus_last_window_or_launch("com.github.th-ch.youtube-music")
 end)
 hs.hotkey.bind({ "cmd" }, "f7", function()
-	-- focus_last_window_or_launch("Visual Studio Code")
+	focus_last_window_or_launch("Visual Studio Code")
 end)
 hs.hotkey.bind({ "cmd" }, "f8", function()
 	focus_last_window_or_launch("com.apple.iCal")
@@ -198,7 +272,28 @@ end)
 hs.hotkey.bind({ "cmd" }, "f9", function()
 	focus_last_window_or_launch("notion.id")
 end)
-hs.hotkey.bind({ "cmd" }, "f10", function()
+hs.hotkey.bind({ "shift" }, "f1", function()
+	focus_last_window_or_launch("info.sioyek.sioyek")
+end)
+hs.hotkey.bind({ "shift" }, "f2", function()
+	focus_last_window_or_launch("com.atomixproductions.virtualdj")
+end)
+hs.hotkey.bind({ "shift" }, "f3", function()
+	focus_last_window_or_launch("com.ableton.live")
+end)
+hs.hotkey.bind({ "shift" }, "f4", function()
+	focus_last_window_or_launch("com.eltima.Folx3")
+end)
+hs.hotkey.bind({ "shift" }, "f5", function()
+	focus_last_window_or_launch("com.apple.mail")
+end)
+hs.hotkey.bind({ "shift" }, "f6", function()
+	focus_last_window_or_launch("com.apple.iCal")
+end)
+hs.hotkey.bind({ "ctrl" }, "f1", function()
+	focus_last_window_or_launch("org.videolan.vlc")
+end)
+hs.hotkey.bind({ "shift" }, "f10", function()
 	focus_last_window_or_launch("com.kapeli.dashdoc")
 end)
 
@@ -254,3 +349,13 @@ end
 for i = 1, 12 do
 	remapAltFxToFx(i)
 end
+
+
+hs.hotkey.bind({ "cmd" }, "f8", function()
+	local app = hs.application.find('YouTube Music')
+	app:activate()
+	hs.eventtap.event.newKeyEvent('space', true):post()
+	hs.eventtap.event.newKeyEvent('space', false):post()
+	-- hs.eventtap.event.newSystemKeyEvent('PLAY', true):post()
+	-- hs.eventtap.event.newSystemKeyEvent('PLAY', false):post()
+end)
