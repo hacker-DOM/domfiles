@@ -147,14 +147,16 @@ NVIM_C="exe \"normal M \| SplitAndScrollBind\""
 #DOM_BEGIN_ALMOST_AT_END="+ -c 'norm! 10k' -c 'feedkeys(\'zz\', \'n\')"
 DOM_BEGIN_ALMOST_AT_END="+ -c 'norm! 10k' -c 'call feedkeys(\"zz\", \"n\")'"
 alias eze="nvim $DOM_BEGIN_ALMOST_AT_END $HOME/.zshenv" 
-alias  ez="nvim $DOM_BEGIN_ALMOST_AT_END $HOME/.zshrc" 
+# alias  ez="kitty @ set-tab-title ez; nvim $DOM_BEGIN_ALMOST_AT_END $HOME/.zshrc" 
+alias  ez="kitty @ set-tab-title ez; e $HOME/.zshrc"
 alias  el="nvim $DOM_BEGIN_ALMOST_AT_END $HOME/.lesskey" 
 alias elg="nvim $DOM_BEGIN_ALMOST_AT_END $HOME'/Library/Application Support/lazygit/config.yml'" 
-alias eki="cdn $HOME/.config/kitty; nvim $DOM_BEGIN_ALMOST_AT_END kitty.conf"
-alias eka="cdn $HOME/.config/karabiner; nvim $DOM_BEGIN_ALMOST_AT_END karabiner.edn"
+alias eki="cdn $HOME/.config/kitty; nvim kitty.conf"
+alias eka="cdn $HOME/.config/karabiner; nvim karabiner.edn"
 alias  er="cdn $HOME/.config/ranger; nvim $DOM_BEGIN_ALMOST_AT_END rc.conf" 
 alias  em="nvim $DOM_BEGIN_ALMOST_AT_END $HOME/.mackup.cfg"
-alias  eh="cdn $HOME/.hammerspoon; nvim $DOM_BEGIN_ALMOST_AT_END init.lua"
+# alias  eh="kitty @ set-table-title eh; cdn $HOME/.hammerspoon; nvim $DOM_BEGIN_ALMOST_AT_END init.lua"
+alias  eh="kitty @ set-tab-title eh; cdn $HOME/.hammerspoon; e"
 alias  eg="nvim $DOM_BEGIN_ALMOST_AT_END $HOME/.gitconfig"
 alias egi="nvim $DOM_BEGIN_ALMOST_AT_END $HOME/.gitignore"
 # alias  en="cdn $HOME/.config/nvim; nvim $DOM_BEGIN_ALMOST_AT_END init.lua"
@@ -1162,7 +1164,7 @@ function dom_ranger() {
     cdn "$1"
     if ranger --choosedir=$HOME/.rangerdir "$@"; then
     		LASTDIR=`cat $HOME/.rangerdir`
-    		cd "$LASTDIR"
+    		cdn "$LASTDIR"
     fi
 }
 alias r=dom_ranger
@@ -1621,7 +1623,7 @@ function dom_yazi() {
     local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
     yazi "$@" --cwd-file="$tmp"
     if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-	cd -- "$cwd"
+	cdn -- "$cwd"
     fi
     rm -f -- "$tmp"
 }

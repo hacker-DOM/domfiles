@@ -1,12 +1,26 @@
 -- inspired by https://github.com/jasonrudolph/keyboard
 
 local log = hs.logger.new('init.lua', 'debug')
+hs.ipc.cliInstall()
 require 'helpers'
 require 'misc'
 require 'fn'
 require 'dom-wm'
 require 'dom-which-key'
--- require 'window_switcher'
+--- Load the Seal plugin
+hs.loadSpoon("Seal")
+require 'close-wins'
+require 'scratch'
+
+-- Initialize and start Seal
+spoon.Seal:loadPlugins({"apps", "calc", "useractions", "screencapture", "pasteboard"})
+spoon.Seal:start()
+
+-- Optional: Set a hotkey to toggle the Seal interface
+-- hs.hotkey.bind({"cmd"}, "Space", function()
+--     spoon.Seal:toggle()
+-- end)
+require 'window_switcher'
 
 -- maximize window
 -- hs.hotkey.bind({ "ctrl", "shift" }, "i", function()

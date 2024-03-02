@@ -5,13 +5,41 @@ local function open_seated_yoga()
 	hs.execute('open -a "VLC" "/Users/dteiml/Movies/dl/yt-dlp/yoga/15 minute Seated Yoga Stretches for Headaches, Anxiety & Tension [FjFFasD3kr0].webm"')
 end
 
+local function slideshow_single()
+	 hs.eventtap.event.newKeyEvent('down', false):post()
+	 hs.eventtap.event.newKeyEvent('down', true):post()
+end
+
+local function slideshow_single()
+    local count = 0 -- Initialize counter
+
+    -- Create a timer that fires every 3 seconds
+    hs.timer.doEvery(3, function()
+		print('hi')
+        count = count + 1 -- Increment counter
+        
+        -- Check if we've reached 10 presses
+        if count <= 10 then
+            -- Simulate pressing the 'j' key
+            hs.eventtap.keyStroke({}, "j")
+        else
+            -- If 10 presses have been reached, stop the timer
+            hs.timer.stopAll()
+        end
+    end)
+end
+
 local resolvers = {
-	["15 min Seated Yoga"] = open_seated_yoga
+	["15 min Seated Yoga"] = open_seated_yoga,
+	["slideshow single"] = slideshow_single
 }
 
 local choices_public = {
 	-- https://www.youtube.com/watch?v=FjFFasD3kr0
 	{ ["text"] = "15 min Seated Yoga", ["subText"] = "" },
+	{ ["text"] = "", ["subText"] = "" },
+	{ ["text"] = "slideshow single", ["subText"] = "" },
+	
 	{ ["text"] = "Yellow Paper", ["subText"] = "https://ethereum.github.io/yellowpaper/paper.pdf" },
 
 	{ ["text"] = "Yellow Paper", ["subText"] = "https://ethereum.github.io/yellowpaper/paper.pdf" },

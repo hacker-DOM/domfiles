@@ -346,7 +346,8 @@
             }
           },
           "to" : [ {
-            "key_code" : "delete_or_backspace"
+            "key_code" : "equal_sign",
+            "modifiers" : [ "left_command", "left_control" ]
           } ],
           "conditions" : [ {
             "input_sources" : [ {
